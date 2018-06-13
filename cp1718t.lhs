@@ -990,19 +990,20 @@ isValidMagicNr = undefined
 \subsection*{Problema 2}
 
 \begin{code}
-toCell (a,(x,y)) = Cell a x y
+toCell (a,(b,c)) = Cell a b c
 toBlock (a,(b,(c,d))) = Block a b c d
 
 inQTree = either toCell toBlock
-outQTree = undefined
-baseQTree = undefined
-recQTree = undefined
-cataQTree = undefined
-anaQTree = undefined
-hyloQTree = undefined
+outQTree (Cell a b c) = i1 (a,(b,c))
+outQTree (Block a b c d) = i2 (a,(b,(c,d)))
+baseQTree g f = (g >< id) -|- (f >< (f >< (f >< f)))
+recQTree f = baseQTree id f
+cataQTree cata = cata . recQTree (cataQTree cata) . outQTree
+anaQTree ana = inQTree . recQTree (anaQTree ana) . ana
+hyloQTree f g = cataQTree f . anaQTree g
 
 instance Functor QTree where
-    fmap = undefined
+    fmap f = cataQTree (inQTree . (baseQTree f id))
 
 rotateQTree = undefined
 scaleQTree = undefined
