@@ -990,7 +990,10 @@ isValidMagicNr = undefined
 \subsection*{Problema 2}
 
 \begin{code}
-inQTree = undefined
+toCell (a,(x,y)) = Cell a x y
+toBlock (a,(b,(c,d))) = Block a b c d
+
+inQTree = either toCell toBlock
 outQTree = undefined
 baseQTree = undefined
 recQTree = undefined
