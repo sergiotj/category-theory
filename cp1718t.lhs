@@ -974,36 +974,15 @@ outras funções auxiliares que sejam necessárias.
 \subsection*{Problema 1}
 
 \begin{code}
-inBlockchain = either Bc Bcs
-outBlockchain (Bc a) = i1 a
-outBlockchain (Bcs (a, b)) = i2 (a, b)
-recBlockchain f = id -|- (id >< f)
-cataBlockchain g = g . (recBlockchain (cataBlockchain g)) . outBlockchain
-anaBlockchain g = inBlockchain . (recBlockchain (anaBlockchain g)) . g
-hyloBlockchain f g = cataBlockchain f . anaBlockchain g
+inBlockchain = undefined
+outBlockchain = undefined
+recBlockchain = undefined
+cataBlockchain = undefined
+anaBlockchain = undefined
+hyloBlockchain = undefined
 
--- allTransactions usa um catamorfismo que basicamente só usa o p2
--- para extrair as listas de transações de cada bloco
--- o conc concatena duas listas recebidas num tuplo: ([a], [a]) -> [a]
-allTransactions = cataBlockchain (either getTransaction getTransactions)
-getTransaction = p2 . p2
-getTransactions = conc . ((p2 . p2) >< id)
-
--- Para calcular o ledger vamos fazer 3 passos:
--- 1. Usar allTransactions para extrair as transações de uma blockchain
--- 2. Usar o catamorfismo getEntities para extrair uma lista de
---    entidades (sem repetições) de uma lista de transações
--- 3. Usar o catamorfismo getBalance que recebe dois parâmetros,
---    - O primeiro a entidade cujo saldo deve calcular;
---    - O segundo é 1 + A x B, que todos os genes de listas recebem.
---    É importante notar que getBalance só é um catamorfismo utilizável depois de
---    receber o primeiro parâmetro.
-ledger = map
-
-getEntities
-
-
-
+allTransactions = undefined
+ledger = undefined
 isValidMagicNr = undefined
 \end{code}
 
@@ -1011,16 +990,20 @@ isValidMagicNr = undefined
 \subsection*{Problema 2}
 
 \begin{code}
-inQTree = undefined
-outQTree = undefined
-baseQTree = undefined
-recQTree = undefined
-cataQTree = undefined
-anaQTree = undefined
-hyloQTree = undefined
+toCell (a,(b,c)) = Cell a b c
+toBlock (a,(b,(c,d))) = Block a b c d
+
+inQTree = either toCell toBlock
+outQTree (Cell a b c) = i1 (a,(b,c))
+outQTree (Block a b c d) = i2 (a,(b,(c,d)))
+baseQTree g f = (g >< id) -|- (f >< (f >< (f >< f)))
+recQTree f = baseQTree id f
+cataQTree cata = cata . recQTree (cataQTree cata) . outQTree
+anaQTree ana = inQTree . recQTree (anaQTree ana) . ana
+hyloQTree f g = cataQTree f . anaQTree g
 
 instance Functor QTree where
-    fmap = undefined
+    fmap f = cataQTree (inQTree . (baseQTree f id))
 
 rotateQTree = undefined
 scaleQTree = undefined
@@ -1032,8 +1015,11 @@ outlineQTree = undefined
 \subsection*{Problema 3}
 
 \begin{code}
-base = undefined
-loop = undefined
+base = untuple . (split (split (const 1) (succ)) (split (const 1) (const 1)))
+    where untuple ((a,b),(c,d)) = (a,b,c,d)
+loop = untuple . (split ((split (mul . swap . p1) (succ . p2 . p1)) . tuple) ((split (mul . swap . p2) (succ . p1 . swap . p2)) . tuple))
+    where untuple ((a,b),(c,d)) = (a,b,c,d)
+          tuple (a,b,c,d) = ((a,b),(c,d))
 \end{code}
 
 \subsection*{Problema 4}
@@ -1390,4 +1376,3 @@ isBalancedFTree = isJust . cataFTree (either (const (Just 0)) g)
 %----------------- Fim do documento -------------------------------------------%
 
 \end{document}
-
