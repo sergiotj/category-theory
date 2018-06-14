@@ -1122,10 +1122,20 @@ hyloQTree f g = cataQTree f . anaQTree g
 instance Functor QTree where
     fmap f = cataQTree (inQTree . (baseQTree f id))
 
-rotateQTree = undefined
-scaleQTree = undefined
-invertQTree = undefined
-compressQTree = undefined
+rotateQTree = cataQTree (either rotateCell rotateBlock)
+rotateCell (a,(b,c)) = Cell a c b
+rotateBlock (a, (b, (c,d))) = Block c a d b
+
+scaleQTree a = cataQTree (either (scaleCell a) (toBlock))
+scaleCell mult (a,(b,c)) = Cell a (mult * b) (mult * c)
+
+invertQTree = cataQTree (either (invertCell) (toBlock))
+invertCell ((PixelRGBA8 r g b a),(x,y)) = Cell (PixelRGBA8 (255-r) (255-g) (255-b) a) x y
+
+compressQTree comp =  (either (compressCell) (toBlock)) . (pred >< (baseQTree id (compressQTree (comp-1)))) . (id >< outQTree)
+    --where minus a = (a-1)
+compressCell (red, (a,(b,c))) = if (red > 0) then (Cell a b c) else (Cell a 0 0)
+
 outlineQTree = undefined
 \end{code}
 
