@@ -1035,7 +1035,10 @@ scaleCell mult (a,(b,c)) = Cell a (mult * b) (mult * c)
 invertQTree = cataQTree (either (invertCell) (toBlock))
 invertCell ((PixelRGBA8 r g b a),(x,y)) = Cell (PixelRGBA8 (255-r) (255-g) (255-b) a) x y
 
-compressQTree = undefined
+compressQTree comp =  (either (compressCell) (toBlock)) . (pred >< (baseQTree id (compressQTree (comp-1)))) . (id >< outQTree)
+    --where minus a = (a-1)
+compressCell (red, (a,(b,c))) = if (red > 0) then (Cell a b c) else (Cell a 0 0)
+
 outlineQTree = undefined
 \end{code}
 
