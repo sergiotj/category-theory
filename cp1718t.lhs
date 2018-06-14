@@ -990,21 +990,118 @@ getTransaction = p2 . p2
 getTransactions = conc . ((p2 . p2) >< id)
 
 -- Para calcular o ledger vamos fazer 3 passos:
--- 1. Usar allTransactions para extrair as transações de uma blockchain
--- 2. Usar o catamorfismo getEntities para extrair uma lista de
---    entidades (sem repetições) de uma lista de transações
--- 3. Usar o catamorfismo getBalance que recebe dois parâmetros,
---    - O primeiro a entidade cujo saldo deve calcular;
---    - O segundo é 1 + A x B, que todos os genes de listas recebem.
---    É importante notar que getBalance só é um catamorfismo utilizável depois de
---    receber o primeiro parâmetro.
-ledger = undefined
+-- 1. Obter a lista das transações de uma blockchain (usando allTransactions)
+-- 2. Obter uma lista de entidades a partir da lista de transações (usando catamorfismo getEntities)
+-- 3. Eliminar repetições da lista de entidades
+-- 4. Obter o ledger
 
-getEntities = undefined
+-- Diagrama:
+--
+-- Blockchain
+-- |
+-- | allTransactions
+-- v
+-- [transaction]
+-- |
+-- | <getUniqueEntities, id>
+-- v
+-- ([entity], [transaction])
+-- |
+-- | id >< getBalance
+-- v
+-- ([entity], (getBalance [transaction]))
+-- |
+-- | <p1, mapPair . swap>
+-- v
+-- ([entity], [saldo])
+-- |
+-- | zipPair
+-- v
+-- [(entity, saldo)]  <-- Ledger!!
 
+ledger = zipPair . (split p1 (mapPair . swap)) . (id >< getBalance) . (split getUniqueEntities id) . allTransactions
 
+-- Catamorfismo de listas que calcula um conjunto de entidades a partir de uma lista de transações
+-- Transação: (origem, (valor, destino))
+-- Transação para lista com as duas entidades: pairToList . (split p1 (p2 . p2))
+-- Gene: [nil, conc . (funcaoDaLinhaAcima >< id)]
+getEntities :: [Transaction] -> [String]
+getEntities = cataList ( either nil (conc . ((pairToList . split p1 (p2 . p2)) >< id)) )
 
-isValidMagicNr = undefined
+-- Remove repetições de uma lista de entidades
+getUniqueEntities :: [Transaction] -> [String]
+getUniqueEntities = remDup . getEntities
+
+-- Catamorfismo (de listas de transações) que calcula o saldo de uma dada entidade
+-- Não é pointfree porque tem de receber a lista de transações antes da entidade,
+-- para nos dar jeito para o map que vamos querer fazer.
+-- Usamos const 0 em vez de Cp.zero porque o do professor retorna Integer em vez de Int
+getBalance :: [Transaction] -> String -> Int
+getBalance transactions entity = (cataList ( either (const 0) ( addInt . ((delta entity) >< id) ) )) transactions
+
+-- delta: Retorna a diferença de saldo resultante de uma transação,
+-- para uma dada entidade (se a entidade não aparece na transação, delta = 0)
+delta :: String -> Transaction -> Int
+delta entity (a, (v, b))
+  | entity == a = -v
+  | entity == b = v
+  | otherwise = 0
+
+mapPair :: (a -> b, [a]) -> [b]
+mapPair (f, l) = map f l
+
+zipPair :: ([a], [b]) -> [(a, b)]
+zipPair (x, y) = zip x y
+
+-- addInt em vez de add porque add recebe Integer,
+-- e fazer conversões ia ficar confuso
+addInt :: (Int, Int) -> Int
+addInt (a, b) = a + b
+
+-- Remove elementos duplicados de uma lista
+-- encontrada no stack overflow, muito fixe!!!
+-- nub: O(N^2), remDup: O(N log N)
+remDup :: (Ord a) => [a] -> [a]
+remDup = map head . group . sort
+
+pairToList :: (a, a) -> [a]
+pairToList (x, y) = [x, y]
+
+-- Diagrama do isValidMagicNr:
+-- (verifica se os números mágicos de
+-- uma blockchain são únicos)
+--
+-- Blockchain
+-- |
+-- | getMagicNumbers (catamorfismo)
+-- v
+-- [String]
+-- |
+-- | checkDuplicates (catamorfismo)
+-- v
+-- Bool
+
+isValidMagicNr = checkDuplicates . getMagicNumbers
+
+-- Este cataBlockchain que retorna a lista de números mágicos é um
+-- bocado manhoso! Temos de explicar bem o caso final, que faz cons . (split p1 nil)
+-- para retornar uma lista só com o número mágico do último bloco lá dentro
+getMagicNumbers :: Blockchain -> [String]
+getMagicNumbers = cataBlockchain (either (cons . (split id nil)) (cons . (p1 >< id)))
+
+-- Verifica duplicados, esta é pointwise
+-- porque são 19:47 e passamos o dia na biblioteca,
+-- estamos cansados, e assim fica bonita, não tem mal nenhum :'(
+checkDuplicates :: (Ord a) => [a] -> Bool
+checkDuplicates x = (remDup x) == x
+
+-- Blockchain de teste
+block1 = ("1234", (177777, [("Marcos", (200, "Tarracho")), ("Antonio", (200, "Joao")), ("Tarracho", (200, "Marcos")), ("Marcos", (200, "Tarracho"))]))
+block2 = ("6789", (177888, [("Marcos", (200, "Tarracho")), ("Antonio", (200, "Joao"))]))
+block3 = ("4444", (177888, [("Maria", (200, "Matilde")), ("Matilde", (200, "Maria"))]))
+-- testBlockchain = Bcs (block1, Bc block2)
+testBlockchain = Bcs (block3, Bcs (block1, Bc block2))
+
 \end{code}
 
 \subsection*{Problema 2}
