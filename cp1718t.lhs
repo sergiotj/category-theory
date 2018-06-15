@@ -1134,7 +1134,7 @@ invertCell ((PixelRGBA8 r g b a),(x,y)) = Cell (PixelRGBA8 (255-r) (255-g) (255-
 
 --compressQTree comp =  cataQTree (either (compressCell comp) toBlock)
 --compressCell red (a,(b,c)) = if (red > (depthQTree((Cell a b c)))) then (Cell a b c) else (Cell a 0 0)
---compressQTree = undefined
+compressQTree = undefined
 
 outlineQTree fun = qt2bm . (cataQTree (either (outlineCell fun) (toBlock)))
 outlineCell fun (a,(b,c)) = if (fun a) then (outlineBlock b c) else (Cell (fun a) b c)
@@ -1198,7 +1198,7 @@ instance Bifunctor FTree where
 -- Isto significa que a árvore vai ser gerada
 -- das folhas para a raiz.
 
-generatePTree = anaFTree genePTree . (split (const 1) id)
+generatePTree = anaFTree genePTree . (split (const 0) id)
 
 -- Primeira tentativa, dava uma árvore invertida
 -- genePTree = (id -|- (split p2 (split p1 p1))) . (id -|- (pred >< id)) . (id -|- (split id rankToMultiplier)) . (fromIntegral -|- id) . oneToLeft
@@ -1210,13 +1210,13 @@ genePTree = (id -|- (id >< (split id id))) . (id -|- (id >< (succ >< id))) . (id
 -- de ordem 0 é 1, o de ordem 1 é (raiz de 2)/2,
 -- e o de ordem 2 é ((raiz de 2)/2)^2
 rankToMultiplier :: Int -> Float
-rankToMultiplier 0 = 1
-rankToMultiplier a = ((sqrt 2) / 2) ^ (a - 1)
+rankToMultiplier a = ((sqrt 2) / 2) ^ a
 
 -- Se um par tem dois Ints iguais,
 -- mete à esquerda, senão mete à direita
 checkComplete :: (Int, Int) -> Either (Int, Int) (Int, Int)
 checkComplete (a, b)
+  | b < 0 = i1 (a, 0) -- Evitar loop infinito com má iput (rank negativo)
   | a == b = i1 (a, b)
   | otherwise = i2 (a, b)
 
