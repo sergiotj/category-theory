@@ -1194,9 +1194,12 @@ instance Bifunctor FTree where
 -- Isto significa que a árvore vai ser gerada
 -- das folhas para a raiz.
 
-generatePTree = anaFTree genePTree
+generatePTree = anaFTree genePTree . (split (const 1) id)
 
-genePTree = (id -|- (split p2 (split p1 p1))) . (id -|- (pred >< id)) . (id -|- (split id rankToMultiplier)) . (fromIntegral -|- id) . oneToLeft
+-- Primeira tentativa, dava uma árvore invertida
+-- genePTree = (id -|- (split p2 (split p1 p1))) . (id -|- (pred >< id)) . (id -|- (split id rankToMultiplier)) . (fromIntegral -|- id) . oneToLeft
+
+genePTree = (id -|- (id >< (split id id))) . (id -|- (id >< (succ >< id))) . (id -|- (split (rankToMultiplier . p1) id)) . ((rankToMultiplier . p1) -|- id) . checkComplete
 
 -- Retorna o multiplicador de uma PTree
 -- para um dado Rank. Por exemplo, o multiplicador
@@ -1206,12 +1209,12 @@ rankToMultiplier :: Int -> Float
 rankToMultiplier 0 = 1
 rankToMultiplier a = ((sqrt 2) / 2) ^ (a - 1)
 
--- Transforma um Int num coproduto
--- Se recebe 1 mete à esquerda,
--- senão mete à direita
-oneToLeft :: Int -> Either Int Int
-oneToLeft 1 = i1 1
-oneToLeft a = i2 a
+-- Se um par tem dois Ints iguais,
+-- mete à esquerda, senão mete à direita
+checkComplete :: (Int, Int) -> Either (Int, Int) (Int, Int)
+checkComplete (a, b)
+  | a == b = i1 (a, b)
+  | otherwise = i2 (a, b)
 
 drawPTree = undefined
 \end{code}
