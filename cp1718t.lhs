@@ -1157,16 +1157,16 @@ loop = untuple . (split ((split (mul . swap . p1) (succ . p2 . p1)) . tuple) ((s
 \subsection*{Problema 4}
 
 \begin{code}
---inFTree :: Either b (a, (FTree a b, FTree a b)) -> FTree a b
-inFTree = either toUnit toComp
-toUnit a = Unit a
 toComp (a, (b, c)) = Comp a b c
-outFTree = undefined
-baseFTree = undefined
-recFTree = undefined
+
+inFTree = either Unit toComp
+outFTree (Unit a) = i1 a
+outFTree (Comp a b c) = i2 (a, (b, c))
+baseFTree g f = undefined
+recFTree f = undefined
 cataFTree = undefined
 anaFTree = undefined
-hyloFTree = undefined
+hyloFTree f g = cataFTree f . anaFTree g
 
 instance Bifunctor FTree where
     bimap = undefined
