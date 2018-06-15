@@ -1087,7 +1087,7 @@ isValidMagicNr = checkDuplicates . getMagicNumbers
 -- bocado manhoso! Temos de explicar bem o caso final, que faz cons . (split p1 nil)
 -- para retornar uma lista só com o número mágico do último bloco lá dentro
 getMagicNumbers :: Blockchain -> [String]
-getMagicNumbers = cataBlockchain (either (cons . (split id nil)) (cons . (p1 >< id)))
+getMagicNumbers = cataBlockchain (either (cons . (split p1 nil)) (cons . (p1 >< id)))
 
 -- Verifica duplicados, esta é pointwise
 -- porque são 19:47 e passamos o dia na biblioteca,
@@ -1139,7 +1139,8 @@ compressCell (red, (a,(b,c))) = if (red > 0) then (Cell a b c) else (Cell a 0 0)
 -}
 compressQTree = undefined
 
-outlineQTree fun = cataQTree (either (outlineCell fun) (toBlock))
+outlineQTree = undefined
+--outlineQTree fun = cataQTree (either (outlineCell fun) (toBlock))
 outlineCell fun (a,(b,c)) = qt2bm (Cell (fun a) b c)
 \end{code}
 
