@@ -1132,16 +1132,20 @@ scaleCell mult (a,(b,c)) = Cell a (mult * b) (mult * c)
 invertQTree = cataQTree (either (invertCell) (toBlock))
 invertCell ((PixelRGBA8 r g b a),(x,y)) = Cell (PixelRGBA8 (255-r) (255-g) (255-b) a) x y
 
-{-
-compressQTree comp =  (either (compressCell) (toBlock)) . (pred >< (baseQTree id (compressQTree (comp-1)))) . (id >< outQTree)
-    --where minus a = (a-1)
-compressCell (red, (a,(b,c))) = if (red > 0) then (Cell a b c) else (Cell a 0 0)
--}
-compressQTree = undefined
+--compressQTree comp =  cataQTree (either (compressCell comp) toBlock)
+--compressCell red (a,(b,c)) = if (red > (depthQTree((Cell a b c)))) then (Cell a b c) else (Cell a 0 0)
+--compressQTree = undefined
 
-outlineQTree = undefined
---outlineQTree fun = cataQTree (either (outlineCell fun) (toBlock))
-outlineCell fun (a,(b,c)) = qt2bm (Cell (fun a) b c)
+outlineQTree fun = qt2bm . (cataQTree (either (outlineCell fun) (toBlock)))
+outlineCell fun (a,(b,c)) = if (fun a) then (outlineBlock b c) else (Cell (fun a) b c)
+outlineBlock a b = Block
+    (Block (Cell True 1 1)
+           (Cell True (a-2) 1)
+           (Cell True 1 (b-2))
+           (Cell False (a-2) (b-2)))
+    (Cell True 1 (b-1))
+    (Cell True (a-1) 1)
+    (Cell True 1 1)
 \end{code}
 
 \subsection*{Problema 3}
