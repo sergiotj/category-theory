@@ -1157,7 +1157,10 @@ loop = untuple . (split ((split (mul . swap . p1) (succ . p2 . p1)) . tuple) ((s
 \subsection*{Problema 4}
 
 \begin{code}
-inFTree = undefined
+--inFTree :: Either b (a, (FTree a b, FTree a b)) -> FTree a b
+inFTree = either toUnit toComp
+toUnit a = Unit a
+toComp (a, (b, c)) = Comp a b c
 outFTree = undefined
 baseFTree = undefined
 recFTree = undefined
@@ -1175,7 +1178,7 @@ drawPTree = undefined
 \subsection*{Problema 5}
 
 \begin{code}
-singletonbag f = undefined
+singletonbag = undefined
 muB = undefined
 dist = undefined
 \end{code}
