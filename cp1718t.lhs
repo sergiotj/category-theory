@@ -1161,21 +1161,65 @@ loop = untuple . (split ((split (mul . swap . p1) (succ . p2 . p1)) . tuple) ((s
 \subsection*{Problema 4}
 
 \begin{code}
-toComp (a, (b, c)) = Comp a b c
 
 inFTree = either Unit toComp
+toComp (a, (b, c)) = Comp a b c
 outFTree (Unit a) = i1 a
 outFTree (Comp a b c) = i2 (a, (b, c))
-baseFTree g f = undefined
-recFTree f = undefined
-cataFTree = undefined
-anaFTree = undefined
+baseFTree f g h = g -|- (f >< (h >< h))
+recFTree f = baseFTree id id f
+cataFTree g = g . (recFTree (cataFTree g)) . outFTree
+anaFTree g = inFTree . (recFTree (anaFTree g)) . g
 hyloFTree f g = cataFTree f . anaFTree g
 
+-- Lei 47: def-map-cata
+-- Tf = (| in . B(f, id) |)
 instance Bifunctor FTree where
-    bimap = undefined
+    bimap f g = cataFTree (inFTree . (baseFTree f g id))
 
-generatePTree = undefined
+-- Fiz o diagrama do anamorfismo de FTree para fazer
+-- a generatePTree, que devemos incluir no relatório
+-- para se perceber como foi criado o gene.
+
+-- generatePTree é um anamorfismo de FTree
+-- (pode ser FTree em vez de PTree porque
+-- (type PTree = FTree Square Square)
+
+-- O gene é uma função que passa Int
+-- (profundidade da PTree que queremos gerar) para
+-- Float + (Float, (Int, Int))
+-- Porque no fim queremos usar o in da FTree
+-- para ficar com uma PTree (por isso é que aparecem Floats)
+
+-- O rank recebido pela generatePTree tem de ir diminuindo
+-- à medida que o anamorfismo corre, por isso o gene não
+-- pode aumentar o Int original. Caso contrário, não
+-- saberíamos quando é que devíamos parar.
+-- Isto significa que a árvore vai ser gerada
+-- das folhas para a raiz.
+
+generatePTree = anaFTree genePTree . (split (const 1) id)
+
+-- Primeira tentativa, dava uma árvore invertida
+-- genePTree = (id -|- (split p2 (split p1 p1))) . (id -|- (pred >< id)) . (id -|- (split id rankToMultiplier)) . (fromIntegral -|- id) . oneToLeft
+
+genePTree = (id -|- (id >< (split id id))) . (id -|- (id >< (succ >< id))) . (id -|- (split (rankToMultiplier . p1) id)) . ((rankToMultiplier . p1) -|- id) . checkComplete
+
+-- Retorna o multiplicador de uma PTree
+-- para um dado Rank. Por exemplo, o multiplicador
+-- de ordem 0 é 1, o de ordem 1 é (raiz de 2)/2,
+-- e o de ordem 2 é ((raiz de 2)/2)^2
+rankToMultiplier :: Int -> Float
+rankToMultiplier 0 = 1
+rankToMultiplier a = ((sqrt 2) / 2) ^ (a - 1)
+
+-- Se um par tem dois Ints iguais,
+-- mete à esquerda, senão mete à direita
+checkComplete :: (Int, Int) -> Either (Int, Int) (Int, Int)
+checkComplete (a, b)
+  | a == b = i1 (a, b)
+  | otherwise = i2 (a, b)
+
 drawPTree = undefined
 \end{code}
 
