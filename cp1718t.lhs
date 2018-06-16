@@ -977,127 +977,153 @@ recBlockchain f = id -|- (id >< f)
 cataBlockchain g = g . (recBlockchain (cataBlockchain g)) . outBlockchain
 anaBlockchain g = inBlockchain . (recBlockchain (anaBlockchain g)) . g
 hyloBlockchain f g = cataBlockchain f . anaBlockchain g
+\end{code}
 
--- allTransactions usa um catamorfismo que basicamente só usa o p2
--- para extrair as listas de transações de cada bloco
--- o conc concatena duas listas recebidas num tuplo: ([a], [a]) -> [a]
+\par allTransactions usa um catamorfismo que basicamente só usa o p2 para extrair as listas de transações de cada bloco
+\par O conc concatena duas listas recebidas num tuplo: ([a], [a]) -> [a]
+
+\begin{code}
 allTransactions = cataBlockchain (either getTransaction getTransactions)
 getTransaction = p2 . p2
 getTransactions = conc . ((p2 . p2) >< id)
+\end{code}
 
--- Para calcular o ledger vamos fazer 3 passos:
--- 1. Obter a lista das transações de uma blockchain (usando allTransactions)
--- 2. Obter uma lista de entidades a partir da lista de transações (usando catamorfismo getEntities)
--- 3. Eliminar repetições da lista de entidades
--- 4. Obter o ledger
+\par Para calcular o ledger vamos fazer 3 passos:
+\par 1. Obter a lista das transações de uma blockchain (usando allTransactions)
+\par 2. Obter uma lista de entidades a partir da lista de transações (usando catamorfismo getEntities)
+\par 3. Eliminar repetições da lista de entidades
+\par 4. Obter o ledger
 
--- Diagrama:
---
--- Blockchain
--- /
--- / allTransactions
--- v
--- [transaction]
--- /
--- / <getUniqueEntities, id>
--- v
--- ([entity], [transaction])
--- /
--- / id >< getBalance
--- v
--- ([entity], (getBalance [transaction]))
--- /
--- / <p1, mapPair . swap>
--- v
--- ([entity], [saldo])
--- /
--- / zipPair
--- v
--- [(entity, saldo)]  <-- Ledger!!
+\par Diagrama:
+\par
+\par Blockchain
+\par /
+\par / allTransactions
+\par v
+\par [transaction]
+\par /
+\par / <getUniqueEntities, id>
+\par v
+\par ([entity], [transaction])
+\par /
+\par / id >< getBalance
+\par v
+\par ([entity], (getBalance [transaction]))
+\par /
+\par / <p1, mapPair . swap>
+\par v
+\par ([entity], [saldo])
+\par /
+\par / zipPair
+\par v
+\par [(entity, saldo)]  <-- Ledger!!
 
+\begin{code}
 ledger = zipPair . (split p1 (mapPair . swap)) . (id >< getBalance) . (split getUniqueEntities id) . allTransactions
+\end{code}
 
--- Catamorfismo de listas que calcula um conjunto de entidades a partir de uma lista de transações
--- Transação: (origem, (valor, destino))
--- Transação para lista com as duas entidades: pairToList . (split p1 (p2 . p2))
--- Gene: [nil, conc . (funcaoDaLinhaAcima >< id)]
+\par Catamorfismo de listas que calcula um conjunto de entidades a partir de uma lista de transações
+\par Transação: (origem, (valor, destino))
+\par Transação para lista com as duas entidades: pairToList . (split p1 (p2 . p2))
+\par Gene: [nil, conc . (funcaoDaLinhaAcima >< id)]
+
+\begin{code}
 getEntities :: [Transaction] -> [String]
 getEntities = cataList ( either nil (conc . ((pairToList . split p1 (p2 . p2)) >< id)) )
+\end{code}
 
--- Remove repetições de uma lista de entidades
+\par Remove repetições de uma lista de entidades
+\begin{code}
 getUniqueEntities :: [Transaction] -> [String]
 getUniqueEntities = remDup . getEntities
+\end{code}
 
--- Catamorfismo (de listas de transações) que calcula o saldo de uma dada entidade
--- Não é pointfree porque tem de receber a lista de transações antes da entidade,
--- para nos dar jeito para o map que vamos querer fazer.
--- Usamos const 0 em vez de Cp.zero porque o do professor retorna Integer em vez de Int
+\par Catamorfismo (de listas de transações) que calcula o saldo de uma dada entidade
+\par Não é pointfree porque tem de receber a lista de transações antes da entidade,
+\par para nos dar jeito para o map que vamos querer fazer.
+\par Usamos const 0 em vez de Cp.zero porque o do professor retorna Integer em vez de Int
+\begin{code}
 getBalance :: [Transaction] -> String -> Int
 getBalance transactions entity = (cataList ( either (const 0) ( addInt . ((delta entity) >< id) ) )) transactions
+\end{code}
 
--- delta: Retorna a diferença de saldo resultante de uma transação,
--- para uma dada entidade (se a entidade não aparece na transação, delta = 0)
+\par delta: Retorna a diferença de saldo resultante de uma transação, para uma dada entidade (se a entidade não aparece na transação, delta = 0)
+\begin{code}
 delta :: String -> Transaction -> Int
 delta entity (a, (v, b))
     | entity == a = -v
     | entity == b = v
     | otherwise = 0
+\end{code}
 
+\begin{code}
 mapPair :: (a -> b, [a]) -> [b]
 mapPair (f, l) = map f l
+\end{code}
 
+\begin{code}
 zipPair :: ([a], [b]) -> [(a, b)]
 zipPair (x, y) = zip x y
+\end{code}
 
--- addInt em vez de add porque add recebe Integer,
--- e fazer conversões ia ficar confuso
+\par addInt em vez de add porque add recebe Integer, e fazer conversões ia ficar confuso
+\begin{code}
 addInt :: (Int, Int) -> Int
 addInt (a, b) = a + b
+\end{code}
 
--- Remove elementos duplicados de uma lista
--- encontrada no stack overflow, muito fixe!!!
--- nub: O(N^2), remDup: O(N log N)
+\par Remove elementos duplicados de uma lista encontrada no stack overflow, muito fixe!!!
+\par nub: O(N^2), remDup: O(N log N)
+\begin{code}
 remDup :: (Ord a) => [a] -> [a]
 remDup = map head . group . sort
+\end{code}
 
+\begin{code}
 pairToList :: (a, a) -> [a]
 pairToList (x, y) = [x, y]
+\end{code}
 
--- Diagrama do isValidMagicNr:
--- (verifica se os números mágicos de
--- uma blockchain são únicos)
---
--- Blockchain
--- /
--- / getMagicNumbers (catamorfismo)
--- v
--- [String]
--- /
--- / checkDuplicates (catamorfismo)
--- v
--- Bool
+\par Diagrama do isValidMagicNr:
+\par (verifica se os números mágicos de uma blockchain são únicos)
+\par
+\par Blockchain
+\par /
+\par / getMagicNumbers (catamorfismo)
+\par v
+\par [String]
+\par /
+\par / checkDuplicates (catamorfismo)
+\par v
+\par Bool
 
+\begin{code}
 isValidMagicNr = checkDuplicates . getMagicNumbers
+\end{code}
 
--- Este cataBlockchain que retorna a lista de números mágicos é um
--- bocado manhoso! Temos de explicar bem o caso final, que faz cons . (split p1 nil)
--- para retornar uma lista só com o número mágico do último bloco lá dentro
+\par Este cataBlockchain que retorna a lista de números mágicos é um bocado manhoso! Temos de explicar bem o caso final, que faz cons . (split p1 nil) para retornar uma lista só com o número mágico do último bloco lá dentro
+\begin{code}
 getMagicNumbers :: Blockchain -> [String]
 getMagicNumbers = cataBlockchain (either (cons . (split p1 nil)) (cons . (p1 >< id)))
+\end{code}
 
--- Verifica duplicados, esta é pointwise
--- porque são 19:47 e passamos o dia na biblioteca,
--- estamos cansados, e assim fica bonita, não tem mal nenhum :'(
+\par Verifica duplicados, esta é pointwise porque são 19:47 e passamos o dia na biblioteca, estamos cansados, e assim fica bonita, não tem mal nenhum :'(
+\begin{code}
 checkDuplicates :: (Ord a) => [a] -> Bool
 checkDuplicates x = (remDup x) == x
+\end{code}
 
--- Blockchain de teste
+\par Blockchain de teste
+\begin{code}
 block1 = ("1234", (177777, [("Marcos", (200, "Tarracho")), ("Antonio", (200, "Joao")), ("Tarracho", (200, "Marcos")), ("Marcos", (200, "Tarracho"))]))
 block2 = ("6789", (177888, [("Marcos", (200, "Tarracho")), ("Antonio", (200, "Joao"))]))
 block3 = ("4444", (177888, [("Maria", (200, "Matilde")), ("Matilde", (200, "Maria"))]))
--- testBlockchain = Bcs (block1, Bc block2)
-testBlockchain = Bcs (block3, Bcs (block1, Bc block2))
+\end{code}
 
+\par testBlockchain = Bcs (block1, Bc block2)
+
+\begin{code}
+testBlockchain = Bcs (block3, Bcs (block1, Bc block2))
 \end{code}
 
 \subsection*{Problema 2}
@@ -1157,7 +1183,6 @@ loop = untuple . (split ((split (mul . swap . p1) (succ . p2 . p1)) . tuple) ((s
 \subsection*{Problema 4}
 
 \begin{code}
-
 inFTree = either Unit toComp
 toComp (a, (b, c)) = Comp a b c
 outFTree (Unit a) = i1 a
@@ -1167,55 +1192,52 @@ recFTree f = baseFTree id id f
 cataFTree g = g . (recFTree (cataFTree g)) . outFTree
 anaFTree g = inFTree . (recFTree (anaFTree g)) . g
 hyloFTree f g = cataFTree f . anaFTree g
+\end{code}
 
 -- Lei 47: def-map-cata
 -- Tf = (| in . B(f, id) |)
+
+\begin{code}
 instance Bifunctor FTree where
     bimap f g = cataFTree (inFTree . (baseFTree f g id))
+\end{code}
 
--- Fiz o diagrama do anamorfismo de FTree para fazer
--- a generatePTree, que devemos incluir no relatório
--- para se perceber como foi criado o gene.
+\par Fiz o diagrama do anamorfismo de FTree para fazer a generatePTree, que devemos incluir no relatório para se perceber como foi criado o gene.
+\par generatePTree é um anamorfismo de FTree (pode ser FTree em vez de PTree porque type PTree = FTree Square Square
 
--- generatePTree é um anamorfismo de FTree
--- (pode ser FTree em vez de PTree porque
--- (type PTree = FTree Square Square)
+\par O gene é uma função que passa Int (profundidade da PTree que queremos gerar) para Float + (Float, (Int, Int))
+\par Porque no fim queremos usar o in da FTree para ficar com uma PTree (por isso é que aparecem Floats)
 
--- O gene é uma função que passa Int
--- (profundidade da PTree que queremos gerar) para
--- Float + (Float, (Int, Int))
--- Porque no fim queremos usar o in da FTree
--- para ficar com uma PTree (por isso é que aparecem Floats)
+\par O rank recebido pela generatePTree tem de ir diminuindo à medida que o anamorfismo corre, por isso o gene não pode aumentar o Int original.
+\par Caso contrário, não saberíamos quando é que devíamos parar. Isto significa que a árvore vai ser gerada das folhas para a raiz.
 
--- O rank recebido pela generatePTree tem de ir diminuindo
--- à medida que o anamorfismo corre, por isso o gene não
--- pode aumentar o Int original. Caso contrário, não
--- saberíamos quando é que devíamos parar.
--- Isto significa que a árvore vai ser gerada
--- das folhas para a raiz.
-
+\begin{code}
 generatePTree = anaFTree genePTree . (split (const 0) id)
+\end{code}
 
--- Primeira tentativa, dava uma árvore invertida
--- genePTree = (id -|- (split p2 (split p1 p1))) . (id -|- (pred >< id)) . (id -|- (split id rankToMultiplier)) . (fromIntegral -|- id) . oneToLeft
+\par Primeira tentativa, dava uma árvore invertida:
+\par genePTree = (id -|- (split p2 (split p1 p1))) . (id -|- (pred >< id)) . (id -|- (split id rankToMultiplier)) . (fromIntegral -|- id) . oneToLeft
 
+\begin{code}
 genePTree = (id -|- (id >< (split id id))) . (id -|- (id >< (succ >< id))) . (id -|- (split (rankToMultiplier . p1) id)) . ((rankToMultiplier . p1) -|- id) . checkComplete
+\end{code}
 
--- Retorna o multiplicador de uma PTree
--- para um dado Rank. Por exemplo, o multiplicador
--- de ordem 0 é 1, o de ordem 1 é (raiz de 2)/2,
--- e o de ordem 2 é ((raiz de 2)/2)^2
+\par Retorna o multiplicador de uma PTree para um dado Rank. Por exemplo, o multiplicador de ordem 0 é 1, o de ordem 1 é (raiz de 2)/2, e o de ordem 2 é ((raiz de 2)/2)^2
+\begin{code}
 rankToMultiplier :: Int -> Float
 rankToMultiplier a = ((sqrt 2) / 2) ^ a
+\end{code}
 
--- Se um par tem dois Ints iguais,
--- mete à esquerda, senão mete à direita
+\par Se um par tem dois Ints iguais, mete à esquerda, senão mete à direita
+\begin{code}
 checkComplete :: (Int, Int) -> Either (Int, Int) (Int, Int)
 checkComplete (a, b)
     | b < 0 = i1 (a, 0) -- Evitar loop infinito com má iput (rank negativo)
     | a == b = i1 (a, b)
     | otherwise = i2 (a, b)
+\end{code}
 
+\begin{code}
 drawPTree = undefined
 \end{code}
 

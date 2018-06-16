@@ -1300,7 +1300,6 @@ Outras funções auxiliares:
 
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{inBlockchain}\mathrel{=}\alt{\Conid{Bc}}{\Conid{Bcs}}{}\<[E]%
 \\
@@ -1315,111 +1314,102 @@ Outras funções auxiliares:
 \>[B]{}\Varid{anaBlockchain}\;\Varid{g}\mathrel{=}\Varid{inBlockchain}\comp (\Varid{recBlockchain}\;(\Varid{anaBlockchain}\;\Varid{g}))\comp \Varid{g}{}\<[E]%
 \\
 \>[B]{}\Varid{hyloBlockchain}\;\Varid{f}\;\Varid{g}\mathrel{=}\Varid{cataBlockchain}\;\Varid{f}\comp \Varid{anaBlockchain}\;\Varid{g}{}\<[E]%
-\\[\blanklineskip]%
-\>[B]{}\mbox{\onelinecomment  allTransactions usa um catamorfismo que basicamente só usa o p2}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  para extrair as listas de transações de cada bloco}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  o conc concatena duas listas recebidas num tuplo}{}\<[E]%
-\\
+\ColumnHook
+\end{hscode}\resethooks
+
+\par allTransactions usa um catamorfismo que basicamente só usa o p2 para extrair as listas de transações de cada bloco
+\par O conc concatena duas listas recebidas num tuplo: ([a], [a]) -> [a]
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{allTransactions}\mathrel{=}\Varid{cataBlockchain}\;\alt{\Varid{getTransaction}}{\Varid{getTransactions}}{}\<[E]%
 \\
 \>[B]{}\Varid{getTransaction}\mathrel{=}\p2\comp \p2{}\<[E]%
 \\
 \>[B]{}\Varid{getTransactions}\mathrel{=}\mathsf{conc}\comp ((\p2\comp \p2)\times\Varid{id}){}\<[E]%
-\\[\blanklineskip]%
-\>[B]{}\mbox{\onelinecomment  Para calcular o ledger vamos fazer 3 passos:}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  1. Obter a lista das transações de uma blockchain (usando allTransactions)}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  2. Obter uma lista de entidades a partir da lista de transações (usando catamorfismo getEntities)}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  3. Eliminar repetições da lista de entidades}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  4. Obter o ledger}{}\<[E]%
-\\[\blanklineskip]%
-\>[B]{}\mbox{\onelinecomment  Diagrama:}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment }{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  Blockchain}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  /}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  / allTransactions}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  v}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  [transaction]}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  /}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  / <getUniqueEntities, id>}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  v}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  ([entity], [transaction])}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  /}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  / id >< getBalance}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  v}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  ([entity], (getBalance [transaction]))}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  /}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  / <p1, mapPair . swap>}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  v}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  ([entity], [saldo])}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  /}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  / zipPair}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  v}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  [(entity, saldo)]  <-- Ledger!!}{}\<[E]%
-\\[\blanklineskip]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\par Para calcular o ledger vamos fazer 3 passos:
+\par 1. Obter a lista das transações de uma blockchain (usando allTransactions)
+\par 2. Obter uma lista de entidades a partir da lista de transações (usando catamorfismo getEntities)
+\par 3. Eliminar repetições da lista de entidades
+\par 4. Obter o ledger
+
+\par Diagrama:
+\par
+\par Blockchain
+\par /
+\par / allTransactions
+\par v
+\par [transaction]
+\par /
+\par / <getUniqueEntities, id>
+\par v
+\par ([entity], [transaction])
+\par /
+\par / id >< getBalance
+\par v
+\par ([entity], (getBalance [transaction]))
+\par /
+\par / <p1, mapPair . swap>
+\par v
+\par ([entity], [saldo])
+\par /
+\par / zipPair
+\par v
+\par [(entity, saldo)]  <-- Ledger!!
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{ledger}\mathrel{=}\Varid{zipPair}\comp \conj{\p1}{\Varid{mapPair}\comp \Varid{swap}}\comp (\Varid{id}\times\Varid{getBalance})\comp \conj{\Varid{getUniqueEntities}}{\Varid{id}}\comp \Varid{allTransactions}{}\<[E]%
-\\[\blanklineskip]%
-\>[B]{}\mbox{\onelinecomment  Catamorfismo de listas que calcula um conjunto de entidades a partir de uma lista de transações}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  Transação: (origem, (valor, destino))}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  Transação para lista com as duas entidades: pairToList . (split p1 (p2 . p2))}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  Gene: [nil, conc . (funcaoDaLinhaAcima >< id)]}{}\<[E]%
-\\
+\ColumnHook
+\end{hscode}\resethooks
+
+\par Catamorfismo de listas que calcula um conjunto de entidades a partir de uma lista de transações
+\par Transação: (origem, (valor, destino))
+\par Transação para lista com as duas entidades: pairToList . (split p1 (p2 . p2))
+\par Gene: [nil, conc . (funcaoDaLinhaAcima >< id)]
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{getEntities}\mathbin{::}[\mskip1.5mu \Conid{Transaction}\mskip1.5mu]\to [\mskip1.5mu \Conid{String}\mskip1.5mu]{}\<[E]%
 \\
 \>[B]{}\Varid{getEntities}\mathrel{=}\Varid{cataList}\;\alt{\Varid{nil}}{\mathsf{conc}\comp ((\Varid{pairToList}\comp \conj{\p1}{\p2\comp \p2})\times\Varid{id})}{}\<[E]%
-\\[\blanklineskip]%
-\>[B]{}\mbox{\onelinecomment  Remove repetições de uma lista de entidades}{}\<[E]%
-\\
+\ColumnHook
+\end{hscode}\resethooks
+
+\par Remove repetições de uma lista de entidades
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{getUniqueEntities}\mathbin{::}[\mskip1.5mu \Conid{Transaction}\mskip1.5mu]\to [\mskip1.5mu \Conid{String}\mskip1.5mu]{}\<[E]%
 \\
 \>[B]{}\Varid{getUniqueEntities}\mathrel{=}\Varid{remDup}\comp \Varid{getEntities}{}\<[E]%
-\\[\blanklineskip]%
-\>[B]{}\mbox{\onelinecomment  Catamorfismo (de listas de transações) que calcula o saldo de uma dada entidade}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  Não é pointfree porque tem de receber a lista de transações antes da entidade,}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  para nos dar jeito para o map que vamos querer fazer.}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  Usamos const 0 em vez de Cp.zero porque o do professor retorna Integer em vez de Int}{}\<[E]%
-\\
+\ColumnHook
+\end{hscode}\resethooks
+
+\par Catamorfismo (de listas de transações) que calcula o saldo de uma dada entidade
+\par Não é pointfree porque tem de receber a lista de transações antes da entidade,
+\par para nos dar jeito para o map que vamos querer fazer.
+\par Usamos const 0 em vez de Cp.zero porque o do professor retorna Integer em vez de Int
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{getBalance}\mathbin{::}[\mskip1.5mu \Conid{Transaction}\mskip1.5mu]\to \Conid{String}\to \Conid{Int}{}\<[E]%
 \\
 \>[B]{}\Varid{getBalance}\;\Varid{transactions}\;\Varid{entity}\mathrel{=}(\Varid{cataList}\;\alt{\underline{\mathrm{0}}}{\Varid{addInt}\comp ((\Varid{delta}\;\Varid{entity})\times\Varid{id})})\;\Varid{transactions}{}\<[E]%
-\\[\blanklineskip]%
-\>[B]{}\mbox{\onelinecomment  delta: Retorna a diferença de saldo resultante de uma transação,}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  para uma dada entidade (se a entidade não aparece na transação, delta = 0)}{}\<[E]%
-\\
+\ColumnHook
+\end{hscode}\resethooks
+
+\par delta: Retorna a diferença de saldo resultante de uma transação, para uma dada entidade (se a entidade não aparece na transação, delta = 0)
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{delta}\mathbin{::}\Conid{String}\to \Conid{Transaction}\to \Conid{Int}{}\<[E]%
 \\
 \>[B]{}\Varid{delta}\;\Varid{entity}\;(\Varid{a},(\Varid{v},\Varid{b})){}\<[E]%
@@ -1432,95 +1422,114 @@ Outras funções auxiliares:
 \\
 \>[B]{}\hsindent{5}{}\<[5]%
 \>[5]{}\mid \Varid{otherwise}\mathrel{=}\mathrm{0}{}\<[E]%
-\\[\blanklineskip]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{mapPair}\mathbin{::}(\Varid{a}\to \Varid{b},[\mskip1.5mu \Varid{a}\mskip1.5mu])\to [\mskip1.5mu \Varid{b}\mskip1.5mu]{}\<[E]%
 \\
 \>[B]{}\Varid{mapPair}\;(\Varid{f},\Varid{l})\mathrel{=}\map \;\Varid{f}\;\Varid{l}{}\<[E]%
-\\[\blanklineskip]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{zipPair}\mathbin{::}([\mskip1.5mu \Varid{a}\mskip1.5mu],[\mskip1.5mu \Varid{b}\mskip1.5mu])\to [\mskip1.5mu (\Varid{a},\Varid{b})\mskip1.5mu]{}\<[E]%
 \\
 \>[B]{}\Varid{zipPair}\;(\Varid{x},\Varid{y})\mathrel{=}\Varid{zip}\;\Varid{x}\;\Varid{y}{}\<[E]%
-\\[\blanklineskip]%
-\>[B]{}\mbox{\onelinecomment  addInt em vez de add porque add recebe Integer,}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  e fazer conversões ia ficar confuso}{}\<[E]%
-\\
+\ColumnHook
+\end{hscode}\resethooks
+
+\par addInt em vez de add porque add recebe Integer, e fazer conversões ia ficar confuso
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{addInt}\mathbin{::}(\Conid{Int},\Conid{Int})\to \Conid{Int}{}\<[E]%
 \\
 \>[B]{}\Varid{addInt}\;(\Varid{a},\Varid{b})\mathrel{=}\Varid{a}\mathbin{+}\Varid{b}{}\<[E]%
-\\[\blanklineskip]%
-\>[B]{}\mbox{\onelinecomment  Remove elementos duplicados de uma lista}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  encontrada no stack overflow, muito fixe!!!}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  nub: O(N^2), remDup: O(N log N)}{}\<[E]%
-\\
+\ColumnHook
+\end{hscode}\resethooks
+
+\par Remove elementos duplicados de uma lista encontrada no stack overflow, muito fixe!!!
+\par nub: O(N^2), remDup: O(N log N)
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{remDup}\mathbin{::}(\Conid{Ord}\;\Varid{a})\Rightarrow [\mskip1.5mu \Varid{a}\mskip1.5mu]\to [\mskip1.5mu \Varid{a}\mskip1.5mu]{}\<[E]%
 \\
 \>[B]{}\Varid{remDup}\mathrel{=}\map \;\Varid{head}\comp \Varid{group}\comp \Varid{sort}{}\<[E]%
-\\[\blanklineskip]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{pairToList}\mathbin{::}(\Varid{a},\Varid{a})\to [\mskip1.5mu \Varid{a}\mskip1.5mu]{}\<[E]%
 \\
 \>[B]{}\Varid{pairToList}\;(\Varid{x},\Varid{y})\mathrel{=}[\mskip1.5mu \Varid{x},\Varid{y}\mskip1.5mu]{}\<[E]%
-\\[\blanklineskip]%
-\>[B]{}\mbox{\onelinecomment  Diagrama do isValidMagicNr:}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  (verifica se os números mágicos de}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  uma blockchain são únicos)}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment }{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  Blockchain}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  /}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  / getMagicNumbers (catamorfismo)}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  v}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  [String]}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  /}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  / checkDuplicates (catamorfismo)}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  v}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  Bool}{}\<[E]%
-\\[\blanklineskip]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\par Diagrama do isValidMagicNr:
+\par (verifica se os números mágicos de uma blockchain são únicos)
+\par
+\par Blockchain
+\par /
+\par / getMagicNumbers (catamorfismo)
+\par v
+\par [String]
+\par /
+\par / checkDuplicates (catamorfismo)
+\par v
+\par Bool
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{isValidMagicNr}\mathrel{=}\Varid{checkDuplicates}\comp \Varid{getMagicNumbers}{}\<[E]%
-\\[\blanklineskip]%
-\>[B]{}\mbox{\onelinecomment  Este cataBlockchain que retorna a lista de números mágicos é um}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  bocado manhoso! Temos de explicar bem o caso final, que faz cons . (split p1 nil)}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  para retornar uma lista só com o número mágico do último bloco lá dentro}{}\<[E]%
-\\
+\ColumnHook
+\end{hscode}\resethooks
+
+\par Este cataBlockchain que retorna a lista de números mágicos é um bocado manhoso! Temos de explicar bem o caso final, que faz cons . (split p1 nil) para retornar uma lista só com o número mágico do último bloco lá dentro
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{getMagicNumbers}\mathbin{::}\Conid{Blockchain}\to [\mskip1.5mu \Conid{String}\mskip1.5mu]{}\<[E]%
 \\
 \>[B]{}\Varid{getMagicNumbers}\mathrel{=}\Varid{cataBlockchain}\;\alt{\Varid{cons}\comp \conj{\p1}{\Varid{nil}}}{\Varid{cons}\comp (\p1\times\Varid{id})}{}\<[E]%
-\\[\blanklineskip]%
-\>[B]{}\mbox{\onelinecomment  Verifica duplicados, esta é pointwise}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  porque são 19:47 e passamos o dia na biblioteca,}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  estamos cansados, e assim fica bonita, não tem mal nenhum :'(}{}\<[E]%
-\\
+\ColumnHook
+\end{hscode}\resethooks
+
+\par Verifica duplicados, esta é pointwise porque são 19:47 e passamos o dia na biblioteca, estamos cansados, e assim fica bonita, não tem mal nenhum :'(
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{checkDuplicates}\mathbin{::}(\Conid{Ord}\;\Varid{a})\Rightarrow [\mskip1.5mu \Varid{a}\mskip1.5mu]\to \Conid{Bool}{}\<[E]%
 \\
 \>[B]{}\Varid{checkDuplicates}\;\Varid{x}\mathrel{=}(\Varid{remDup}\;\Varid{x})\equiv \Varid{x}{}\<[E]%
-\\[\blanklineskip]%
-\>[B]{}\mbox{\onelinecomment  Blockchain de teste}{}\<[E]%
-\\
+\ColumnHook
+\end{hscode}\resethooks
+
+\par Blockchain de teste
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{block1}\mathrel{=}(\text{\ttfamily \char34 1234\char34},(\mathrm{177777},[\mskip1.5mu (\text{\ttfamily \char34 Marcos\char34},(\mathrm{200},\text{\ttfamily \char34 Tarracho\char34})),(\text{\ttfamily \char34 Antonio\char34},(\mathrm{200},\text{\ttfamily \char34 Joao\char34})),(\text{\ttfamily \char34 Tarracho\char34},(\mathrm{200},\text{\ttfamily \char34 Marcos\char34})),(\text{\ttfamily \char34 Marcos\char34},(\mathrm{200},\text{\ttfamily \char34 Tarracho\char34}))\mskip1.5mu])){}\<[E]%
 \\
 \>[B]{}\Varid{block2}\mathrel{=}(\text{\ttfamily \char34 6789\char34},(\mathrm{177888},[\mskip1.5mu (\text{\ttfamily \char34 Marcos\char34},(\mathrm{200},\text{\ttfamily \char34 Tarracho\char34})),(\text{\ttfamily \char34 Antonio\char34},(\mathrm{200},\text{\ttfamily \char34 Joao\char34}))\mskip1.5mu])){}\<[E]%
 \\
 \>[B]{}\Varid{block3}\mathrel{=}(\text{\ttfamily \char34 4444\char34},(\mathrm{177888},[\mskip1.5mu (\text{\ttfamily \char34 Maria\char34},(\mathrm{200},\text{\ttfamily \char34 Matilde\char34})),(\text{\ttfamily \char34 Matilde\char34},(\mathrm{200},\text{\ttfamily \char34 Maria\char34}))\mskip1.5mu])){}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  testBlockchain = Bcs (block1, Bc block2)}{}\<[E]%
-\\
+\ColumnHook
+\end{hscode}\resethooks
+
+\par testBlockchain = Bcs (block1, Bc block2)
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{testBlockchain}\mathrel{=}\Conid{Bcs}\;(\Varid{block3},\Conid{Bcs}\;(\Varid{block1},\Conid{Bc}\;\Varid{block2})){}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
@@ -1632,7 +1641,6 @@ Outras funções auxiliares:
 
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{inFTree}\mathrel{=}\alt{\Conid{Unit}}{\Varid{toComp}}{}\<[E]%
 \\
@@ -1651,74 +1659,64 @@ Outras funções auxiliares:
 \>[B]{}\Varid{anaFTree}\;\Varid{g}\mathrel{=}\Varid{inFTree}\comp (\Varid{recFTree}\;(\Varid{anaFTree}\;\Varid{g}))\comp \Varid{g}{}\<[E]%
 \\
 \>[B]{}\Varid{hyloFTree}\;\Varid{f}\;\Varid{g}\mathrel{=}\Varid{cataFTree}\;\Varid{f}\comp \Varid{anaFTree}\;\Varid{g}{}\<[E]%
-\\[\blanklineskip]%
-\>[B]{}\mbox{\onelinecomment  Lei 47: def-map-cata}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  Tf = (\ensuremath{\mathbf{in}\comp \mathit B\;(\Varid{f},\Varid{id})})}{}\<[E]%
-\\
+\ColumnHook
+\end{hscode}\resethooks
+
+-- Lei 47: def-map-cata
+-- Tf = (\ensuremath{\mathbf{in}\comp \mathit B\;(\Varid{f},\Varid{id})})
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\mathbf{instance}\;\Conid{Bifunctor}\;\Conid{FTree}\;\mathbf{where}{}\<[E]%
 \\
 \>[B]{}\hsindent{5}{}\<[5]%
 \>[5]{}\Varid{bimap}\;\Varid{f}\;\Varid{g}\mathrel{=}\Varid{cataFTree}\;(\Varid{inFTree}\comp (\Varid{baseFTree}\;\Varid{f}\;\Varid{g}\;\Varid{id})){}\<[E]%
-\\[\blanklineskip]%
-\>[B]{}\mbox{\onelinecomment  Fiz o diagrama do anamorfismo de FTree para fazer}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  a generatePTree, que devemos incluir no relatório}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  para se perceber como foi criado o gene.}{}\<[E]%
-\\[\blanklineskip]%
-\>[B]{}\mbox{\onelinecomment  generatePTree é um anamorfismo de FTree}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  (pode ser FTree em vez de PTree porque}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  (type PTree = FTree Square Square)}{}\<[E]%
-\\[\blanklineskip]%
-\>[B]{}\mbox{\onelinecomment  O gene é uma função que passa Int}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  (profundidade da PTree que queremos gerar) para}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  Float + (Float, (Int, Int))}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  Porque no fim queremos usar o in da FTree}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  para ficar com uma PTree (por isso é que aparecem Floats)}{}\<[E]%
-\\[\blanklineskip]%
-\>[B]{}\mbox{\onelinecomment  O rank recebido pela generatePTree tem de ir diminuindo}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  à medida que o anamorfismo corre, por isso o gene não}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  pode aumentar o Int original. Caso contrário, não}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  saberíamos quando é que devíamos parar.}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  Isto significa que a árvore vai ser gerada}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  das folhas para a raiz.}{}\<[E]%
-\\[\blanklineskip]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\par Fiz o diagrama do anamorfismo de FTree para fazer a generatePTree, que devemos incluir no relatório para se perceber como foi criado o gene.
+\par generatePTree é um anamorfismo de FTree (pode ser FTree em vez de PTree porque type PTree = FTree Square Square
+
+\par O gene é uma função que passa Int (profundidade da PTree que queremos gerar) para Float + (Float, (Int, Int))
+\par Porque no fim queremos usar o in da FTree para ficar com uma PTree (por isso é que aparecem Floats)
+
+\par O rank recebido pela generatePTree tem de ir diminuindo à medida que o anamorfismo corre, por isso o gene não pode aumentar o Int original.
+\par Caso contrário, não saberíamos quando é que devíamos parar. Isto significa que a árvore vai ser gerada das folhas para a raiz.
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{generatePTree}\mathrel{=}\Varid{anaFTree}\;\Varid{genePTree}\comp \conj{\underline{\mathrm{0}}}{\Varid{id}}{}\<[E]%
-\\[\blanklineskip]%
-\>[B]{}\mbox{\onelinecomment  Primeira tentativa, dava uma árvore invertida}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  genePTree = (id -\ensuremath{\mathbin{-}\conj{\p2}{\conj{\p1}{\p1}})\comp (\Varid{id}\mathbin{-}}- (pred >< id)) . (id -\ensuremath{\mathbin{-}\conj{\Varid{id}}{\Varid{rankToMultiplier}})\comp (\Varid{fromIntegral}\mathbin{-}}- id) . oneToLeft}{}\<[E]%
-\\[\blanklineskip]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\par Primeira tentativa, dava uma árvore invertida:
+\par genePTree = (id -\ensuremath{\mathbin{-}\conj{\p2}{\conj{\p1}{\p1}})\comp (\Varid{id}\mathbin{-}}- (pred >< id)) . (id -\ensuremath{\mathbin{-}\conj{\Varid{id}}{\Varid{rankToMultiplier}})\comp (\Varid{fromIntegral}\mathbin{-}}- id) . oneToLeft
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{genePTree}\mathrel{=}(\Varid{id}+(\Varid{id}\times\conj{\Varid{id}}{\Varid{id}}))\comp (\Varid{id}+(\Varid{id}\times(\succ \times\Varid{id})))\comp (\Varid{id}+\conj{\Varid{rankToMultiplier}\comp \p1}{\Varid{id}})\comp ((\Varid{rankToMultiplier}\comp \p1)+\Varid{id})\comp \Varid{checkComplete}{}\<[E]%
-\\[\blanklineskip]%
-\>[B]{}\mbox{\onelinecomment  Retorna o multiplicador de uma PTree}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  para um dado Rank. Por exemplo, o multiplicador}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  de ordem 0 é 1, o de ordem 1 é (raiz de 2)/2,}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  e o de ordem 2 é ((raiz de 2)/2)^2}{}\<[E]%
-\\
+\ColumnHook
+\end{hscode}\resethooks
+
+\par Retorna o multiplicador de uma PTree para um dado Rank. Por exemplo, o multiplicador de ordem 0 é 1, o de ordem 1 é (raiz de 2)/2, e o de ordem 2 é ((raiz de 2)/2)^2
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{rankToMultiplier}\mathbin{::}\Conid{Int}\to \Conid{Float}{}\<[E]%
 \\
 \>[B]{}\Varid{rankToMultiplier}\;\Varid{a}\mathrel{=}((\Varid{sqrt}\;\mathrm{2})\mathbin{/}\mathrm{2})\mathbin{\uparrow}\Varid{a}{}\<[E]%
-\\[\blanklineskip]%
-\>[B]{}\mbox{\onelinecomment  Se um par tem dois Ints iguais,}{}\<[E]%
-\\
-\>[B]{}\mbox{\onelinecomment  mete à esquerda, senão mete à direita}{}\<[E]%
-\\
+\ColumnHook
+\end{hscode}\resethooks
+
+\par Se um par tem dois Ints iguais, mete à esquerda, senão mete à direita
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{checkComplete}\mathbin{::}(\Conid{Int},\Conid{Int})\to (\Conid{Int},\Conid{Int})+(\Conid{Int},\Conid{Int}){}\<[E]%
 \\
 \>[B]{}\Varid{checkComplete}\;(\Varid{a},\Varid{b}){}\<[E]%
@@ -1731,7 +1729,12 @@ Outras funções auxiliares:
 \\
 \>[B]{}\hsindent{5}{}\<[5]%
 \>[5]{}\mid \Varid{otherwise}\mathrel{=}i_2\;(\Varid{a},\Varid{b}){}\<[E]%
-\\[\blanklineskip]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{drawPTree}\mathrel{=}\bot {}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
