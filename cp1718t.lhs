@@ -1306,6 +1306,13 @@ loop = untuple . (split ((split (mul . swap . p1) (succ . p2 . p1)) . tuple) ((s
     )|
 %
 \just\equiv{ Banana-Split }
+%
+	|split (cataA i) (cataA j) = cataA ((split (either (const 1) (mul . swap)) (either (const (k+1)) (succ . p2))) >< (split (either (const 1) (mul . swap)) (either (const 1) (succ . p1 . swap))))|
+%
+\just\equiv{ Lei da Troca }
+%
+
+    |split (cataA i) (cataA j) = cataA ((either (split (const 1) (const (k+1))) (split (mul . swap) (succ . p2))) >< (either (split (const 1) (const 1)) (split (mul . swap) (succ . p1 . swap))))|
 
 \qed
 \end{eqnarray*}
