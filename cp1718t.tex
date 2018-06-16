@@ -297,11 +297,11 @@
 \begin{tabular}{ll}
 \textbf{Grupo} nr. & 99 (preencher)
 \\\hline
-a11111 & Nome1 (preencher)	
+a11111 & Nome1 (preencher)
 \\
-a22222 & Nome2 (preencher)	
+a22222 & Nome2 (preencher)
 \\
-a33333 & Nome3 (preencher)	
+a33333 & Nome3 (preencher)
 \end{tabular}
 \end{center}
 
@@ -313,10 +313,10 @@ parte-se de um repertório de \emph{combinadores} que formam uma álgebra da
 programação (conjunto de leis universais e seus corolários) e usam-se esses
 combinadores para construir programas \emph{composicionalmente}, isto é,
 agregando programas já existentes.
-  
+
 Na sequência pedagógica dos planos de estudo dos dois cursos que têm esta
 disciplina, restringe-se a aplicação deste método à programação funcional
-em \Haskell. Assim, 
+em \Haskell. Assim,
 o presente trabalho prático coloca os alunos perante problemas
 concretos que deverão ser implementados em \Haskell.
 Há ainda um outro objectivo: o de ensinar a documentar programas e
@@ -393,13 +393,13 @@ de imagens e a biblioteca \href{http://gloss.ouroborus.net/}{gloss} para geraç�
 \end{Verbatim}
 Para testar uma propriedade \QuickCheck~\ensuremath{\Varid{prop}}, basta invocá-la com o comando:
 \begin{tabbing}\ttfamily
-~~~~~\char62{}~quickCheck~prop\\
-\ttfamily ~~~~~\char43{}\char43{}\char43{}~OK\char44{}~passed~100~tests\char46{}
+~~~~~\char62{}~quickCheck~prop\char13{}\\
+\ttfamily ~~~~~\char43{}\char43{}\char43{}~OK\char44{}~passed~100~tests\char46{}\char13{}
 \end{tabbing}
 
 \section*{Problema 1}
 
-Segundo uma \href{https://www.jn.pt/economia/interior/compra-diaria-de-bitcoins-iguala-acoes-da-apple-9257302.html}{notícia do Jornal de Notícias}, 
+Segundo uma \href{https://www.jn.pt/economia/interior/compra-diaria-de-bitcoins-iguala-acoes-da-apple-9257302.html}{notícia do Jornal de Notícias},
 referente ao dia 12 de abril, \emph{``apenas numa hora, foram transacionadas 1.2 mil milhões de dólares em bitcoins. Nas últimas 24 horas, foram transacionados 8,5 mil milhões de dólares, num total de 24 mil milhões de dólares referentes às principais criptomoedas''}.
 
 De facto, é inquestionável que as criptomoedas, e em particular as bitcoin, vieram para ficar.
@@ -432,7 +432,7 @@ tal como no código seguinte:
 \ColumnHook
 \end{hscode}\resethooks
 
-Cada \href{https://en.bitcoin.it/wiki/Transaction}{transação} 
+Cada \href{https://en.bitcoin.it/wiki/Transaction}{transação}
 define a entidade de origem da transferência, o valor a ser transacionado,
 e a entidade destino (por esta ordem), tal como se define de seguida.
 
@@ -465,7 +465,7 @@ Note que \ensuremath{\Conid{Time}} representa o momento da transação, como o n
 \>[B]{}\mathbf{type}\;\Conid{MagicNo}\mathrel{=}\Conid{String}{}\<[E]%
 \\
 \>[B]{}\mathbf{type}\;\Conid{Time}\mathrel{=}\Conid{Int}{}\<[18]%
-\>[18]{}\mbox{\onelinecomment  em milisegundos}{}\<[E]%
+\>[18]{}\mbox{\onelinecomment  em milisegundos}{}\<[E]%
 \\
 \>[B]{}\mathbf{type}\;\Conid{Entity}\mathrel{=}\Conid{String}{}\<[E]%
 \\
@@ -562,28 +562,28 @@ Uma \emph{quadtree} é uma árvore quaternária em que cada nodo tem quatro sub-
 \begin{figure}
 \begin{subfigure}{0.3\textwidth}
 \begin{tabbing}\ttfamily
-~\char40{}~0~0~0~0~0~0~0~0~\char41{}\\
-\ttfamily ~\char40{}~0~0~0~0~0~0~0~0~\char41{}\\
-\ttfamily ~\char40{}~0~0~0~0~1~1~1~0~\char41{}\\
-\ttfamily ~\char40{}~0~0~0~0~1~1~0~0~\char41{}\\
-\ttfamily ~\char40{}~1~1~1~1~1~1~0~0~\char41{}\\
-\ttfamily ~\char40{}~1~1~1~1~1~1~0~0~\char41{}\\
-\ttfamily ~\char40{}~1~1~1~1~0~0~0~0~\char41{}\\
-\ttfamily ~\char40{}~1~1~1~1~0~0~0~1~\char41{}
+~\char40{}~0~0~0~0~0~0~0~0~\char41{}\char13{}\\
+\ttfamily ~\char40{}~0~0~0~0~0~0~0~0~\char41{}\char13{}\\
+\ttfamily ~\char40{}~0~0~0~0~1~1~1~0~\char41{}\char13{}\\
+\ttfamily ~\char40{}~0~0~0~0~1~1~0~0~\char41{}\char13{}\\
+\ttfamily ~\char40{}~1~1~1~1~1~1~0~0~\char41{}\char13{}\\
+\ttfamily ~\char40{}~1~1~1~1~1~1~0~0~\char41{}\char13{}\\
+\ttfamily ~\char40{}~1~1~1~1~0~0~0~0~\char41{}\char13{}\\
+\ttfamily ~\char40{}~1~1~1~1~0~0~0~1~\char41{}\char13{}
 \end{tabbing}
 \caption{Matriz de exemplo \ensuremath{\Varid{bm}}.}
 \label{fig:bm}
 \end{subfigure}
 \begin{subfigure}{0.7\textwidth}
 \begin{tabbing}\ttfamily
-~Block\\
-\ttfamily ~~\char40{}Cell~0~4~4\char41{}~\char40{}Block\\
-\ttfamily ~~~\char40{}Cell~0~2~2\char41{}~\char40{}Cell~0~2~2\char41{}~\char40{}Cell~1~2~2\char41{}~\char40{}Block\\
-\ttfamily ~~~~\char40{}Cell~1~1~1\char41{}~\char40{}Cell~0~1~1\char41{}~\char40{}Cell~0~1~1\char41{}~\char40{}Cell~0~1~1\char41{}\char41{}\char41{}\\
-\ttfamily ~~\char40{}Cell~1~4~4\char41{}\\
-\ttfamily ~~\char40{}Block\\
-\ttfamily ~~~\char40{}Cell~1~2~2\char41{}~\char40{}Cell~0~2~2\char41{}~\char40{}Cell~0~2~2\char41{}~\char40{}Block\\
-\ttfamily ~~~~\char40{}Cell~0~1~1\char41{}~\char40{}Cell~0~1~1\char41{}~\char40{}Cell~0~1~1\char41{}~\char40{}Cell~1~1~1\char41{}\char41{}\char41{}
+~Block\char13{}\\
+\ttfamily ~~\char40{}Cell~0~4~4\char41{}~\char40{}Block\char13{}\\
+\ttfamily ~~~\char40{}Cell~0~2~2\char41{}~\char40{}Cell~0~2~2\char41{}~\char40{}Cell~1~2~2\char41{}~\char40{}Block\char13{}\\
+\ttfamily ~~~~\char40{}Cell~1~1~1\char41{}~\char40{}Cell~0~1~1\char41{}~\char40{}Cell~0~1~1\char41{}~\char40{}Cell~0~1~1\char41{}\char41{}\char41{}\char13{}\\
+\ttfamily ~~\char40{}Cell~1~4~4\char41{}\char13{}\\
+\ttfamily ~~\char40{}Block\char13{}\\
+\ttfamily ~~~\char40{}Cell~1~2~2\char41{}~\char40{}Cell~0~2~2\char41{}~\char40{}Cell~0~2~2\char41{}~\char40{}Block\char13{}\\
+\ttfamily ~~~~\char40{}Cell~0~1~1\char41{}~\char40{}Cell~0~1~1\char41{}~\char40{}Cell~0~1~1\char41{}~\char40{}Cell~1~1~1\char41{}\char41{}\char41{}\char13{}
 \end{tabbing}
 \caption{Quadtree de exemplo \ensuremath{\Varid{qt}}.}
 \label{fig:qt}
@@ -757,7 +757,7 @@ O módulo \ensuremath{\Conid{BMP}}, disponibilizado juntamente com o enunciado, 
 
 Teste, por exemplo, no \ensuremath{\Conid{GHCi}}, carregar a Figura~\ref{fig:person}:
 \begin{tabbing}\ttfamily
-~~~~~\char62{}~readBMP~\char34{}cp1718t\char95{}media\char47{}person\char46{}bmp\char34{}
+~~~~~\char62{}~readBMP~\char34{}cp1718t\char95{}media\char47{}person\char46{}bmp\char34{}\char13{}
 \end{tabbing}
 
 Esta questão aborda operações de processamento de imagens utilizando quadtrees:
@@ -765,9 +765,9 @@ Esta questão aborda operações de processamento de imagens utilizando quadtree
     \item Defina as funções \ensuremath{\Varid{rotateQTree}\mathbin{::}\Conid{QTree}\;\Varid{a}\to \Conid{QTree}\;\Varid{a}}, \ensuremath{\Varid{scaleQTree}\mathbin{::}\Conid{Int}\to \Conid{QTree}\;\Varid{a}\to \Conid{QTree}\;\Varid{a}} e \ensuremath{\Varid{invertQTree}\mathbin{::}\Conid{QTree}\;\Varid{a}\to \Conid{QTree}\;\Varid{a}}, como catamorfismos e/ou anamorfismos, que rodam\footnote{Segundo um ângulo de $90º$ no sentido dos ponteiros do relógio.}, redimensionam \footnote{Multiplicando o seu tamanho pelo valor recebido.} e invertem as cores de uma quadtree\footnote{Um pixel pode ser invertido calculando $255 - c$ para cada componente $c$ de cor RGB, exceptuando o componente alpha.}, respectivamente.
     Tente produzir imagens similares às Figuras~\ref{fig:person90}, \ref{fig:personx2} e \ref{fig:personinv}:
         \begin{tabbing}\ttfamily
-~~~~~\char62{}~rotateBMP~~\char34{}cp1718t\char95{}media\char47{}person\char46{}bmp\char34{}~\char34{}person90\char46{}bmp\char34{}\\
-\ttfamily ~~~~~\char62{}~scaleBMP~2~\char34{}cp1718t\char95{}media\char47{}person\char46{}bmp\char34{}~\char34{}personx2\char46{}bmp\char34{}\\
-\ttfamily ~~~~~\char62{}~invertBMP~~\char34{}cp1718t\char95{}media\char47{}person\char46{}bmp\char34{}~\char34{}personinv\char46{}bmp\char34{}
+~~~~~\char62{}~rotateBMP~~\char34{}cp1718t\char95{}media\char47{}person\char46{}bmp\char34{}~\char34{}person90\char46{}bmp\char34{}\char13{}\\
+\ttfamily ~~~~~\char62{}~scaleBMP~2~\char34{}cp1718t\char95{}media\char47{}person\char46{}bmp\char34{}~\char34{}personx2\char46{}bmp\char34{}\char13{}\\
+\ttfamily ~~~~~\char62{}~invertBMP~~\char34{}cp1718t\char95{}media\char47{}person\char46{}bmp\char34{}~\char34{}personinv\char46{}bmp\char34{}\char13{}
 \end{tabbing}
 
 \begin{propriedade}
@@ -797,14 +797,14 @@ Esta questão aborda operações de processamento de imagens utilizando quadtree
 \ColumnHook
 \end{hscode}\resethooks
 \end{propriedade}
-    
+
     \item Defina a função \ensuremath{\Varid{compressQTree}\mathbin{::}\Conid{Int}\to \Conid{QTree}\;\Varid{a}\to \Conid{QTree}\;\Varid{a}}, utilizando catamorfismos e/ou anamorfismos, que comprime uma quadtree cortando folhas da árvore para reduzir a sua profundidade num dado número de níveis.
     Tente produzir imagens similares (mas não necessariamente iguais) às Figuras~\ref{fig:person1}, \ref{fig:person2}, \ref{fig:person3} e \ref{fig:person4}:
         \begin{tabbing}\ttfamily
-~~~~~\char62{}~compressBMP~1~\char34{}cp1718t\char95{}media\char47{}person\char46{}bmp\char34{}~\char34{}person1\char46{}bmp\char34{}\\
-\ttfamily ~~~~~\char62{}~compressBMP~2~\char34{}cp1718t\char95{}media\char47{}person\char46{}bmp\char34{}~\char34{}person2\char46{}bmp\char34{}\\
-\ttfamily ~~~~~\char62{}~compressBMP~3~\char34{}cp1718t\char95{}media\char47{}person\char46{}bmp\char34{}~\char34{}person3\char46{}bmp\char34{}\\
-\ttfamily ~~~~~\char62{}~compressBMP~4~\char34{}cp1718t\char95{}media\char47{}person\char46{}bmp\char34{}~\char34{}person4\char46{}bmp\char34{}
+~~~~~\char62{}~compressBMP~1~\char34{}cp1718t\char95{}media\char47{}person\char46{}bmp\char34{}~\char34{}person1\char46{}bmp\char34{}\char13{}\\
+\ttfamily ~~~~~\char62{}~compressBMP~2~\char34{}cp1718t\char95{}media\char47{}person\char46{}bmp\char34{}~\char34{}person2\char46{}bmp\char34{}\char13{}\\
+\ttfamily ~~~~~\char62{}~compressBMP~3~\char34{}cp1718t\char95{}media\char47{}person\char46{}bmp\char34{}~\char34{}person3\char46{}bmp\char34{}\char13{}\\
+\ttfamily ~~~~~\char62{}~compressBMP~4~\char34{}cp1718t\char95{}media\char47{}person\char46{}bmp\char34{}~\char34{}person4\char46{}bmp\char34{}\char13{}
 \end{tabbing}
     \begin{propriedade}
         A quadtree comprimida tem profundidade igual à da quadtree original menos a taxa de compressão:
@@ -815,13 +815,13 @@ Esta questão aborda operações de processamento de imagens utilizando quadtree
 \ColumnHook
 \end{hscode}\resethooks
     \end{propriedade}
-    
+
 
     \item Defina a função \ensuremath{\Varid{outlineQTree}\mathbin{::}(\Varid{a}\to \Conid{Bool})\to \Conid{QTree}\;\Varid{a}\to \Conid{Matrix}\;\Conid{Bool}}, utilizando catamorfismos e/ou anamorfismos, que recebe uma função que determina quais os píxeis de fundo e converte uma quadtree numa matriz monocromática, de forma a desenhar o contorno de uma \href{https://en.wikipedia.org/wiki/Polygon_mesh}{malha poligonal} contida na imagem.
         Tente produzir imagens similares (mas não necessariamente iguais) às Figuras~\ref{fig:personOut1} e \ref{fig:personOut2}:
             \begin{tabbing}\ttfamily
-~~~~~\char62{}~outlineBMP~~~~\char34{}cp1718t\char95{}media\char47{}person\char46{}bmp\char34{}~\char34{}personOut1\char46{}bmp\char34{}\\
-\ttfamily ~~~~~\char62{}~addOutlineBMP~\char34{}cp1718t\char95{}media\char47{}person\char46{}bmp\char34{}~\char34{}personOut2\char46{}bmp\char34{}
+~~~~~\char62{}~outlineBMP~~~~\char34{}cp1718t\char95{}media\char47{}person\char46{}bmp\char34{}~\char34{}personOut1\char46{}bmp\char34{}\char13{}\\
+\ttfamily ~~~~~\char62{}~addOutlineBMP~\char34{}cp1718t\char95{}media\char47{}person\char46{}bmp\char34{}~\char34{}personOut2\char46{}bmp\char34{}\char13{}
 \end{tabbing}
     \begin{propriedade}
         A matriz de contorno tem dimensões iguais às da quadtree:
@@ -848,7 +848,7 @@ Esta questão aborda operações de processamento de imagens utilizando quadtree
 O cálculo das combinações de \ensuremath{\Varid{n}} \ensuremath{\Varid{k}}-a-\ensuremath{\Varid{k}},
 \begin{eqnarray}
 	\ensuremath{\Big(\vcenter{\xymatrix@R=1pt{\Varid{n}\\\Varid{k}}}\Big)\mathrel{=}\frac{{\Varid{n}!}}{{\Varid{k}!}\mathbin{*}{(\Varid{n}\mathbin{-}\Varid{k})!}}}
-	\label{eq:bin} 
+	\label{eq:bin}
 \end{eqnarray}
 envolve três factoriais. Recorrendo à \material{lei de recursividade múltipla} do cálculo
 de programas, é possível escrever o mesmo programa como um simples ciclo-for
@@ -864,7 +864,7 @@ onde
 \more
        \ensuremath{\Varid{f}\;\Varid{k}\;\Varid{d}\mathrel{=}\frac{{(\Varid{d}\mathbin{+}\Varid{k})!}}{{\Varid{k}!}}}
 \more
-       \ensuremath{\Varid{g}\;\Varid{d}\mathrel{=}{\Varid{d}!}} 
+       \ensuremath{\Varid{g}\;\Varid{d}\mathrel{=}{\Varid{d}!}}
 \end{eqnarray*}
 assumindo-se \ensuremath{\Varid{d}\mathrel{=}\Varid{n}\mathbin{-}\Varid{k}\geq \mathrm{0}}.
 %
@@ -881,7 +881,7 @@ assumindo-se \ensuremath{\Varid{d}\mathrel{=}\Varid{n}\mathbin{-}\Varid{k}\geq \
 \>[B]{}\Varid{l}\;\Varid{k}\;(\Varid{d}\mathbin{+}\mathrm{1})\mathrel{=}\Varid{l}\;\Varid{k}\;\Varid{d}\mathbin{+}\mathrm{1}{}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
-e 
+e
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
@@ -912,7 +912,7 @@ Verificação que \ensuremath{\Big(\vcenter{\xymatrix@R=1pt{\Varid{n}\\\Varid{k}
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\Varid{prop3}\;\Varid{n}\;\Varid{k}\mathrel{=}\Big(\vcenter{\xymatrix@R=1pt{\Varid{n}\\\Varid{k}}}\Big)\equiv {\Varid{n}!}\mathbin{/}({\Varid{k}!}\mathbin{*}{(\Varid{n}\mathbin{-}\Varid{k})!}){}\<[E]%
+\>[B]{}\Varid{prop3}\;(\Conid{NonNegative}\;\Varid{n})\;(\Conid{NonNegative}\;\Varid{k})\mathrel{=}\Varid{k}\leq \Varid{n}\Rightarrow\Big(\vcenter{\xymatrix@R=1pt{\Varid{n}\\\Varid{k}}}\Big)\equiv {\Varid{n}!}\mathbin{/}({\Varid{k}!}\mathbin{*}{(\Varid{n}\mathbin{-}\Varid{k})!}){}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
 \end{propriedade}
@@ -970,10 +970,10 @@ Uma árvore de Pitágoras pode ser codificada em Haskell como uma full tree cont
 \item Defina a função \ensuremath{\Varid{drawPTree}\mathbin{::}\Conid{PTree}\to [\mskip1.5mu \Conid{Picture}\mskip1.5mu]}, utilizando catamorfismos e/ou anamorfismos, que anima incrementalmente os passos de construção de uma árvore de Pitágoras recorrendo à biblioteca \href{https://hackage.haskell.org/package/gloss}{gloss}.
     Anime a sua solução:
 \begin{tabbing}\ttfamily
-~~~~~\char62{}~animatePTree~3
+~~~~~\char62{}~animatePTree~3\char13{}
 \end{tabbing}
 
-    
+
 \end{enumerate}
 
 \section*{Problema 5}
@@ -995,7 +995,7 @@ A lista \ensuremath{[\mskip1.5mu \Conid{Pink},\Conid{Green},\Conid{Red},\Conid{B
 repetidos. Assumindo que a ordem não é importante, essa lista corresponde ao saco
 \begin{quote}\small
 \begin{tabbing}\ttfamily
-~\char123{}~Red~\char124{}\char45{}\char62{}~2~\char44{}~Pink~\char124{}\char45{}\char62{}~2~\char44{}~Green~\char124{}\char45{}\char62{}~3~\char44{}~Blue~\char124{}\char45{}\char62{}~2~\char44{}~White~\char124{}\char45{}\char62{}~1~\char125{}
+~\char123{}~Red~\char124{}\char45{}\char62{}~2~\char44{}~Pink~\char124{}\char45{}\char62{}~2~\char44{}~Green~\char124{}\char45{}\char62{}~3~\char44{}~Blue~\char124{}\char45{}\char62{}~2~\char44{}~White~\char124{}\char45{}\char62{}~1~\char125{}\char13{}
 \end{tabbing}
 \end{quote}
 que habita o tipo genérico dos ``bags":
@@ -1056,11 +1056,11 @@ o referido saco numa distribuição correndo:
 obtendo-se a distribuição (graças ao módulo \Probability):
 \begin{quote}\small
 \begin{tabbing}\ttfamily
-~Green~~30\char46{}0\char37{}\\
-\ttfamily ~~~Red~~20\char46{}0\char37{}\\
-\ttfamily ~~Pink~~20\char46{}0\char37{}\\
-\ttfamily ~~Blue~~20\char46{}0\char37{}\\
-\ttfamily ~White~~10\char46{}0\char37{}
+~Green~~30\char46{}0\char37{}\char13{}\\
+\ttfamily ~~~Red~~20\char46{}0\char37{}\char13{}\\
+\ttfamily ~~Pink~~20\char46{}0\char37{}\char13{}\\
+\ttfamily ~~Blue~~20\char46{}0\char37{}\char13{}\\
+\ttfamily ~White~~10\char46{}0\char37{}\char13{}
 \end{tabbing}
 \end{quote}
 cf.\ Figura \ref{fig:dist}.
@@ -1094,7 +1094,7 @@ Partindo da seguinte declaração de \ensuremath{\Conid{Bag}} como um functor e 
 \ColumnHook
 \end{hscode}\resethooks
 \begin{enumerate}
-\item	
+\item
 Defina a função \ensuremath{\mu } (multiplicação do mónade \ensuremath{\Conid{Bag}}) e a função auxiliar
 \ensuremath{\Varid{singletonbag}}.
 \item	Verifique-as com os seguintes testes unitários:
@@ -1295,71 +1295,314 @@ Outras funções auxiliares:
 %----------------- Soluções dos alunos -----------------------------------------%
 
 \section{Soluções dos alunos}\label{sec:resolucao}
-Os alunos devem colocar neste anexo as suas soluções aos exercícios
-propostos, de acordo com o ``layout'' que se fornece. Não podem ser
-alterados os nomes ou tipos das funções dadas, mas pode ser adicionado texto e / ou 
-outras funções auxiliares que sejam necessárias.
 
 \subsection*{Problema 1}
 
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\Varid{inBlockchain}\mathrel{=}\bot {}\<[E]%
+\>[B]{}\Varid{inBlockchain}\mathrel{=}\alt{\Conid{Bc}}{\Conid{Bcs}}{}\<[E]%
 \\
-\>[B]{}\Varid{outBlockchain}\mathrel{=}\bot {}\<[E]%
+\>[B]{}\Varid{outBlockchain}\;(\Conid{Bc}\;\Varid{a})\mathrel{=}i_1\;\Varid{a}{}\<[E]%
 \\
-\>[B]{}\Varid{recBlockchain}\mathrel{=}\bot {}\<[E]%
+\>[B]{}\Varid{outBlockchain}\;(\Conid{Bcs}\;(\Varid{a},\Varid{b}))\mathrel{=}i_2\;(\Varid{a},\Varid{b}){}\<[E]%
 \\
-\>[B]{}\Varid{cataBlockchain}\mathrel{=}\bot {}\<[E]%
+\>[B]{}\Varid{recBlockchain}\;\Varid{f}\mathrel{=}\Varid{id}+(\Varid{id}\times\Varid{f}){}\<[E]%
 \\
-\>[B]{}\Varid{anaBlockchain}\mathrel{=}\bot {}\<[E]%
+\>[B]{}\Varid{cataBlockchain}\;\Varid{g}\mathrel{=}\Varid{g}\comp (\Varid{recBlockchain}\;(\Varid{cataBlockchain}\;\Varid{g}))\comp \Varid{outBlockchain}{}\<[E]%
 \\
-\>[B]{}\Varid{hyloBlockchain}\mathrel{=}\bot {}\<[E]%
+\>[B]{}\Varid{anaBlockchain}\;\Varid{g}\mathrel{=}\Varid{inBlockchain}\comp (\Varid{recBlockchain}\;(\Varid{anaBlockchain}\;\Varid{g}))\comp \Varid{g}{}\<[E]%
+\\
+\>[B]{}\Varid{hyloBlockchain}\;\Varid{f}\;\Varid{g}\mathrel{=}\Varid{cataBlockchain}\;\Varid{f}\comp \Varid{anaBlockchain}\;\Varid{g}{}\<[E]%
 \\[\blanklineskip]%
-\>[B]{}\Varid{allTransactions}\mathrel{=}\bot {}\<[E]%
+\>[B]{}\mbox{\onelinecomment  allTransactions usa um catamorfismo que basicamente só usa o p2}{}\<[E]%
 \\
-\>[B]{}\Varid{ledger}\mathrel{=}\bot {}\<[E]%
+\>[B]{}\mbox{\onelinecomment  para extrair as listas de transações de cada bloco}{}\<[E]%
 \\
-\>[B]{}\Varid{isValidMagicNr}\mathrel{=}\bot {}\<[E]%
+\>[B]{}\mbox{\onelinecomment  o conc concatena duas listas recebidas num tuplo}{}\<[E]%
+\\
+\>[B]{}\Varid{allTransactions}\mathrel{=}\Varid{cataBlockchain}\;\alt{\Varid{getTransaction}}{\Varid{getTransactions}}{}\<[E]%
+\\
+\>[B]{}\Varid{getTransaction}\mathrel{=}\p2\comp \p2{}\<[E]%
+\\
+\>[B]{}\Varid{getTransactions}\mathrel{=}\mathsf{conc}\comp ((\p2\comp \p2)\times\Varid{id}){}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\mbox{\onelinecomment  Para calcular o ledger vamos fazer 3 passos:}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  1. Obter a lista das transações de uma blockchain (usando allTransactions)}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  2. Obter uma lista de entidades a partir da lista de transações (usando catamorfismo getEntities)}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  3. Eliminar repetições da lista de entidades}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  4. Obter o ledger}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\mbox{\onelinecomment  Diagrama:}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment }{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  Blockchain}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  /}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  / allTransactions}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  v}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  [transaction]}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  /}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  / <getUniqueEntities, id>}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  v}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  ([entity], [transaction])}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  /}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  / id >< getBalance}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  v}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  ([entity], (getBalance [transaction]))}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  /}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  / <p1, mapPair . swap>}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  v}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  ([entity], [saldo])}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  /}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  / zipPair}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  v}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  [(entity, saldo)]  <-- Ledger!!}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\Varid{ledger}\mathrel{=}\Varid{zipPair}\comp \conj{\p1}{\Varid{mapPair}\comp \Varid{swap}}\comp (\Varid{id}\times\Varid{getBalance})\comp \conj{\Varid{getUniqueEntities}}{\Varid{id}}\comp \Varid{allTransactions}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\mbox{\onelinecomment  Catamorfismo de listas que calcula um conjunto de entidades a partir de uma lista de transações}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  Transação: (origem, (valor, destino))}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  Transação para lista com as duas entidades: pairToList . (split p1 (p2 . p2))}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  Gene: [nil, conc . (funcaoDaLinhaAcima >< id)]}{}\<[E]%
+\\
+\>[B]{}\Varid{getEntities}\mathbin{::}[\mskip1.5mu \Conid{Transaction}\mskip1.5mu]\to [\mskip1.5mu \Conid{String}\mskip1.5mu]{}\<[E]%
+\\
+\>[B]{}\Varid{getEntities}\mathrel{=}\Varid{cataList}\;\alt{\Varid{nil}}{\mathsf{conc}\comp ((\Varid{pairToList}\comp \conj{\p1}{\p2\comp \p2})\times\Varid{id})}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\mbox{\onelinecomment  Remove repetições de uma lista de entidades}{}\<[E]%
+\\
+\>[B]{}\Varid{getUniqueEntities}\mathbin{::}[\mskip1.5mu \Conid{Transaction}\mskip1.5mu]\to [\mskip1.5mu \Conid{String}\mskip1.5mu]{}\<[E]%
+\\
+\>[B]{}\Varid{getUniqueEntities}\mathrel{=}\Varid{remDup}\comp \Varid{getEntities}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\mbox{\onelinecomment  Catamorfismo (de listas de transações) que calcula o saldo de uma dada entidade}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  Não é pointfree porque tem de receber a lista de transações antes da entidade,}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  para nos dar jeito para o map que vamos querer fazer.}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  Usamos const 0 em vez de Cp.zero porque o do professor retorna Integer em vez de Int}{}\<[E]%
+\\
+\>[B]{}\Varid{getBalance}\mathbin{::}[\mskip1.5mu \Conid{Transaction}\mskip1.5mu]\to \Conid{String}\to \Conid{Int}{}\<[E]%
+\\
+\>[B]{}\Varid{getBalance}\;\Varid{transactions}\;\Varid{entity}\mathrel{=}(\Varid{cataList}\;\alt{\underline{\mathrm{0}}}{\Varid{addInt}\comp ((\Varid{delta}\;\Varid{entity})\times\Varid{id})})\;\Varid{transactions}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\mbox{\onelinecomment  delta: Retorna a diferença de saldo resultante de uma transação,}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  para uma dada entidade (se a entidade não aparece na transação, delta = 0)}{}\<[E]%
+\\
+\>[B]{}\Varid{delta}\mathbin{::}\Conid{String}\to \Conid{Transaction}\to \Conid{Int}{}\<[E]%
+\\
+\>[B]{}\Varid{delta}\;\Varid{entity}\;(\Varid{a},(\Varid{v},\Varid{b})){}\<[E]%
+\\
+\>[B]{}\hsindent{5}{}\<[5]%
+\>[5]{}\mid \Varid{entity}\equiv \Varid{a}\mathrel{=}\mathbin{-}\Varid{v}{}\<[E]%
+\\
+\>[B]{}\hsindent{5}{}\<[5]%
+\>[5]{}\mid \Varid{entity}\equiv \Varid{b}\mathrel{=}\Varid{v}{}\<[E]%
+\\
+\>[B]{}\hsindent{5}{}\<[5]%
+\>[5]{}\mid \Varid{otherwise}\mathrel{=}\mathrm{0}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\Varid{mapPair}\mathbin{::}(\Varid{a}\to \Varid{b},[\mskip1.5mu \Varid{a}\mskip1.5mu])\to [\mskip1.5mu \Varid{b}\mskip1.5mu]{}\<[E]%
+\\
+\>[B]{}\Varid{mapPair}\;(\Varid{f},\Varid{l})\mathrel{=}\map \;\Varid{f}\;\Varid{l}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\Varid{zipPair}\mathbin{::}([\mskip1.5mu \Varid{a}\mskip1.5mu],[\mskip1.5mu \Varid{b}\mskip1.5mu])\to [\mskip1.5mu (\Varid{a},\Varid{b})\mskip1.5mu]{}\<[E]%
+\\
+\>[B]{}\Varid{zipPair}\;(\Varid{x},\Varid{y})\mathrel{=}\Varid{zip}\;\Varid{x}\;\Varid{y}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\mbox{\onelinecomment  addInt em vez de add porque add recebe Integer,}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  e fazer conversões ia ficar confuso}{}\<[E]%
+\\
+\>[B]{}\Varid{addInt}\mathbin{::}(\Conid{Int},\Conid{Int})\to \Conid{Int}{}\<[E]%
+\\
+\>[B]{}\Varid{addInt}\;(\Varid{a},\Varid{b})\mathrel{=}\Varid{a}\mathbin{+}\Varid{b}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\mbox{\onelinecomment  Remove elementos duplicados de uma lista}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  encontrada no stack overflow, muito fixe!!!}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  nub: O(N^2), remDup: O(N log N)}{}\<[E]%
+\\
+\>[B]{}\Varid{remDup}\mathbin{::}(\Conid{Ord}\;\Varid{a})\Rightarrow [\mskip1.5mu \Varid{a}\mskip1.5mu]\to [\mskip1.5mu \Varid{a}\mskip1.5mu]{}\<[E]%
+\\
+\>[B]{}\Varid{remDup}\mathrel{=}\map \;\Varid{head}\comp \Varid{group}\comp \Varid{sort}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\Varid{pairToList}\mathbin{::}(\Varid{a},\Varid{a})\to [\mskip1.5mu \Varid{a}\mskip1.5mu]{}\<[E]%
+\\
+\>[B]{}\Varid{pairToList}\;(\Varid{x},\Varid{y})\mathrel{=}[\mskip1.5mu \Varid{x},\Varid{y}\mskip1.5mu]{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\mbox{\onelinecomment  Diagrama do isValidMagicNr:}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  (verifica se os números mágicos de}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  uma blockchain são únicos)}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment }{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  Blockchain}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  /}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  / getMagicNumbers (catamorfismo)}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  v}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  [String]}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  /}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  / checkDuplicates (catamorfismo)}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  v}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  Bool}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\Varid{isValidMagicNr}\mathrel{=}\Varid{checkDuplicates}\comp \Varid{getMagicNumbers}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\mbox{\onelinecomment  Este cataBlockchain que retorna a lista de números mágicos é um}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  bocado manhoso! Temos de explicar bem o caso final, que faz cons . (split p1 nil)}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  para retornar uma lista só com o número mágico do último bloco lá dentro}{}\<[E]%
+\\
+\>[B]{}\Varid{getMagicNumbers}\mathbin{::}\Conid{Blockchain}\to [\mskip1.5mu \Conid{String}\mskip1.5mu]{}\<[E]%
+\\
+\>[B]{}\Varid{getMagicNumbers}\mathrel{=}\Varid{cataBlockchain}\;\alt{\Varid{cons}\comp \conj{\p1}{\Varid{nil}}}{\Varid{cons}\comp (\p1\times\Varid{id})}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\mbox{\onelinecomment  Verifica duplicados, esta é pointwise}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  porque são 19:47 e passamos o dia na biblioteca,}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  estamos cansados, e assim fica bonita, não tem mal nenhum :'(}{}\<[E]%
+\\
+\>[B]{}\Varid{checkDuplicates}\mathbin{::}(\Conid{Ord}\;\Varid{a})\Rightarrow [\mskip1.5mu \Varid{a}\mskip1.5mu]\to \Conid{Bool}{}\<[E]%
+\\
+\>[B]{}\Varid{checkDuplicates}\;\Varid{x}\mathrel{=}(\Varid{remDup}\;\Varid{x})\equiv \Varid{x}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\mbox{\onelinecomment  Blockchain de teste}{}\<[E]%
+\\
+\>[B]{}\Varid{block1}\mathrel{=}(\text{\ttfamily \char34 1234\char34},(\mathrm{177777},[\mskip1.5mu (\text{\ttfamily \char34 Marcos\char34},(\mathrm{200},\text{\ttfamily \char34 Tarracho\char34})),(\text{\ttfamily \char34 Antonio\char34},(\mathrm{200},\text{\ttfamily \char34 Joao\char34})),(\text{\ttfamily \char34 Tarracho\char34},(\mathrm{200},\text{\ttfamily \char34 Marcos\char34})),(\text{\ttfamily \char34 Marcos\char34},(\mathrm{200},\text{\ttfamily \char34 Tarracho\char34}))\mskip1.5mu])){}\<[E]%
+\\
+\>[B]{}\Varid{block2}\mathrel{=}(\text{\ttfamily \char34 6789\char34},(\mathrm{177888},[\mskip1.5mu (\text{\ttfamily \char34 Marcos\char34},(\mathrm{200},\text{\ttfamily \char34 Tarracho\char34})),(\text{\ttfamily \char34 Antonio\char34},(\mathrm{200},\text{\ttfamily \char34 Joao\char34}))\mskip1.5mu])){}\<[E]%
+\\
+\>[B]{}\Varid{block3}\mathrel{=}(\text{\ttfamily \char34 4444\char34},(\mathrm{177888},[\mskip1.5mu (\text{\ttfamily \char34 Maria\char34},(\mathrm{200},\text{\ttfamily \char34 Matilde\char34})),(\text{\ttfamily \char34 Matilde\char34},(\mathrm{200},\text{\ttfamily \char34 Maria\char34}))\mskip1.5mu])){}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  testBlockchain = Bcs (block1, Bc block2)}{}\<[E]%
+\\
+\>[B]{}\Varid{testBlockchain}\mathrel{=}\Conid{Bcs}\;(\Varid{block3},\Conid{Bcs}\;(\Varid{block1},\Conid{Bc}\;\Varid{block2})){}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
-
 
 \subsection*{Problema 2}
 
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{5}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{12}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\Varid{inQTree}\mathrel{=}\bot {}\<[E]%
+\>[B]{}\Varid{toCell}\;(\Varid{a},(\Varid{b},\Varid{c}))\mathrel{=}\Conid{Cell}\;\Varid{a}\;\Varid{b}\;\Varid{c}{}\<[E]%
 \\
-\>[B]{}\Varid{outQTree}\mathrel{=}\bot {}\<[E]%
+\>[B]{}\Varid{toBlock}\;(\Varid{a},(\Varid{b},(\Varid{c},\Varid{d})))\mathrel{=}\Conid{Block}\;\Varid{a}\;\Varid{b}\;\Varid{c}\;\Varid{d}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\Varid{inQTree}\mathrel{=}\alt{\Varid{toCell}}{\Varid{toBlock}}{}\<[E]%
 \\
-\>[B]{}\Varid{baseQTree}\mathrel{=}\bot {}\<[E]%
+\>[B]{}\Varid{outQTree}\;(\Conid{Cell}\;\Varid{a}\;\Varid{b}\;\Varid{c})\mathrel{=}i_1\;(\Varid{a},(\Varid{b},\Varid{c})){}\<[E]%
 \\
-\>[B]{}\Varid{recQTree}\mathrel{=}\bot {}\<[E]%
+\>[B]{}\Varid{outQTree}\;(\Conid{Block}\;\Varid{a}\;\Varid{b}\;\Varid{c}\;\Varid{d})\mathrel{=}i_2\;(\Varid{a},(\Varid{b},(\Varid{c},\Varid{d}))){}\<[E]%
 \\
-\>[B]{}\Varid{cataQTree}\mathrel{=}\bot {}\<[E]%
+\>[B]{}\Varid{baseQTree}\;\Varid{g}\;\Varid{f}\mathrel{=}(\Varid{g}\times\Varid{id})+(\Varid{f}\times(\Varid{f}\times(\Varid{f}\times\Varid{f}))){}\<[E]%
 \\
-\>[B]{}\Varid{anaQTree}\mathrel{=}\bot {}\<[E]%
+\>[B]{}\Varid{recQTree}\;\Varid{f}\mathrel{=}\Varid{baseQTree}\;\Varid{id}\;\Varid{f}{}\<[E]%
 \\
-\>[B]{}\Varid{hyloQTree}\mathrel{=}\bot {}\<[E]%
+\>[B]{}\Varid{cataQTree}\;\Varid{cata}\mathrel{=}\Varid{cata}\comp \Varid{recQTree}\;(\Varid{cataQTree}\;\Varid{cata})\comp \Varid{outQTree}{}\<[E]%
+\\
+\>[B]{}\Varid{anaQTree}\;\Varid{ana}\mathrel{=}\Varid{inQTree}\comp \Varid{recQTree}\;(\Varid{anaQTree}\;\Varid{ana})\comp \Varid{ana}{}\<[E]%
+\\
+\>[B]{}\Varid{hyloQTree}\;\Varid{f}\;\Varid{g}\mathrel{=}\Varid{cataQTree}\;\Varid{f}\comp \Varid{anaQTree}\;\Varid{g}{}\<[E]%
 \\[\blanklineskip]%
 \>[B]{}\mathbf{instance}\;\Conid{Functor}\;\Conid{QTree}\;\mathbf{where}{}\<[E]%
 \\
 \>[B]{}\hsindent{5}{}\<[5]%
-\>[5]{}\mathsf{fmap}\mathrel{=}\bot {}\<[E]%
+\>[5]{}\mathsf{fmap}\;\Varid{f}\mathrel{=}\Varid{cataQTree}\;(\Varid{inQTree}\comp (\Varid{baseQTree}\;\Varid{f}\;\Varid{id})){}\<[E]%
 \\[\blanklineskip]%
-\>[B]{}\Varid{rotateQTree}\mathrel{=}\bot {}\<[E]%
+\>[B]{}\Varid{rotateQTree}\mathrel{=}\Varid{cataQTree}\;\alt{\Varid{rotateCell}}{\Varid{rotateBlock}}{}\<[E]%
 \\
-\>[B]{}\Varid{scaleQTree}\mathrel{=}\bot {}\<[E]%
+\>[B]{}\Varid{rotateCell}\;(\Varid{a},(\Varid{b},\Varid{c}))\mathrel{=}\Conid{Cell}\;\Varid{a}\;\Varid{c}\;\Varid{b}{}\<[E]%
 \\
-\>[B]{}\Varid{invertQTree}\mathrel{=}\bot {}\<[E]%
+\>[B]{}\Varid{rotateBlock}\;(\Varid{a},(\Varid{b},(\Varid{c},\Varid{d})))\mathrel{=}\Conid{Block}\;\Varid{c}\;\Varid{a}\;\Varid{d}\;\Varid{b}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\Varid{scaleQTree}\;\Varid{a}\mathrel{=}\Varid{cataQTree}\;\alt{\Varid{scaleCell}\;\Varid{a}}{\Varid{toBlock}}{}\<[E]%
+\\
+\>[B]{}\Varid{scaleCell}\;\Varid{mult}\;(\Varid{a},(\Varid{b},\Varid{c}))\mathrel{=}\Conid{Cell}\;\Varid{a}\;(\Varid{mult}\mathbin{*}\Varid{b})\;(\Varid{mult}\mathbin{*}\Varid{c}){}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\Varid{invertQTree}\mathrel{=}\Varid{cataQTree}\;\alt{\Varid{invertCell}}{\Varid{toBlock}}{}\<[E]%
+\\
+\>[B]{}\Varid{invertCell}\;((\Conid{PixelRGBA8}\;\Varid{r}\;\Varid{g}\;\Varid{b}\;\Varid{a}),(\Varid{x},\Varid{y}))\mathrel{=}\Conid{Cell}\;(\Conid{PixelRGBA8}\;(\mathrm{255}\mathbin{-}\Varid{r})\;(\mathrm{255}\mathbin{-}\Varid{g})\;(\mathrm{255}\mathbin{-}\Varid{b})\;\Varid{a})\;\Varid{x}\;\Varid{y}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\mbox{\onelinecomment compressQTree comp =  cataQTree (either (compressCell comp) toBlock)}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment compressCell red (a,(b,c)) = if (red > (depthQTree((Cell a b c)))) then (Cell a b c) else (Cell a 0 0)}{}\<[E]%
 \\
 \>[B]{}\Varid{compressQTree}\mathrel{=}\bot {}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\Varid{outlineQTree}\;\Varid{fun}\mathrel{=}\Varid{qt2bm}\comp (\Varid{cataQTree}\;\alt{\Varid{outlineCell}\;\Varid{fun}}{\Varid{toBlock}}){}\<[E]%
 \\
-\>[B]{}\Varid{outlineQTree}\mathrel{=}\bot {}\<[E]%
+\>[B]{}\Varid{outlineCell}\;\Varid{fun}\;(\Varid{a},(\Varid{b},\Varid{c}))\mathrel{=}\mathbf{if}\;(\Varid{fun}\;\Varid{a})\;\mathbf{then}\;(\Varid{outlineBlock}\;\Varid{b}\;\Varid{c})\;\mathbf{else}\;(\Conid{Cell}\;(\Varid{fun}\;\Varid{a})\;\Varid{b}\;\Varid{c}){}\<[E]%
+\\
+\>[B]{}\Varid{outlineBlock}\;\Varid{a}\;\Varid{b}\mathrel{=}\Conid{Block}{}\<[E]%
+\\
+\>[B]{}\hsindent{5}{}\<[5]%
+\>[5]{}(\Conid{Block}\;(\Conid{Cell}\;\Conid{True}\;\mathrm{1}\;\mathrm{1})\;{}\<[E]%
+\\
+\>[5]{}\hsindent{7}{}\<[12]%
+\>[12]{}(\Conid{Cell}\;\Conid{True}\;(\Varid{a}\mathbin{-}\mathrm{2})\;\mathrm{1})\;{}\<[E]%
+\\
+\>[5]{}\hsindent{7}{}\<[12]%
+\>[12]{}(\Conid{Cell}\;\Conid{True}\;\mathrm{1}\;(\Varid{b}\mathbin{-}\mathrm{2}))\;{}\<[E]%
+\\
+\>[5]{}\hsindent{7}{}\<[12]%
+\>[12]{}(\Conid{Cell}\;\Conid{False}\;(\Varid{a}\mathbin{-}\mathrm{2})\;(\Varid{b}\mathbin{-}\mathrm{2}))){}\<[E]%
+\\
+\>[B]{}\hsindent{5}{}\<[5]%
+\>[5]{}(\Conid{Cell}\;\Conid{True}\;\mathrm{1}\;(\Varid{b}\mathbin{-}\mathrm{1})){}\<[E]%
+\\
+\>[B]{}\hsindent{5}{}\<[5]%
+\>[5]{}(\Conid{Cell}\;\Conid{True}\;(\Varid{a}\mathbin{-}\mathrm{1})\;\mathrm{1}){}\<[E]%
+\\
+\>[B]{}\hsindent{5}{}\<[5]%
+\>[5]{}(\Conid{Cell}\;\Conid{True}\;\mathrm{1}\;\mathrm{1}){}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
 
@@ -1367,10 +1610,21 @@ outras funções auxiliares que sejam necessárias.
 
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{11}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\Varid{base}\mathrel{=}\bot {}\<[E]%
+\>[B]{}\Varid{base}\mathrel{=}\Varid{untuple}\comp \conj{\conj{\underline{\mathrm{1}}}{\succ }}{\conj{\underline{\mathrm{1}}}{\underline{\mathrm{1}}}}{}\<[E]%
 \\
-\>[B]{}\Varid{loop}\mathrel{=}\bot {}\<[E]%
+\>[B]{}\hsindent{5}{}\<[5]%
+\>[5]{}\mathbf{where}\;\Varid{untuple}\;((\Varid{a},\Varid{b}),(\Varid{c},\Varid{d}))\mathrel{=}(\Varid{a},\Varid{b},\Varid{c},\Varid{d}){}\<[E]%
+\\
+\>[B]{}\Varid{loop}\mathrel{=}\Varid{untuple}\comp \conj{\conj{\Varid{mul}\comp \Varid{swap}\comp \p1}{\succ \comp \p2\comp \p1}\comp \Varid{tuple}}{\conj{\Varid{mul}\comp \Varid{swap}\comp \p2}{\succ \comp \p1\comp \Varid{swap}\comp \p2}\comp \Varid{tuple}}{}\<[E]%
+\\
+\>[B]{}\hsindent{5}{}\<[5]%
+\>[5]{}\mathbf{where}\;\Varid{untuple}\;((\Varid{a},\Varid{b}),(\Varid{c},\Varid{d}))\mathrel{=}(\Varid{a},\Varid{b},\Varid{c},\Varid{d}){}\<[E]%
+\\
+\>[5]{}\hsindent{6}{}\<[11]%
+\>[11]{}\Varid{tuple}\;(\Varid{a},\Varid{b},\Varid{c},\Varid{d})\mathrel{=}((\Varid{a},\Varid{b}),(\Varid{c},\Varid{d})){}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
 
@@ -1380,27 +1634,104 @@ outras funções auxiliares que sejam necessárias.
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{5}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\Varid{inFTree}\mathrel{=}\bot {}\<[E]%
+\>[B]{}\Varid{inFTree}\mathrel{=}\alt{\Conid{Unit}}{\Varid{toComp}}{}\<[E]%
 \\
-\>[B]{}\Varid{outFTree}\mathrel{=}\bot {}\<[E]%
+\>[B]{}\Varid{toComp}\;(\Varid{a},(\Varid{b},\Varid{c}))\mathrel{=}\Conid{Comp}\;\Varid{a}\;\Varid{b}\;\Varid{c}{}\<[E]%
 \\
-\>[B]{}\Varid{baseFTree}\mathrel{=}\bot {}\<[E]%
+\>[B]{}\Varid{outFTree}\;(\Conid{Unit}\;\Varid{a})\mathrel{=}i_1\;\Varid{a}{}\<[E]%
 \\
-\>[B]{}\Varid{recFTree}\mathrel{=}\bot {}\<[E]%
+\>[B]{}\Varid{outFTree}\;(\Conid{Comp}\;\Varid{a}\;\Varid{b}\;\Varid{c})\mathrel{=}i_2\;(\Varid{a},(\Varid{b},\Varid{c})){}\<[E]%
 \\
-\>[B]{}\Varid{cataFTree}\mathrel{=}\bot {}\<[E]%
+\>[B]{}\Varid{baseFTree}\;\Varid{f}\;\Varid{g}\;\Varid{h}\mathrel{=}\Varid{g}+(\Varid{f}\times(\Varid{h}\times\Varid{h})){}\<[E]%
 \\
-\>[B]{}\Varid{anaFTree}\mathrel{=}\bot {}\<[E]%
+\>[B]{}\Varid{recFTree}\;\Varid{f}\mathrel{=}\Varid{baseFTree}\;\Varid{id}\;\Varid{id}\;\Varid{f}{}\<[E]%
 \\
-\>[B]{}\Varid{hyloFTree}\mathrel{=}\bot {}\<[E]%
+\>[B]{}\Varid{cataFTree}\;\Varid{g}\mathrel{=}\Varid{g}\comp (\Varid{recFTree}\;(\Varid{cataFTree}\;\Varid{g}))\comp \Varid{outFTree}{}\<[E]%
+\\
+\>[B]{}\Varid{anaFTree}\;\Varid{g}\mathrel{=}\Varid{inFTree}\comp (\Varid{recFTree}\;(\Varid{anaFTree}\;\Varid{g}))\comp \Varid{g}{}\<[E]%
+\\
+\>[B]{}\Varid{hyloFTree}\;\Varid{f}\;\Varid{g}\mathrel{=}\Varid{cataFTree}\;\Varid{f}\comp \Varid{anaFTree}\;\Varid{g}{}\<[E]%
 \\[\blanklineskip]%
+\>[B]{}\mbox{\onelinecomment  Lei 47: def-map-cata}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  Tf = (\ensuremath{\mathbf{in}\comp \mathit B\;(\Varid{f},\Varid{id})})}{}\<[E]%
+\\
 \>[B]{}\mathbf{instance}\;\Conid{Bifunctor}\;\Conid{FTree}\;\mathbf{where}{}\<[E]%
 \\
 \>[B]{}\hsindent{5}{}\<[5]%
-\>[5]{}\Varid{bimap}\mathrel{=}\bot {}\<[E]%
+\>[5]{}\Varid{bimap}\;\Varid{f}\;\Varid{g}\mathrel{=}\Varid{cataFTree}\;(\Varid{inFTree}\comp (\Varid{baseFTree}\;\Varid{f}\;\Varid{g}\;\Varid{id})){}\<[E]%
 \\[\blanklineskip]%
-\>[B]{}\Varid{generatePTree}\mathrel{=}\bot {}\<[E]%
+\>[B]{}\mbox{\onelinecomment  Fiz o diagrama do anamorfismo de FTree para fazer}{}\<[E]%
 \\
+\>[B]{}\mbox{\onelinecomment  a generatePTree, que devemos incluir no relatório}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  para se perceber como foi criado o gene.}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\mbox{\onelinecomment  generatePTree é um anamorfismo de FTree}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  (pode ser FTree em vez de PTree porque}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  (type PTree = FTree Square Square)}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\mbox{\onelinecomment  O gene é uma função que passa Int}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  (profundidade da PTree que queremos gerar) para}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  Float + (Float, (Int, Int))}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  Porque no fim queremos usar o in da FTree}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  para ficar com uma PTree (por isso é que aparecem Floats)}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\mbox{\onelinecomment  O rank recebido pela generatePTree tem de ir diminuindo}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  à medida que o anamorfismo corre, por isso o gene não}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  pode aumentar o Int original. Caso contrário, não}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  saberíamos quando é que devíamos parar.}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  Isto significa que a árvore vai ser gerada}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  das folhas para a raiz.}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\Varid{generatePTree}\mathrel{=}\Varid{anaFTree}\;\Varid{genePTree}\comp \conj{\underline{\mathrm{0}}}{\Varid{id}}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\mbox{\onelinecomment  Primeira tentativa, dava uma árvore invertida}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  genePTree = (id -\ensuremath{\mathbin{-}\conj{\p2}{\conj{\p1}{\p1}})\comp (\Varid{id}\mathbin{-}}- (pred >< id)) . (id -\ensuremath{\mathbin{-}\conj{\Varid{id}}{\Varid{rankToMultiplier}})\comp (\Varid{fromIntegral}\mathbin{-}}- id) . oneToLeft}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\Varid{genePTree}\mathrel{=}(\Varid{id}+(\Varid{id}\times\conj{\Varid{id}}{\Varid{id}}))\comp (\Varid{id}+(\Varid{id}\times(\succ \times\Varid{id})))\comp (\Varid{id}+\conj{\Varid{rankToMultiplier}\comp \p1}{\Varid{id}})\comp ((\Varid{rankToMultiplier}\comp \p1)+\Varid{id})\comp \Varid{checkComplete}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\mbox{\onelinecomment  Retorna o multiplicador de uma PTree}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  para um dado Rank. Por exemplo, o multiplicador}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  de ordem 0 é 1, o de ordem 1 é (raiz de 2)/2,}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  e o de ordem 2 é ((raiz de 2)/2)^2}{}\<[E]%
+\\
+\>[B]{}\Varid{rankToMultiplier}\mathbin{::}\Conid{Int}\to \Conid{Float}{}\<[E]%
+\\
+\>[B]{}\Varid{rankToMultiplier}\;\Varid{a}\mathrel{=}((\Varid{sqrt}\;\mathrm{2})\mathbin{/}\mathrm{2})\mathbin{\uparrow}\Varid{a}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\mbox{\onelinecomment  Se um par tem dois Ints iguais,}{}\<[E]%
+\\
+\>[B]{}\mbox{\onelinecomment  mete à esquerda, senão mete à direita}{}\<[E]%
+\\
+\>[B]{}\Varid{checkComplete}\mathbin{::}(\Conid{Int},\Conid{Int})\to (\Conid{Int},\Conid{Int})+(\Conid{Int},\Conid{Int}){}\<[E]%
+\\
+\>[B]{}\Varid{checkComplete}\;(\Varid{a},\Varid{b}){}\<[E]%
+\\
+\>[B]{}\hsindent{5}{}\<[5]%
+\>[5]{}\mid \Varid{b}\mathbin{<}\mathrm{0}\mathrel{=}i_1\;(\Varid{a},\mathrm{0})\mbox{\onelinecomment  Evitar loop infinito com má iput (rank negativo)}{}\<[E]%
+\\
+\>[B]{}\hsindent{5}{}\<[5]%
+\>[5]{}\mid \Varid{a}\equiv \Varid{b}\mathrel{=}i_1\;(\Varid{a},\Varid{b}){}\<[E]%
+\\
+\>[B]{}\hsindent{5}{}\<[5]%
+\>[5]{}\mid \Varid{otherwise}\mathrel{=}i_2\;(\Varid{a},\Varid{b}){}\<[E]%
+\\[\blanklineskip]%
 \>[B]{}\Varid{drawPTree}\mathrel{=}\bot {}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
@@ -1419,7 +1750,7 @@ outras funções auxiliares que sejam necessárias.
 \end{hscode}\resethooks
 
 \section{Como exprimir cálculos e diagramas em LaTeX/lhs2tex}
-Estudar o texto fonte deste trabalho para obter o efeito:\footnote{Exemplos tirados de \cite{Ol18}.} 
+Estudar o texto fonte deste trabalho para obter o efeito:\footnote{Exemplos tirados de \cite{Ol18}.}
 \begin{eqnarray*}
 \start
 	\ensuremath{\Varid{id}\mathrel{=}\conj{\Varid{f}}{\Varid{g}}}
@@ -1434,8 +1765,8 @@ Estudar o texto fonte deste trabalho para obter o efeito:\footnote{Exemplos tira
 \qed
 \end{eqnarray*}
 
-Os diagramas podem ser produzidos recorrendo à \emph{package} \LaTeX\ 
-\href{https://ctan.org/pkg/xymatrix}{xymatrix}, por exemplo: 
+Os diagramas podem ser produzidos recorrendo à \emph{package} \LaTeX\
+\href{https://ctan.org/pkg/xymatrix}{xymatrix}, por exemplo:
 \begin{eqnarray*}
 \xymatrix@C=2cm{
     \ensuremath{\N_0}
@@ -1464,4 +1795,3 @@ Os diagramas podem ser produzidos recorrendo à \emph{package} \LaTeX\
 %----------------- Fim do documento -------------------------------------------%
 
 \end{document}
-

@@ -966,10 +966,6 @@ consolidate = B . consol . unB
 %----------------- Soluções dos alunos -----------------------------------------%
 
 \section{Soluções dos alunos}\label{sec:resolucao}
-Os alunos devem colocar neste anexo as suas soluções aos exercícios
-propostos, de acordo com o ``layout'' que se fornece. Não podem ser
-alterados os nomes ou tipos das funções dadas, mas pode ser adicionado texto e / ou
-outras funções auxiliares que sejam necessárias.
 
 \subsection*{Problema 1}
 
@@ -998,24 +994,24 @@ getTransactions = conc . ((p2 . p2) >< id)
 -- Diagrama:
 --
 -- Blockchain
--- |
--- | allTransactions
+-- /
+-- / allTransactions
 -- v
 -- [transaction]
--- |
--- | <getUniqueEntities, id>
+-- /
+-- / <getUniqueEntities, id>
 -- v
 -- ([entity], [transaction])
--- |
--- | id >< getBalance
+-- /
+-- / id >< getBalance
 -- v
 -- ([entity], (getBalance [transaction]))
--- |
--- | <p1, mapPair . swap>
+-- /
+-- / <p1, mapPair . swap>
 -- v
 -- ([entity], [saldo])
--- |
--- | zipPair
+-- /
+-- / zipPair
 -- v
 -- [(entity, saldo)]  <-- Ledger!!
 
@@ -1043,9 +1039,9 @@ getBalance transactions entity = (cataList ( either (const 0) ( addInt . ((delta
 -- para uma dada entidade (se a entidade não aparece na transação, delta = 0)
 delta :: String -> Transaction -> Int
 delta entity (a, (v, b))
-  | entity == a = -v
-  | entity == b = v
-  | otherwise = 0
+    | entity == a = -v
+    | entity == b = v
+    | otherwise = 0
 
 mapPair :: (a -> b, [a]) -> [b]
 mapPair (f, l) = map f l
@@ -1072,12 +1068,12 @@ pairToList (x, y) = [x, y]
 -- uma blockchain são únicos)
 --
 -- Blockchain
--- |
--- | getMagicNumbers (catamorfismo)
+-- /
+-- / getMagicNumbers (catamorfismo)
 -- v
 -- [String]
--- |
--- | checkDuplicates (catamorfismo)
+-- /
+-- / checkDuplicates (catamorfismo)
 -- v
 -- Bool
 
@@ -1216,9 +1212,9 @@ rankToMultiplier a = ((sqrt 2) / 2) ^ a
 -- mete à esquerda, senão mete à direita
 checkComplete :: (Int, Int) -> Either (Int, Int) (Int, Int)
 checkComplete (a, b)
-  | b < 0 = i1 (a, 0) -- Evitar loop infinito com má iput (rank negativo)
-  | a == b = i1 (a, b)
-  | otherwise = i2 (a, b)
+    | b < 0 = i1 (a, 0) -- Evitar loop infinito com má iput (rank negativo)
+    | a == b = i1 (a, b)
+    | otherwise = i2 (a, b)
 
 drawPTree = undefined
 \end{code}
