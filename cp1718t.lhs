@@ -105,13 +105,13 @@
 
 \begin{center}\large
 \begin{tabular}{ll}
-\textbf{Grupo} nr. & 99 (preencher)
+\textbf{Grupo} nr. & 16
 \\\hline
-a11111 & Nome1 (preencher)
+a77730 & Sérgio Jorge
 \\
-a22222 & Nome2 (preencher)
+a77870 & Vítor Castro
 \\
-a33333 & Nome3 (preencher)
+a79116 & Marcos Pereira
 \end{tabular}
 \end{center}
 
@@ -1172,6 +1172,64 @@ outlineBlock a b = Block
 
 \subsection*{Problema 3}
 
+\begin{eqnarray*}
+\start
+        |lcbr(
+		fk 0 = 1
+	)(
+		fk (d+1) = (d + k + 1) * fk d
+    )|
+    |lcbr(
+		lk 0 = 1
+    )(
+		lk (d+1) = lk d+1
+	)|
+%
+\just\equiv{ lei 73 e lei 74 }
+%
+    |lcbr(
+		fk . (const 0) = const 1
+	)(
+		fk . succ = mul . (split lk fk)
+    )|
+    |lcbr(
+		lk . (const 0) = const 1
+    )(
+		lk . succ = succ . lk
+	)|
+%
+\just\equiv{ Lei Eq-+ }
+%
+    |lcbr(
+		either (fk . (const 0)) (fk . succ) = either (const 1) (mul . (split lk fk))
+	)(
+		either (lk . (const 0)) (lk . succ) = either (const (k+1)) (succ . lk)
+	)|
+%
+\just\equiv{ Definição de in dos naturais, Lei da Fusão e Lei da Absorção }
+%
+    |lcbr(
+		fk . in = (either (const 1) mul) . (id + split lk fk)
+	)(
+		lk . in = (either (const (k+1)) succ) . (id + lk)
+	)|
+%
+\just\equiv{ A ver depois mas será aplicação de swap e de cancelamento-X }
+%
+    |lcbr(
+		fk . in = (either (const 1) mul . swap) . (id + split fk lk)
+	)(
+		lk . in = (either (const (k+1)) (succ . p2) . (id + split fk lk)
+	)|
+
+%
+\just\equiv{ Fokkinga }
+%
+	|split fk lk = cataA (split (either (const 1) (mul . swap)) (either (const (k+1)) (succ . p2)))|
+
+\qed
+\end{eqnarray*}
+
 \begin{code}
 base = untuple . (split (split (const 1) (succ)) (split (const 1) (const 1)))
     where untuple ((a,b),(c,d)) = (a,b,c,d)
@@ -1179,6 +1237,80 @@ loop = untuple . (split ((split (mul . swap . p1) (succ . p2 . p1)) . tuple) ((s
     where untuple ((a,b),(c,d)) = (a,b,c,d)
           tuple (a,b,c,d) = ((a,b),(c,d))
 \end{code}
+
+\begin{eqnarray*}
+\start
+    |lcbr(
+		g 0 = 1
+	)(
+		g (d+1) = (d + 1) * g d
+    )|
+    |lcbr(
+		s 0 = 1
+    )(
+		s (d+1) = s d+1
+	)|
+%
+\just\equiv{ lei 73 e lei 74 }
+%
+    |lcbr(
+		g . (const 0) = const 1
+	)(
+		g . succ = mul . (split s g)
+    )|
+    |lcbr(
+		s . (const 0) = const 1
+    )(
+		s . succ = succ . s
+	)|
+%
+\just\equiv{ Lei Eq-+ }
+%
+    |lcbr(
+		either (g . (const 0)) (g . succ) = either (const 1) (mul . (split s g))
+	)(
+		either (s . (const 0)) (s . succ) = either (const 1) (succ . s)
+	)|
+%
+\just\equiv{ Definição de in dos naturais, Lei da Fusão e Lei da Absorção }
+%
+    |lcbr(
+		g . in = (either (const 1) mul) . (id + split s g)
+	)(
+		lk . in = (either (const (k+1)) succ . p1) . (id + split s g)
+	)|
+%
+\just\equiv{ A ver depois mas será aplicação de swap e de cancelamento-X }
+%
+    |lcbr(
+		g . in = (either (const 1) (mul . swap)) . (id + split g s)
+	)(
+		s . in = (either (const 1) (succ . p1 . swap) . (id + split g s)
+	)|
+
+%
+\just\equiv{ Fokkinga }
+%
+	|split g s = cataA (split (either (const 1) (mul . swap)) (either (const 1) (succ . p1 . swap)))|
+
+\qed
+\end{eqnarray*}
+
+\begin{eqnarray*}
+\start
+
+|lcbr(
+		cataA i = cataA (split (either (const 1) (mul . swap)) (either (const (k+1)) (succ . p2)))
+	)(
+        cataA j = cataA (split (either (const 1) (mul . swap)) (either (const 1) (succ . p1 . swap)))
+    )|
+%
+\just\equiv{ Banana-Split }
+
+\qed
+\end{eqnarray*}
+
+
 
 \subsection*{Problema 4}
 
@@ -1194,8 +1326,8 @@ anaFTree g = inFTree . (recFTree (anaFTree g)) . g
 hyloFTree f g = cataFTree f . anaFTree g
 \end{code}
 
--- Lei 47: def-map-cata
--- Tf = (| in . B(f, id) |)
+\par Lei 47: def-map-cata
+\par Tf = (| in . B(f, id) |)
 
 \begin{code}
 instance Bifunctor FTree where

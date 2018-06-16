@@ -295,13 +295,13 @@
 
 \begin{center}\large
 \begin{tabular}{ll}
-\textbf{Grupo} nr. & 99 (preencher)
+\textbf{Grupo} nr. & 16
 \\\hline
-a11111 & Nome1 (preencher)
+a77730 & Sérgio Jorge
 \\
-a22222 & Nome2 (preencher)
+a77870 & Vítor Castro
 \\
-a33333 & Nome3 (preencher)
+a79116 & Marcos Pereira
 \end{tabular}
 \end{center}
 
@@ -1617,6 +1617,36 @@ Outras funções auxiliares:
 
 \subsection*{Problema 3}
 
+\begin{eqnarray*}
+\start
+        \ensuremath{\begin{lcbr}\Varid{fk}\;\mathrm{0}\mathrel{=}\mathrm{1}\\\Varid{fk}\;(\Varid{d}\mathbin{+}\mathrm{1})\mathrel{=}(\Varid{d}\mathbin{+}\Varid{k}\mathbin{+}\mathrm{1})\mathbin{*}\Varid{fk}\;\Varid{d}\end{lcbr}}
+    \ensuremath{\begin{lcbr}\Varid{lk}\;\mathrm{0}\mathrel{=}\mathrm{1}\\\Varid{lk}\;(\Varid{d}\mathbin{+}\mathrm{1})\mathrel{=}\Varid{lk}\;\Varid{d}\mathbin{+}\mathrm{1}\end{lcbr}}
+%
+\just\equiv{ lei 73 e lei 74 }
+%
+    \ensuremath{\begin{lcbr}\Varid{fk}\comp \underline{\mathrm{0}}\mathrel{=}\underline{\mathrm{1}}\\\Varid{fk}\comp \succ \mathrel{=}\Varid{mul}\comp \conj{\Varid{lk}}{\Varid{fk}}\end{lcbr}}
+    \ensuremath{\begin{lcbr}\Varid{lk}\comp \underline{\mathrm{0}}\mathrel{=}\underline{\mathrm{1}}\\\Varid{lk}\comp \succ \mathrel{=}\succ \comp \Varid{lk}\end{lcbr}}
+%
+\just\equiv{ Lei Eq-+ }
+%
+    \ensuremath{\begin{lcbr}\alt{\Varid{fk}\comp \underline{\mathrm{0}}}{\Varid{fk}\comp \succ }\mathrel{=}\alt{\underline{\mathrm{1}}}{\Varid{mul}\comp \conj{\Varid{lk}}{\Varid{fk}}}\\\alt{\Varid{lk}\comp \underline{\mathrm{0}}}{\Varid{lk}\comp \succ }\mathrel{=}\alt{\underline{(\Varid{k}\mathbin{+}\mathrm{1})}}{\succ \comp \Varid{lk}}\end{lcbr}}
+%
+\just\equiv{ Definição de in dos naturais, Lei da Fusão e Lei da Absorção }
+%
+    \ensuremath{\begin{lcbr}\Varid{fk}\comp \mathbf{in}\mathrel{=}\alt{\underline{\mathrm{1}}}{\Varid{mul}}\comp (\Varid{id}\mathbin{+}\conj{\Varid{lk}}{\Varid{fk}})\\\Varid{lk}\comp \mathbf{in}\mathrel{=}\alt{\underline{(\Varid{k}\mathbin{+}\mathrm{1})}}{\succ }\comp (\Varid{id}\mathbin{+}\Varid{lk})\end{lcbr}}
+%
+\just\equiv{ A ver depois mas será aplicação de swap e de cancelamento-X }
+%
+    \ensuremath{\begin{lcbr}\Varid{fk}\comp \mathbf{in}\mathrel{=}(\alt{\underline{\mathrm{1}}}{\Varid{mul}}\comp \Varid{swap})\comp (\Varid{id}\mathbin{+}\conj{\Varid{fk}}{\Varid{lk}})\\\Varid{lk}\comp \mathbf{in}\mathrel{=}(\alt{\underline{(\Varid{k}\mathbin{+}\mathrm{1})}}{\succ \comp \p2}\comp (\Varid{id}\mathbin{+}\conj{\Varid{fk}}{\Varid{lk}}))\end{lcbr}}
+
+%
+\just\equiv{ Fokkinga }
+%
+	\ensuremath{\conj{\Varid{fk}}{\Varid{lk}}\mathrel{=}\cata{\conj{\alt{\underline{\mathrm{1}}}{\Varid{mul}\comp \Varid{swap}}}{\alt{\underline{(\Varid{k}\mathbin{+}\mathrm{1})}}{\succ \comp \p2}}~\cdot }_A}
+
+\qed
+\end{eqnarray*}
+
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{5}{@{}>{\hspre}l<{\hspost}@{}}%
@@ -1636,6 +1666,48 @@ Outras funções auxiliares:
 \>[11]{}\Varid{tuple}\;(\Varid{a},\Varid{b},\Varid{c},\Varid{d})\mathrel{=}((\Varid{a},\Varid{b}),(\Varid{c},\Varid{d})){}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
+
+\begin{eqnarray*}
+\start
+    \ensuremath{\begin{lcbr}\Varid{g}\;\mathrm{0}\mathrel{=}\mathrm{1}\\\Varid{g}\;(\Varid{d}\mathbin{+}\mathrm{1})\mathrel{=}(\Varid{d}\mathbin{+}\mathrm{1})\mathbin{*}\Varid{g}\;\Varid{d}\end{lcbr}}
+    \ensuremath{\begin{lcbr}\Varid{s}\;\mathrm{0}\mathrel{=}\mathrm{1}\\\Varid{s}\;(\Varid{d}\mathbin{+}\mathrm{1})\mathrel{=}\Varid{s}\;\Varid{d}\mathbin{+}\mathrm{1}\end{lcbr}}
+%
+\just\equiv{ lei 73 e lei 74 }
+%
+    \ensuremath{\begin{lcbr}\Varid{g}\comp \underline{\mathrm{0}}\mathrel{=}\underline{\mathrm{1}}\\\Varid{g}\comp \succ \mathrel{=}\Varid{mul}\comp \conj{\Varid{s}}{\Varid{g}}\end{lcbr}}
+    \ensuremath{\begin{lcbr}\Varid{s}\comp \underline{\mathrm{0}}\mathrel{=}\underline{\mathrm{1}}\\\Varid{s}\comp \succ \mathrel{=}\succ \comp \Varid{s}\end{lcbr}}
+%
+\just\equiv{ Lei Eq-+ }
+%
+    \ensuremath{\begin{lcbr}\alt{\Varid{g}\comp \underline{\mathrm{0}}}{\Varid{g}\comp \succ }\mathrel{=}\alt{\underline{\mathrm{1}}}{\Varid{mul}\comp \conj{\Varid{s}}{\Varid{g}}}\\\alt{\Varid{s}\comp \underline{\mathrm{0}}}{\Varid{s}\comp \succ }\mathrel{=}\alt{\underline{\mathrm{1}}}{\succ \comp \Varid{s}}\end{lcbr}}
+%
+\just\equiv{ Definição de in dos naturais, Lei da Fusão e Lei da Absorção }
+%
+    \ensuremath{\begin{lcbr}\Varid{g}\comp \mathbf{in}\mathrel{=}\alt{\underline{\mathrm{1}}}{\Varid{mul}}\comp (\Varid{id}\mathbin{+}\conj{\Varid{s}}{\Varid{g}})\\\Varid{lk}\comp \mathbf{in}\mathrel{=}(\alt{\underline{(\Varid{k}\mathbin{+}\mathrm{1})}}{\succ }\comp \p1)\comp (\Varid{id}\mathbin{+}\conj{\Varid{s}}{\Varid{g}})\end{lcbr}}
+%
+\just\equiv{ A ver depois mas será aplicação de swap e de cancelamento-X }
+%
+    \ensuremath{\begin{lcbr}\Varid{g}\comp \mathbf{in}\mathrel{=}\alt{\underline{\mathrm{1}}}{\Varid{mul}\comp \Varid{swap}}\comp (\Varid{id}\mathbin{+}\conj{\Varid{g}}{\Varid{s}})\\\Varid{s}\comp \mathbf{in}\mathrel{=}(\alt{\underline{\mathrm{1}}}{\succ \comp \p1\comp \Varid{swap}}\comp (\Varid{id}\mathbin{+}\conj{\Varid{g}}{\Varid{s}}))\end{lcbr}}
+
+%
+\just\equiv{ Fokkinga }
+%
+	\ensuremath{\conj{\Varid{g}}{\Varid{s}}\mathrel{=}\cata{\conj{\alt{\underline{\mathrm{1}}}{\Varid{mul}\comp \Varid{swap}}}{\alt{\underline{\mathrm{1}}}{\succ \comp \p1\comp \Varid{swap}}}~\cdot }_A}
+
+\qed
+\end{eqnarray*}
+
+\begin{eqnarray*}
+\start
+
+\ensuremath{\begin{lcbr}\cata{\Varid{i}~\cdot }_A\mathrel{=}\cata{\conj{\alt{\underline{\mathrm{1}}}{\Varid{mul}\comp \Varid{swap}}}{\alt{\underline{(\Varid{k}\mathbin{+}\mathrm{1})}}{\succ \comp \p2}}~\cdot }_A\\\cata{\Varid{j}~\cdot }_A\mathrel{=}\cata{\conj{\alt{\underline{\mathrm{1}}}{\Varid{mul}\comp \Varid{swap}}}{\alt{\underline{\mathrm{1}}}{\succ \comp \p1\comp \Varid{swap}}}~\cdot }_A\end{lcbr}}
+%
+\just\equiv{ Banana-Split }
+
+\qed
+\end{eqnarray*}
+
+
 
 \subsection*{Problema 4}
 
@@ -1662,8 +1734,8 @@ Outras funções auxiliares:
 \ColumnHook
 \end{hscode}\resethooks
 
--- Lei 47: def-map-cata
--- Tf = (\ensuremath{\mathbf{in}\comp \mathit B\;(\Varid{f},\Varid{id})})
+\par Lei 47: def-map-cata
+\par Tf = (\ensuremath{\mathbf{in}\comp \mathit B\;(\Varid{f},\Varid{id})})
 
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
