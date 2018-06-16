@@ -1287,7 +1287,6 @@ loop = untuple . (split ((split (mul . swap . p1) (succ . p2 . p1)) . tuple) ((s
 	)(
 		s . in = (either (const 1) (succ . p1 . swap) . (id + split g s)
 	)|
-
 %
 \just\equiv{ Fokkinga }
 %
