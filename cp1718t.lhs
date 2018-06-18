@@ -1269,7 +1269,7 @@ outlineBlock a b = Block
     |lcbr(
 		g . in = (either (const 1) mul) . (id + split s g)
 	)(
-		lk . in = (either (const (k+1)) succ . p1) . (id + split s g)
+		s . in = (either (const (k+1)) succ . p1) . (id + split s g)
 	)|
 %
 \just\equiv{ A ver depois mas será aplicação de swap e de cancelamento-X }
