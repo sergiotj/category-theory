@@ -1230,14 +1230,6 @@ outlineBlock a b = Block
 \qed
 \end{eqnarray*}
 
-\begin{code}
-base = untuple . (split (split (const 1) (succ)) (split (const 1) (const 1)))
-    where untuple ((a,b),(c,d)) = (a,b,c,d)
-loop = untuple . (split ((split (mul . swap . p1) (succ . p2 . p1)) . tuple) ((split (mul . swap . p2) (succ . p1 . swap . p2)) . tuple))
-    where untuple ((a,b),(c,d)) = (a,b,c,d)
-          tuple (a,b,c,d) = ((a,b),(c,d))
-\end{code}
-
 \begin{eqnarray*}
 \start
     |lcbr(
@@ -1312,9 +1304,41 @@ loop = untuple . (split ((split (mul . swap . p1) (succ . p2 . p1)) . tuple) ((s
 %
 
     |split (cataA i) (cataA j) = cataA ((either (split (const 1) (const (k+1))) (split (mul . swap) (succ . p2))) >< (either (split (const 1) (const 1)) (split (mul . swap) (succ . p1 . swap))))|
+%
+\just\equiv{ Conforme 3.90 a 3.95 dos apontamentos (lei 11) }
+%
+
+    |split (cataA i) (cataA j) = cataA ( split ( (either (split (const 1) (const (k+1))) (split (mul . swap) (succ . p2))) . F p1 ) ( (either (split (const 1) (const (k+1))) (split (mul . swap) (succ . p2))) . F p2 )
+
+    )|
+%
+\just\equiv{ Lei da Troca - outra vez }
+%
+
+    |split (cataA i) (cataA j) = cataA ( either (split (split (const 1) (const (k+1))) (split (const 1) (const 1))) (split (split (mul . swap) (succ . p2) . p1) (split (mul . swap) (succ . p1 . swap) . p2)) )
+
+    )|
+%
+\just\equiv{ Pela definição de for b i }
+%
+
+    |lcbr(
+		b = (split (split (mul . swap) (succ . p2) . p1) (split (mul . swap) (succ . p1 . swap) . p2))
+	)(
+		i = (split (split (const 1) (const (k+1))) (split (const 1) (const 1)))
+	)|
+
 
 \qed
 \end{eqnarray*}
+
+\begin{code}
+untuple ((a,b),(c,d)) = (a,b,c,d)
+tuple (a,b,c,d) = ((a,b),(c,d))
+
+base = untuple . (split (split (const 1) (succ)) (split (const 1) (const 1)))
+loop = untuple . (split ((split (mul . swap . p1) (succ . p2 . p1)) . tuple) ((split (mul . swap . p2) (succ . p1 . swap . p2)) . tuple))
+\end{code}
 
 
 
