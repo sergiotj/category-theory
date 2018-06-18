@@ -1538,15 +1538,43 @@ Outras funções auxiliares:
 
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{12}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{toCell}\;(\Varid{a},(\Varid{b},\Varid{c}))\mathrel{=}\Conid{Cell}\;\Varid{a}\;\Varid{b}\;\Varid{c}{}\<[E]%
 \\
 \>[B]{}\Varid{toBlock}\;(\Varid{a},(\Varid{b},(\Varid{c},\Varid{d})))\mathrel{=}\Conid{Block}\;\Varid{a}\;\Varid{b}\;\Varid{c}\;\Varid{d}{}\<[E]%
 \\[\blanklineskip]%
 \>[B]{}\Varid{inQTree}\mathrel{=}\alt{\Varid{toCell}}{\Varid{toBlock}}{}\<[E]%
-\\
+\ColumnHook
+\end{hscode}\resethooks
+
+\begin{eqnarray*}
+\start
+    \ensuremath{\Varid{outQTree}\comp \Varid{inQTree}\mathrel{=}\Varid{id}}
+%
+\just\equiv{ Definição de inQTree }
+%
+    \ensuremath{\Varid{outQTree}\comp \alt{\Varid{toCell}}{\Varid{toBlock}}\mathrel{=}\Varid{id}}
+%
+\just\equiv{ Lei da Fusão }
+%
+    \ensuremath{\alt{\Varid{outQTree}\comp \Varid{toCell}}{\Varid{outQTree}\comp \Varid{toBlock}}\mathrel{=}\Varid{id}}
+%
+\just\equiv{ Universal-+ }
+%
+    \ensuremath{\begin{lcbr}\Varid{id}\comp i_1\mathrel{=}\Varid{outQTree}\comp \Varid{toCell}\\\Varid{id}\comp i_2\mathrel{=}\Varid{outQTree}\comp \Varid{toBlock}\end{lcbr}}
+%
+\just\equiv{ Lei 1, 73 e 74 }
+%
+    \ensuremath{\begin{lcbr}\Varid{outQTree}\;\Varid{toCell}\;(\Varid{a},(\Varid{b},\Varid{c}))\mathrel{=}i_1\;(\Varid{a},(\Varid{b},\Varid{c}))\\\Varid{outQTree}\;\Varid{toBlock}\;(\Varid{a},(\Varid{b},(\Varid{c},\Varid{d})))\mathrel{=}i_2\;(\Varid{a},(\Varid{b},(\Varid{c},\Varid{d})))\end{lcbr}}
+
+\qed
+\end{eqnarray*}
+
+Aplicando a definição de toBlock e toCell temos:
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{outQTree}\;(\Conid{Cell}\;\Varid{a}\;\Varid{b}\;\Varid{c})\mathrel{=}i_1\;(\Varid{a},(\Varid{b},\Varid{c})){}\<[E]%
 \\
 \>[B]{}\Varid{outQTree}\;(\Conid{Block}\;\Varid{a}\;\Varid{b}\;\Varid{c}\;\Varid{d})\mathrel{=}i_2\;(\Varid{a},(\Varid{b},(\Varid{c},\Varid{d}))){}\<[E]%
@@ -1565,27 +1593,137 @@ Outras funções auxiliares:
 \\
 \>[B]{}\hsindent{5}{}\<[5]%
 \>[5]{}\mathsf{fmap}\;\Varid{f}\mathrel{=}\Varid{cataQTree}\;(\Varid{inQTree}\comp (\Varid{baseQTree}\;\Varid{f}\;\Varid{id})){}\<[E]%
-\\[\blanklineskip]%
+\ColumnHook
+\end{hscode}\resethooks
+
+
+\begin{eqnarray*}
+\xymatrix@C=2cm{
+    \ensuremath{\Conid{QTree}\;\Conid{A}}
+           \ar[d]_-{\ensuremath{\Varid{cataQTree}\;\Varid{r}}}
+&
+    \ensuremath{(\Conid{A},(\Conid{Int},\Conid{Int}))\mathbin{+}((\Conid{QTree}\;\Conid{A})\mathbin{\uparrow}\mathrm{4})}
+           \ar[d]^{\ensuremath{\Varid{inQTree}}}
+           \ar[l]_-{\ensuremath{\Varid{inQTree}}}
+\\
+    \ensuremath{\Conid{QTree}\;\Conid{A}}
+&
+    \ensuremath{(\Conid{A},(\Conid{Int},\Conid{Int}))\mathbin{+}((\Conid{QTree}\;\Conid{A})\mathbin{\uparrow}\mathrm{4})}
+           \ar[l]^-{\ensuremath{\Varid{r}}}
+}
+\end{eqnarray*}
+
+Por isso, rotateQTree vem:
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{rotateQTree}\mathrel{=}\Varid{cataQTree}\;\alt{\Varid{rotateCell}}{\Varid{rotateBlock}}{}\<[E]%
 \\
 \>[B]{}\Varid{rotateCell}\;(\Varid{a},(\Varid{b},\Varid{c}))\mathrel{=}\Conid{Cell}\;\Varid{a}\;\Varid{c}\;\Varid{b}{}\<[E]%
 \\
 \>[B]{}\Varid{rotateBlock}\;(\Varid{a},(\Varid{b},(\Varid{c},\Varid{d})))\mathrel{=}\Conid{Block}\;\Varid{c}\;\Varid{a}\;\Varid{d}\;\Varid{b}{}\<[E]%
-\\[\blanklineskip]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\begin{eqnarray*}
+\xymatrix@C=2cm{
+    \ensuremath{\Conid{Int}\times\Conid{QTree}\;\Conid{A}}
+           \ar[d]_-{\ensuremath{\Varid{cataQTree}\;\Varid{s}}}
+&
+    \ensuremath{\Conid{Int}\times(\Conid{A},(\Conid{Int},\Conid{Int}))\mathbin{+}((\Conid{QTree}\;\Conid{A})\mathbin{\uparrow}\mathrm{4})}
+           \ar[d]^{\ensuremath{\Varid{id}\;\Varid{x}\;\Varid{id}}}
+           \ar[l]_-{\ensuremath{\Varid{inQTree}}}
+\\
+    \ensuremath{\Conid{QTree}\;\Conid{A}}
+&
+    \ensuremath{\Conid{Int}\times(\Conid{A},(\Conid{Int},\Conid{Int}))\mathbin{+}((\Conid{QTree}\;\Conid{A})\mathbin{\uparrow}\mathrm{4})}
+           \ar[l]^-{\ensuremath{\Varid{s}}}
+}
+\end{eqnarray*}
+
+Por isso, scaleQTree vem:
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{scaleQTree}\;\Varid{a}\mathrel{=}\Varid{cataQTree}\;\alt{\Varid{scaleCell}\;\Varid{a}}{\Varid{toBlock}}{}\<[E]%
 \\
 \>[B]{}\Varid{scaleCell}\;\Varid{mult}\;(\Varid{a},(\Varid{b},\Varid{c}))\mathrel{=}\Conid{Cell}\;\Varid{a}\;(\Varid{mult}\mathbin{*}\Varid{b})\;(\Varid{mult}\mathbin{*}\Varid{c}){}\<[E]%
-\\[\blanklineskip]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\begin{eqnarray*}
+\xymatrix@C=2cm{
+    \ensuremath{\Conid{QTree}\;\Conid{A}}
+           \ar[d]_-{\ensuremath{\Varid{cataQTree}\;\Varid{i}}}
+&
+    \ensuremath{(\Conid{A},(\Conid{Int},\Conid{Int}))\mathbin{+}((\Conid{QTree}\;\Conid{A})\mathbin{\uparrow}\mathrm{4})}
+           \ar[d]^{\ensuremath{\Varid{id}\;\Varid{x}\;\Varid{id}}}
+           \ar[l]_-{\ensuremath{\Varid{inQTree}}}
+\\
+    \ensuremath{\Conid{QTree}\;\Conid{A}}
+&
+    \ensuremath{(\Conid{A},(\Conid{Int},\Conid{Int}))\mathbin{+}((\Conid{QTree}\;\Conid{A})\mathbin{\uparrow}\mathrm{4})}
+           \ar[l]^-{\ensuremath{\Varid{i}}}
+}
+\end{eqnarray*}
+
+Por isso, invertQTree vem:
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{invertQTree}\mathrel{=}\Varid{cataQTree}\;\alt{\Varid{invertCell}}{\Varid{toBlock}}{}\<[E]%
 \\
 \>[B]{}\Varid{invertCell}\;((\Conid{PixelRGBA8}\;\Varid{r}\;\Varid{g}\;\Varid{b}\;\Varid{a}),(\Varid{x},\Varid{y}))\mathrel{=}\Conid{Cell}\;(\Conid{PixelRGBA8}\;(\mathrm{255}\mathbin{-}\Varid{r})\;(\mathrm{255}\mathbin{-}\Varid{g})\;(\mathrm{255}\mathbin{-}\Varid{b})\;\Varid{a})\;\Varid{x}\;\Varid{y}{}\<[E]%
-\\[\blanklineskip]%
-\>[B]{}\mbox{\onelinecomment compressQTree comp =  cataQTree (either (compressCell comp) toBlock)}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+compressQTree comp =  cataQTree (either (compressCell comp) toBlock)
+compressCell red (a,(b,c)) = if (red > (depthQTree((Cell a b c)))) then (Cell a b c) else (Cell a 0 0)
+
+\begin{eqnarray*}
+\xymatrix@C=2cm{
+    \ensuremath{\Conid{QTree}\;\Conid{A}}
+           \ar[d]_-{\ensuremath{\Varid{cataQTree}\;\Varid{i}}}
+&
+    \ensuremath{(\Conid{A},(\Conid{Int},\Conid{Int}))\mathbin{+}((\Conid{QTree}\;\Conid{A})\mathbin{\uparrow}\mathrm{4})}
+           \ar[d]^{\ensuremath{\Varid{id}\;\Varid{x}\;\Varid{id}}}
+           \ar[l]_-{\ensuremath{\Varid{inQTree}}}
 \\
-\>[B]{}\mbox{\onelinecomment compressCell red (a,(b,c)) = if (red > (depthQTree((Cell a b c)))) then (Cell a b c) else (Cell a 0 0)}{}\<[E]%
-\\
+    \ensuremath{\Conid{QTree}\;\Conid{A}}
+&
+    \ensuremath{(\Conid{A},(\Conid{Int},\Conid{Int}))\mathbin{+}((\Conid{QTree}\;\Conid{A})\mathbin{\uparrow}\mathrm{4})}
+           \ar[l]^-{\ensuremath{\Varid{i}}}
+}
+\end{eqnarray*}
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{compressQTree}\mathrel{=}\bot {}\<[E]%
-\\[\blanklineskip]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\begin{eqnarray*}
+\xymatrix@C=2cm{
+    \ensuremath{\Conid{QTree}\;\Conid{A}}
+           \ar[d]_-{\ensuremath{\Varid{cataQTree}\;\Varid{i}}}
+&
+    \ensuremath{\Varid{f}\times(\Conid{A},(\Conid{Int},\Conid{Int}))\mathbin{+}((\Conid{QTree}\;\Conid{A})\mathbin{\uparrow}\mathrm{4})}
+           \ar[d]^{\ensuremath{\Varid{id}\;\Varid{x}\;\Varid{id}}}
+           \ar[l]_-{\ensuremath{\Varid{inQTree}}}
+\\
+    \ensuremath{\Varid{qt2bm}\comp \Conid{QTree}\;\Conid{A}\comp \Conid{Bool}}
+&
+    \ensuremath{\Varid{f}\times(\Conid{A},(\Conid{Int},\Conid{Int}))\mathbin{+}((\Conid{QTree}\;\Conid{A})\mathbin{\uparrow}\mathrm{4})}
+           \ar[l]^-{\ensuremath{\Varid{i}}}
+}
+\end{eqnarray*}
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{12}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{outlineQTree}\;\Varid{fun}\mathrel{=}\Varid{qt2bm}\comp (\Varid{cataQTree}\;\alt{\Varid{outlineCell}\;\Varid{fun}}{\Varid{toBlock}}){}\<[E]%
 \\
 \>[B]{}\Varid{outlineCell}\;\Varid{fun}\;(\Varid{a},(\Varid{b},\Varid{c}))\mathrel{=}\mathbf{if}\;(\Varid{fun}\;\Varid{a})\;\mathbf{then}\;(\Varid{outlineBlock}\;\Varid{b}\;\Varid{c})\;\mathbf{else}\;(\Conid{Cell}\;(\Varid{fun}\;\Varid{a})\;\Varid{b}\;\Varid{c}){}\<[E]%
@@ -1838,40 +1976,6 @@ Outras funções auxiliares:
 \>[B]{}\Varid{dist}\mathrel{=}\bot {}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
-
-\section{Como exprimir cálculos e diagramas em LaTeX/lhs2tex}
-Estudar o texto fonte deste trabalho para obter o efeito:\footnote{Exemplos tirados de \cite{Ol18}.}
-\begin{eqnarray*}
-\start
-	\ensuremath{\Varid{id}\mathrel{=}\conj{\Varid{f}}{\Varid{g}}}
-%
-\just\equiv{ universal property }
-%
-        \ensuremath{\begin{lcbr}\p1\comp \Varid{id}\mathrel{=}\Varid{f}\\\p2\comp \Varid{id}\mathrel{=}\Varid{g}\end{lcbr}}
-%
-\just\equiv{ identity }
-%
-        \ensuremath{\begin{lcbr}\p1\mathrel{=}\Varid{f}\\\p2\mathrel{=}\Varid{g}\end{lcbr}}
-\qed
-\end{eqnarray*}
-
-Os diagramas podem ser produzidos recorrendo à \emph{package} \LaTeX\
-\href{https://ctan.org/pkg/xymatrix}{xymatrix}, por exemplo:
-\begin{eqnarray*}
-\xymatrix@C=2cm{
-    \ensuremath{\N_0}
-           \ar[d]_-{\ensuremath{\cata{\Varid{g}}}}
-&
-    \ensuremath{\mathrm{1}\mathbin{+}\N_0}
-           \ar[d]^{\ensuremath{\Varid{id}\mathbin{+}\cata{\Varid{g}}}}
-           \ar[l]_-{\ensuremath{\mathsf{in}}}
-\\
-     \ensuremath{\mathit B}
-&
-     \ensuremath{\mathrm{1}\mathbin{+}\mathit B}
-           \ar[l]^-{\ensuremath{\Varid{g}}}
-}
-\end{eqnarray*}
 
 %----------------- Fim do anexo com soluções dos alunos ------------------------%
 

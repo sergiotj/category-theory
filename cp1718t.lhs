@@ -1133,6 +1133,42 @@ toCell (a,(b,c)) = Cell a b c
 toBlock (a,(b,(c,d))) = Block a b c d
 
 inQTree = either toCell toBlock
+
+\end{code}
+
+\begin{eqnarray*}
+\start
+    |outQTree . inQTree = id|
+%
+\just\equiv{ Definição de inQTree }
+%
+    |outQTree . (either (toCell) (toBlock)) = id|
+%
+\just\equiv{ Lei da Fusão }
+%
+    |either (outQTree . toCell) (outQTree . toBlock) = id|
+%
+\just\equiv{ Universal-+ }
+%
+    |lcbr(
+		id . i1 = outQTree . toCell
+	)(
+		id . i2 = outQTree . toBlock
+	)|
+%
+\just\equiv{ Lei 1, 73 e 74 }
+%
+    |lcbr(
+		outQTree toCell (a, (b, c)) = i1 (a, (b, c))
+	)(
+		outQTree toBlock (a, (b, (c, d))) = i2 (a, (b, (c, d)))
+	)|
+
+\qed
+\end{eqnarray*}
+
+Aplicando a definição de toBlock e toCell temos:
+\begin{code}
 outQTree (Cell a b c) = i1 (a,(b,c))
 outQTree (Block a b c d) = i2 (a,(b,(c,d)))
 baseQTree g f = (g >< id) -|- (f >< (f >< (f >< f)))
@@ -1143,21 +1179,116 @@ hyloQTree f g = cataQTree f . anaQTree g
 
 instance Functor QTree where
     fmap f = cataQTree (inQTree . (baseQTree f id))
+\end{code}
 
+
+\begin{eqnarray*}
+\xymatrix@@C=2cm{
+    |QTree A|
+           \ar[d]_-{|cataQTree r|}
+&
+    |(A, (Int, Int)) + ((QTree A) ^ 4)|
+           \ar[d]^{|inQTree|}
+           \ar[l]_-{|inQTree|}
+\\
+    |QTree A|
+&
+    |(A, (Int, Int)) + ((QTree A) ^ 4)|
+           \ar[l]^-{|r|}
+}
+\end{eqnarray*}
+
+Por isso, rotateQTree vem:
+\begin{code}
 rotateQTree = cataQTree (either rotateCell rotateBlock)
 rotateCell (a,(b,c)) = Cell a c b
 rotateBlock (a, (b, (c,d))) = Block c a d b
+\end{code}
 
+\begin{eqnarray*}
+\xymatrix@@C=2cm{
+    |Int >< QTree A|
+           \ar[d]_-{|cataQTree s|}
+&
+    |Int ><  (A, (Int, Int)) + ((QTree A) ^ 4)|
+           \ar[d]^{|id x id|}
+           \ar[l]_-{|inQTree|}
+\\
+    |QTree A|
+&
+    |Int >< (A, (Int, Int)) + ((QTree A) ^ 4)|
+           \ar[l]^-{|s|}
+}
+\end{eqnarray*}
+
+Por isso, scaleQTree vem:
+\begin{code}
 scaleQTree a = cataQTree (either (scaleCell a) (toBlock))
 scaleCell mult (a,(b,c)) = Cell a (mult * b) (mult * c)
+\end{code}
 
+\begin{eqnarray*}
+\xymatrix@@C=2cm{
+    |QTree A|
+           \ar[d]_-{|cataQTree i|}
+&
+    |(A, (Int, Int)) + ((QTree A) ^ 4)|
+           \ar[d]^{|id x id|}
+           \ar[l]_-{|inQTree|}
+\\
+    |QTree A|
+&
+    |(A, (Int, Int)) + ((QTree A) ^ 4)|
+           \ar[l]^-{|i|}
+}
+\end{eqnarray*}
+
+Por isso, invertQTree vem:
+\begin{code}
 invertQTree = cataQTree (either (invertCell) (toBlock))
 invertCell ((PixelRGBA8 r g b a),(x,y)) = Cell (PixelRGBA8 (255-r) (255-g) (255-b) a) x y
+\end{code}
 
---compressQTree comp =  cataQTree (either (compressCell comp) toBlock)
---compressCell red (a,(b,c)) = if (red > (depthQTree((Cell a b c)))) then (Cell a b c) else (Cell a 0 0)
+compressQTree comp =  cataQTree (either (compressCell comp) toBlock)
+compressCell red (a,(b,c)) = if (red > (depthQTree((Cell a b c)))) then (Cell a b c) else (Cell a 0 0)
+
+\begin{eqnarray*}
+\xymatrix@@C=2cm{
+    |QTree A|
+           \ar[d]_-{|cataQTree i|}
+&
+    |(A, (Int, Int)) + ((QTree A) ^ 4)|
+           \ar[d]^{|id x id|}
+           \ar[l]_-{|inQTree|}
+\\
+    |QTree A|
+&
+    |(A, (Int, Int)) + ((QTree A) ^ 4)|
+           \ar[l]^-{|i|}
+}
+\end{eqnarray*}
+
+\begin{code}
 compressQTree = undefined
+\end{code}
 
+\begin{eqnarray*}
+\xymatrix@@C=2cm{
+    |QTree A|
+           \ar[d]_-{|cataQTree i|}
+&
+    |f >< (A, (Int, Int)) + ((QTree A) ^ 4)|
+           \ar[d]^{|id x id|}
+           \ar[l]_-{|inQTree|}
+\\
+    |qt2bm . QTree A . Bool|
+&
+    |f >< (A, (Int, Int)) + ((QTree A) ^ 4)|
+           \ar[l]^-{|i|}
+}
+\end{eqnarray*}
+
+\begin{code}
 outlineQTree fun = qt2bm . (cataQTree (either (outlineCell fun) (toBlock)))
 outlineCell fun (a,(b,c)) = if (fun a) then (outlineBlock b c) else (Cell (fun a) b c)
 outlineBlock a b = Block
@@ -1410,48 +1541,6 @@ singletonbag = undefined
 muB = undefined
 dist = undefined
 \end{code}
-
-\section{Como exprimir cálculos e diagramas em LaTeX/lhs2tex}
-Estudar o texto fonte deste trabalho para obter o efeito:\footnote{Exemplos tirados de \cite{Ol18}.}
-\begin{eqnarray*}
-\start
-	|id = split f g|
-%
-\just\equiv{ universal property }
-%
-        |lcbr(
-		p1 . id = f
-	)(
-		p2 . id = g
-	)|
-%
-\just\equiv{ identity }
-%
-        |lcbr(
-		p1 = f
-	)(
-		p2 = g
-	)|
-\qed
-\end{eqnarray*}
-
-Os diagramas podem ser produzidos recorrendo à \emph{package} \LaTeX\
-\href{https://ctan.org/pkg/xymatrix}{xymatrix}, por exemplo:
-\begin{eqnarray*}
-\xymatrix@@C=2cm{
-    |Nat0|
-           \ar[d]_-{|cataNat g|}
-&
-    |1 + Nat0|
-           \ar[d]^{|id + (cataNat g)|}
-           \ar[l]_-{|inNat|}
-\\
-     |B|
-&
-     |1 + B|
-           \ar[l]^-{|g|}
-}
-\end{eqnarray*}
 
 %----------------- Fim do anexo com soluções dos alunos ------------------------%
 
