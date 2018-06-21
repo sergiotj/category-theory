@@ -1249,9 +1249,6 @@ invertQTree = cataQTree (either (invertCell) (toBlock))
 invertCell ((PixelRGBA8 r g b a),(x,y)) = Cell (PixelRGBA8 (255-r) (255-g) (255-b) a) x y
 \end{code}
 
-compressQTree comp =  cataQTree (either (compressCell comp) toBlock)
-compressCell red (a,(b,c)) = if (red > (depthQTree((Cell a b c)))) then (Cell a b c) else (Cell a 0 0)
-
 \begin{eqnarray*}
 \xymatrix@@C=2cm{
     |QTree A|
@@ -1269,7 +1266,41 @@ compressCell red (a,(b,c)) = if (red > (depthQTree((Cell a b c)))) then (Cell a 
 \end{eqnarray*}
 
 \begin{code}
-compressQTree = undefined
+compressQTree comp =  cataQTree (either (compressCell (pred(comp))) toBlock)
+compressCell red (a,(b,c)) = if (red > 0) then (Cell a 0 0) else (Cell a b c)
+
+-- cleanQTree remove todas as folhas que têm valor 2 ou 3
+-- O pai delas, que era um Block, passa a ser uma Cell
+-- com valor 1 se a maioria dos filhos tinham valor 3,
+-- ou com valor 0 se a maioria dos filhos tinham valor 2.
+cleanQTree :: (Num a, Eq a) => QTree a -> QTree a
+cleanQTree x@(Block a b c d)
+  | mostly2 x = Cell 0 (fst (sizeQTree x)) (snd (sizeQTree x))
+  | mostly3 x = Cell 1 (fst (sizeQTree x)) (snd (sizeQTree x))
+  | otherwise = x
+cleanQTree y@(Cell a b c) = y
+
+mostly2 :: (Num a, Eq a) => QTree a -> Bool
+mostly2 a = (numBitsEqualTo 2 a) > (numBitsNot 2 a)
+
+mostly3 :: (Num a, Eq a) => QTree a -> Bool
+mostly3 a = (numBitsEqualTo 3 a) > (numBitsNot 3 a)
+
+-- Recebe um valor e uma QTree e retorna o número
+-- de bits da QTree que têm esse valor
+numBitsEqualTo :: (Num a, Eq a) => a -> QTree a -> Int
+numBitsEqualTo x (Block a b c d) = (numBitsEqualTo x a) + (numBitsEqualTo x b) + (numBitsEqualTo x c) + (numBitsEqualTo x d)
+numBitsEqualTo x (Cell a b c)
+  | x == a = b * c
+  | otherwise = 0
+
+numBitsNot :: (Num a, Eq a) => a -> QTree a -> Int
+numBitsNot x y = (numBits y) - (numBitsEqualTo x y)
+
+numBits :: (Num a, Eq a) => QTree a -> Int
+numBits (Block a b c d) = (numBits a) + (numBits b) + (numBits c) + (numBits d)
+numBits (Cell a b c) = b * c
+
 \end{code}
 
 \begin{eqnarray*}
@@ -1752,7 +1783,7 @@ invertBMP from to = withBMP from to invertbm
 
 depthQTree :: QTree a -> Int
 depthQTree = cataQTree (either (const 0) f)
-    where f (a,(b,(c,d))) = maximum [a,b,c,d]
+    where f (a,(b,(c,d))) = 1 + maximum [a,b,c,d]
 
 compressbm :: Eq a => Int -> Matrix a -> Matrix a
 compressbm n = qt2bm . compressQTree n . bm2qt
