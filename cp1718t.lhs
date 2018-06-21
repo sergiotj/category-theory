@@ -1274,14 +1274,14 @@ geneCompress (x, (Cell a b c)) = i1 (a, (b, c))
 geneCompress (x, t@(Block a b c d))
   | x >= (depthQTree t) = i1 ((anyValue t), ((fst (sizeQTree t)), (snd (sizeQTree t))))
   | otherwise = i2 (((x, a), ((x, b), ((x, c), (x, d)))))
+\end{code}
 
--- Retorna um valor qualquer de uma QTree
--- Precisamos disto para a compress, para escolher um valor
--- qualquer para o Block pai ao tirar os filhos.
+\begin{code}
+Retorna um valor qualquer de uma QTree.
+Precisamos disto para a compress, para escolher um valor qualquer para o Block pai ao tirar os filhos.
 anyValue :: QTree a -> a
 anyValue (Cell a b c) = a
 anyValue (Block a b c d) = anyValue a
-
 \end{code}
 
 \begin{eqnarray*}

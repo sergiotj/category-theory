@@ -1677,9 +1677,6 @@ Por isso, invertQTree vem:
 \ColumnHook
 \end{hscode}\resethooks
 
-compressQTree comp =  cataQTree (either (compressCell comp) toBlock)
-compressCell red (a,(b,c)) = if (red > (depthQTree((Cell a b c)))) then (Cell a b c) else (Cell a 0 0)
-
 \begin{eqnarray*}
 \xymatrix@C=2cm{
     \ensuremath{\Conid{QTree}\;\Conid{A}}
@@ -1698,8 +1695,34 @@ compressCell red (a,(b,c)) = if (red > (depthQTree((Cell a b c)))) then (Cell a 
 
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\Varid{compressQTree}\mathrel{=}\bot {}\<[E]%
+\>[B]{}\Varid{compressQTree}\;\Varid{a}\;\Varid{b}\mathrel{=}(\Varid{anaQTree}\;\Varid{geneCompress})\;(\Varid{a},\Varid{b}){}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\Varid{geneCompress}\mathbin{::}(\Conid{Int},\Conid{QTree}\;\Varid{a})\to (\Varid{a},(\Conid{Int},\Conid{Int}))+((\Conid{Int},\Conid{QTree}\;\Varid{a}),((\Conid{Int},\Conid{QTree}\;\Varid{a}),((\Conid{Int},\Conid{QTree}\;\Varid{a}),(\Conid{Int},\Conid{QTree}\;\Varid{a})))){}\<[E]%
+\\
+\>[B]{}\Varid{geneCompress}\;(\Varid{x},(\Conid{Cell}\;\Varid{a}\;\Varid{b}\;\Varid{c}))\mathrel{=}i_1\;(\Varid{a},(\Varid{b},\Varid{c})){}\<[E]%
+\\
+\>[B]{}\Varid{geneCompress}\;(\Varid{x},\Varid{t}\mathord{@}(\Conid{Block}\;\Varid{a}\;\Varid{b}\;\Varid{c}\;\Varid{d})){}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\mid \Varid{x}\geq (\Varid{depthQTree}\;\Varid{t})\mathrel{=}i_1\;((\Varid{anyValue}\;\Varid{t}),((\p1\;(\Varid{sizeQTree}\;\Varid{t})),(\p2\;(\Varid{sizeQTree}\;\Varid{t})))){}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\mid \Varid{otherwise}\mathrel{=}i_2\;(((\Varid{x},\Varid{a}),((\Varid{x},\Varid{b}),((\Varid{x},\Varid{c}),(\Varid{x},\Varid{d}))))){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Conid{Retorna}\;\Varid{um}\;\Varid{valor}\;\Varid{qualquer}\;\Varid{de}\;\Varid{uma}\;\Conid{QTree}\comp \Conid{Precisamos}\;\Varid{disto}\;\Varid{para}\;\Varid{a}\;\Varid{compress},\Varid{para}\;\Varid{escolher}\;\Varid{um}\;\Varid{valor}\;\Varid{qualquer}\;\Varid{para}\;\Varid{o}\;\Conid{Block}\;\Varid{pai}\;\Varid{ao}\;\Varid{tirar}\;\Varid{os}\;\Varid{filhos}\comp {}\<[E]%
+\\
+\>[B]{}\Varid{anyValue}\mathbin{::}\Conid{QTree}\;\Varid{a}\to \Varid{a}{}\<[E]%
+\\
+\>[B]{}\Varid{anyValue}\;(\Conid{Cell}\;\Varid{a}\;\Varid{b}\;\Varid{c})\mathrel{=}\Varid{a}{}\<[E]%
+\\
+\>[B]{}\Varid{anyValue}\;(\Conid{Block}\;\Varid{a}\;\Varid{b}\;\Varid{c}\;\Varid{d})\mathrel{=}\Varid{anyValue}\;\Varid{a}{}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
 
