@@ -1266,40 +1266,21 @@ invertCell ((PixelRGBA8 r g b a),(x,y)) = Cell (PixelRGBA8 (255-r) (255-g) (255-
 \end{eqnarray*}
 
 \begin{code}
-compressQTree comp =  cataQTree (either (compressCell (pred(comp))) toBlock)
-compressCell red (a,(b,c)) = if (red > 0) then (Cell a 0 0) else (Cell a b c)
 
--- cleanQTree remove todas as folhas que têm valor 2 ou 3
--- O pai delas, que era um Block, passa a ser uma Cell
--- com valor 1 se a maioria dos filhos tinham valor 3,
--- ou com valor 0 se a maioria dos filhos tinham valor 2.
-cleanQTree :: (Num a, Eq a) => QTree a -> QTree a
-cleanQTree x@(Block a b c d)
-  | mostly2 x = Cell 0 (fst (sizeQTree x)) (snd (sizeQTree x))
-  | mostly3 x = Cell 1 (fst (sizeQTree x)) (snd (sizeQTree x))
-  | otherwise = x
-cleanQTree y@(Cell a b c) = y
+compressQTree a b = (anaQTree geneCompress) (a, b)
 
-mostly2 :: (Num a, Eq a) => QTree a -> Bool
-mostly2 a = (numBitsEqualTo 2 a) > (numBitsNot 2 a)
+geneCompress :: (Int, QTree a) -> Either (a, (Int, Int)) ((Int, QTree a), ((Int, QTree a), ((Int, QTree a), (Int, QTree a))))
+geneCompress (x, (Cell a b c)) = i1 (a, (b, c))
+geneCompress (x, t@(Block a b c d))
+  | x >= (depthQTree t) = i1 ((anyValue t), ((fst (sizeQTree t)), (snd (sizeQTree t))))
+  | otherwise = i2 (((x, a), ((x, b), ((x, c), (x, d)))))
 
-mostly3 :: (Num a, Eq a) => QTree a -> Bool
-mostly3 a = (numBitsEqualTo 3 a) > (numBitsNot 3 a)
-
--- Recebe um valor e uma QTree e retorna o número
--- de bits da QTree que têm esse valor
-numBitsEqualTo :: (Num a, Eq a) => a -> QTree a -> Int
-numBitsEqualTo x (Block a b c d) = (numBitsEqualTo x a) + (numBitsEqualTo x b) + (numBitsEqualTo x c) + (numBitsEqualTo x d)
-numBitsEqualTo x (Cell a b c)
-  | x == a = b * c
-  | otherwise = 0
-
-numBitsNot :: (Num a, Eq a) => a -> QTree a -> Int
-numBitsNot x y = (numBits y) - (numBitsEqualTo x y)
-
-numBits :: (Num a, Eq a) => QTree a -> Int
-numBits (Block a b c d) = (numBits a) + (numBits b) + (numBits c) + (numBits d)
-numBits (Cell a b c) = b * c
+-- Retorna um valor qualquer de uma QTree
+-- Precisamos disto para a compress, para escolher um valor
+-- qualquer para o Block pai ao tirar os filhos.
+anyValue :: QTree a -> a
+anyValue (Cell a b c) = a
+anyValue (Block a b c d) = anyValue a
 
 \end{code}
 
