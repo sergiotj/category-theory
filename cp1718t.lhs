@@ -1549,8 +1549,13 @@ drawPTree = undefined
 \subsection*{Problema 5}
 
 \begin{code}
-singletonbag = undefined
-muB = undefined
+singletonbag = B . singl . toTuple
+toTuple a = (a,1)
+muB = B . concat . (map multBags) . unB . (fmap unB)
+multBags :: ([(a, Int)], Int) -> [(a, Int)]
+multBags ([], c) = []
+multBags (((a, b):tail), c) = [(a,b*c)] ++ (multBags (tail, c))
+
 dist = undefined
 \end{code}
 
