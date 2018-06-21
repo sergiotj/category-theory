@@ -969,6 +969,8 @@ consolidate = B . consol . unB
 
 \subsection*{Problema 1}
 
+Antes de proceder à resolução das alíneas, foi necessária a definição das funções relativas à manipulação de Blockchains:
+
 \begin{code}
 inBlockchain = either Bc Bcs
 outBlockchain (Bc a) = i1 a
@@ -979,8 +981,27 @@ anaBlockchain g = inBlockchain . (recBlockchain (anaBlockchain g)) . g
 hyloBlockchain f g = cataBlockchain f . anaBlockchain g
 \end{code}
 
-\par allTransactions usa um catamorfismo que basicamente só usa o p2 para extrair as listas de transações de cada bloco
-\par O conc concatena duas listas recebidas num tuplo: ([a], [a]) -> [a]
+Para definir o allTransactions, que calcula uma lista de todas as transações de uma Blockchain, foi usado um catamorfismo de Blockchains:
+
+TODO: diagrama de catamorfismo de blockchain aqui em baixo:
+
+\begin{eqnarray*}
+\xymatrix@@C=2cm{
+    Blockchain
+           \ar[d]_-{|f|}
+           \ar[r]^{out}
+&
+    Block + Block x Blockchain
+           \ar[d]^{id + id x f}
+\\
+    C
+&
+    Block + Block x C
+           \ar[l]^-{g}
+}
+\end{eqnarray*}
+
+Este catamorfismo simplesmente usa a função \emph{p2} para extrair as listas de transações de cada bloco:
 
 \begin{code}
 allTransactions = cataBlockchain (either getTransaction getTransactions)
@@ -988,11 +1009,20 @@ getTransaction = p2 . p2
 getTransactions = conc . ((p2 . p2) >< id)
 \end{code}
 
-\par Para calcular o ledger vamos fazer 3 passos:
-\par 1. Obter a lista das transações de uma blockchain (usando allTransactions)
-\par 2. Obter uma lista de entidades a partir da lista de transações (usando catamorfismo getEntities)
-\par 3. Eliminar repetições da lista de entidades
-\par 4. Obter o ledger
+É importante notar que \emph{conc} gera uma lista concatenando um par que contém duas listas: \emph{([a], [a]) -> [a]}
+
+Para calcular o ledger de uma blockchain vamos fazer 3 passos:
+
+\begin{enumerate}
+  \item Obter a lista das transações de uma blockchain (usando allTransactions)
+  \item Obter uma lista de entidades a partir da lista de transações (usando catamorfismo getEntities)
+  \item Eliminar repetições da lista de entidades
+  \item Obter o ledger
+\end{enumerate}
+
+O diagrama seguinte mostra a composição de funções utilizada:
+
+// TODO: o que está aqui em baixo para diagrama!
 
 \par Diagrama:
 \par
@@ -1018,36 +1048,44 @@ getTransactions = conc . ((p2 . p2) >< id)
 \par v
 \par [(entity, saldo)]  <-- Ledger!!
 
+O código Haskell correspondente ao diagrama será:
+
 \begin{code}
 ledger = zipPair . (split p1 (mapPair . swap)) . (id >< getBalance) . (split getUniqueEntities id) . allTransactions
 \end{code}
 
-\par Catamorfismo de listas que calcula um conjunto de entidades a partir de uma lista de transações
-\par Transação: (origem, (valor, destino))
-\par Transação para lista com as duas entidades: pairToList . (split p1 (p2 . p2))
-\par Gene: [nil, conc . (funcaoDaLinhaAcima >< id)]
+\emph{getEntities} será um catamorfismo de listas que calcula uma lista de entidades a partir de uma de transações.
+Uma transação corresponde ao par (origem, (valor, destino)).
+Para transformar uma transação em uma lista com as duas entidades, usamos: \emph{pairToList . (split p1 (p2 . p2))}
+O gene do catamorfismo será: \emph{[nil, conc . (funcaoDaLinhaAcima >< id)]}
+sendo \emph{funcaoDaLinhaAcima} a função enunciada duas linhas atrás.
 
 \begin{code}
 getEntities :: [Transaction] -> [String]
 getEntities = cataList ( either nil (conc . ((pairToList . split p1 (p2 . p2)) >< id)) )
 \end{code}
 
-\par Remove repetições de uma lista de entidades
+A função getUniqueEntities remove repetições de uma lista de entidades:
+
 \begin{code}
 getUniqueEntities :: [Transaction] -> [String]
 getUniqueEntities = remDup . getEntities
 \end{code}
 
-\par Catamorfismo (de listas de transações) que calcula o saldo de uma dada entidade
-\par Não é pointfree porque tem de receber a lista de transações antes da entidade,
-\par para nos dar jeito para o map que vamos querer fazer.
-\par Usamos const 0 em vez de Cp.zero porque o do professor retorna Integer em vez de Int
+getBalance será um catamorfismo de listas de transações que calcula o saldo de uma dada entidade.
+Esta função foi definida em pointwise uma vez que tem de receber a lista de transações antes da entidade,
+o que nos é útil para o map que vamos querer executar.
+Usamos const 0 em vez de Cp.zero porque este último retorna Integer em vez de Int.
+
 \begin{code}
 getBalance :: [Transaction] -> String -> Int
 getBalance transactions entity = (cataList ( either (const 0) ( addInt . ((delta entity) >< id) ) )) transactions
 \end{code}
 
-\par delta: Retorna a diferença de saldo resultante de uma transação, para uma dada entidade (se a entidade não aparece na transação, delta = 0)
+
+A função delta retorna a diferença de saldo resultante de uma transação para uma dada entidade
+(se a entidade não aparece na transação, delta será 0)
+
 \begin{code}
 delta :: String -> Transaction -> Int
 delta entity (a, (v, b))
@@ -1055,6 +1093,8 @@ delta entity (a, (v, b))
     | entity == b = v
     | otherwise = 0
 \end{code}
+
+Foi também necessário definir as funções auxiliares \emph{mapPair} e \emph{zipPair}:
 
 \begin{code}
 mapPair :: (a -> b, [a]) -> [b]
@@ -1066,23 +1106,32 @@ zipPair :: ([a], [b]) -> [(a, b)]
 zipPair (x, y) = zip x y
 \end{code}
 
-\par addInt em vez de add porque add recebe Integer, e fazer conversões ia ficar confuso
+A função addInt soma um par de Ints:
+
 \begin{code}
 addInt :: (Int, Int) -> Int
 addInt (a, b) = a + b
 \end{code}
 
-\par Remove elementos duplicados de uma lista encontrada no stack overflow, muito fixe!!!
-\par nub: O(N^2), remDup: O(N log N)
+A função remDup Remove elementos duplicados de uma lista.
+Esta função foi uma descoberta interessante, e tem um desempenho melhor que a equivalente nativa!
+\emph{nub} é O(N^2) enquanto que \emph{remDup} é O(N log N).
+
 \begin{code}
 remDup :: (Ord a) => [a] -> [a]
 remDup = map head . group . sort
 \end{code}
 
+A função \emph{pairToList} cria um par a partir de uma lista com dois elementos:
+
 \begin{code}
 pairToList :: (a, a) -> [a]
 pairToList (x, y) = [x, y]
 \end{code}
+
+Para definir \emph{isValidMagicNr} foi definido um catamorfismo:
+
+// TODO: criar diagrama do que está aqui em baixo:
 
 \par Diagrama do isValidMagicNr:
 \par (verifica se os números mágicos de uma blockchain são únicos)
@@ -1093,38 +1142,43 @@ pairToList (x, y) = [x, y]
 \par v
 \par [String]
 \par /
-\par / checkDuplicates (catamorfismo)
+\par / checkDuplicates
 \par v
 \par Bool
+
+Ao que corresponde o seguinte código Haskell:
 
 \begin{code}
 isValidMagicNr = checkDuplicates . getMagicNumbers
 \end{code}
 
-\par Este cataBlockchain que retorna a lista de números mágicos é um bocado manhoso! Temos de explicar bem o caso final, que faz cons . (split p1 nil) para retornar uma lista só com o número mágico do último bloco lá dentro
+O catamorfismo getMagicNumbers retorna a lista de números mágicos de uma Blockchain.
+O caso final, \emph{cons . (split p1 nil)}, retorna uma lista que contém apenas o número mágico do último bloco.
+
 \begin{code}
 getMagicNumbers :: Blockchain -> [String]
 getMagicNumbers = cataBlockchain (either (cons . (split p1 nil)) (cons . (p1 >< id)))
 \end{code}
 
-\par Verifica duplicados, esta é pointwise porque são 19:47 e passamos o dia na biblioteca, estamos cansados, e assim fica bonita, não tem mal nenhum :'(
+A função checkDuplicates retorna true se uma lista não tem elementos duplicados, usando a função \emph{remDup} definida anteriormente.
+
 \begin{code}
 checkDuplicates :: (Ord a) => [a] -> Bool
 checkDuplicates x = (remDup x) == x
 \end{code}
 
-\par Blockchain de teste
+Foi também definida uma Blockchain de teste de maneira a verificar as funcionalidades criadas para a resolução deste primeiro problema.
+
 \begin{code}
 block1 = ("1234", (177777, [("Marcos", (200, "Tarracho")), ("Antonio", (200, "Joao")), ("Tarracho", (200, "Marcos")), ("Marcos", (200, "Tarracho"))]))
 block2 = ("6789", (177888, [("Marcos", (200, "Tarracho")), ("Antonio", (200, "Joao"))]))
 block3 = ("4444", (177888, [("Maria", (200, "Matilde")), ("Matilde", (200, "Maria"))]))
+
+testBlockchain1 = Bcs (block1, Bc block2)
+testBlockchain2 = Bcs (block3, Bcs (block1, Bc block2))
 \end{code}
 
-\par testBlockchain = Bcs (block1, Bc block2)
-
-\begin{code}
-testBlockchain = Bcs (block3, Bcs (block1, Bc block2))
-\end{code}
+// TODO: parei aqui, antes do problema 2!
 
 \subsection*{Problema 2}
 
