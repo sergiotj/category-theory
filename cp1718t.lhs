@@ -1188,13 +1188,13 @@ instance Functor QTree where
            \ar[d]_-{|cataQTree r|}
 &
     |(A, (Int, Int)) + ((QTree A) ^ 4)|
-           \ar[d]^{|inQTree|}
+           \ar[d]^{|recQTree r|}
            \ar[l]_-{|inQTree|}
 \\
     |QTree A|
 &
     |(A, (Int, Int)) + ((QTree A) ^ 4)|
-           \ar[l]^-{|r|}
+           \ar[l]^-{|g|}
 }
 \end{eqnarray*}
 
@@ -1211,13 +1211,13 @@ rotateBlock (a, (b, (c,d))) = Block c a d b
            \ar[d]_-{|cataQTree s|}
 &
     |Int ><  (A, (Int, Int)) + ((QTree A) ^ 4)|
-           \ar[d]^{|id x id|}
+           \ar[d]^{|recQTree s|}
            \ar[l]_-{|inQTree|}
 \\
     |QTree A|
 &
     |Int >< (A, (Int, Int)) + ((QTree A) ^ 4)|
-           \ar[l]^-{|s|}
+           \ar[l]^-{|g|}
 }
 \end{eqnarray*}
 
@@ -1233,13 +1233,13 @@ scaleCell mult (a,(b,c)) = Cell a (mult * b) (mult * c)
            \ar[d]_-{|cataQTree i|}
 &
     |(A, (Int, Int)) + ((QTree A) ^ 4)|
-           \ar[d]^{|id x id|}
+           \ar[d]^{|recQTree i|}
            \ar[l]_-{|inQTree|}
 \\
     |QTree A|
 &
     |(A, (Int, Int)) + ((QTree A) ^ 4)|
-           \ar[l]^-{|i|}
+           \ar[l]^-{|g|}
 }
 \end{eqnarray*}
 
@@ -1274,29 +1274,30 @@ geneCompress (x, (Cell a b c)) = i1 (a, (b, c))
 geneCompress (x, t@(Block a b c d))
   | x >= (depthQTree t) = i1 ((anyValue t), ((fst (sizeQTree t)), (snd (sizeQTree t))))
   | otherwise = i2 (((x, a), ((x, b), ((x, c), (x, d)))))
+\end{code}
 
--- Retorna um valor qualquer de uma QTree
--- Precisamos disto para a compress, para escolher um valor
--- qualquer para o Block pai ao tirar os filhos.
+
+\par Retorna um valor qualquer de uma QTree.
+Precisamos disto para a compress, para escolher um valor qualquer para o Block pai ao tirar os filhos.
+\begin{code}
 anyValue :: QTree a -> a
 anyValue (Cell a b c) = a
 anyValue (Block a b c d) = anyValue a
-
 \end{code}
 
 \begin{eqnarray*}
 \xymatrix@@C=2cm{
     |QTree A|
-           \ar[d]_-{|cataQTree i|}
+           \ar[d]_-{|cataQTree o|}
 &
     |f >< (A, (Int, Int)) + ((QTree A) ^ 4)|
-           \ar[d]^{|id x id|}
+           \ar[d]^{|recQTree o|}
            \ar[l]_-{|inQTree|}
 \\
     |qt2bm . QTree A . Bool|
 &
     |f >< (A, (Int, Int)) + ((QTree A) ^ 4)|
-           \ar[l]^-{|i|}
+           \ar[l]^-{|g|}
 }
 \end{eqnarray*}
 
@@ -1328,7 +1329,7 @@ outlineBlock a b = Block
 		lk (d+1) = lk d+1
 	)|
 %
-\just\equiv{ lei 73 e lei 74 }
+\just\equiv{ lei 73 (x2), lei 74 (x4), definiçao de (d+k+1), lei 76 (x2), lei 78 }
 %
     |lcbr(
 		fk . (const 0) = const 1
@@ -1336,12 +1337,12 @@ outlineBlock a b = Block
 		fk . succ = mul . (split lk fk)
     )|
     |lcbr(
-		lk . (const 0) = const 1
+		lk . (const 0) = const (k+1)
     )(
 		lk . succ = succ . lk
 	)|
 %
-\just\equiv{ Lei Eq-+ }
+\just\equiv{ lei eq-+ }
 %
     |lcbr(
 		either (fk . (const 0)) (fk . succ) = either (const 1) (mul . (split lk fk))
@@ -1349,7 +1350,7 @@ outlineBlock a b = Block
 		either (lk . (const 0)) (lk . succ) = either (const (k+1)) (succ . lk)
 	)|
 %
-\just\equiv{ Definição de in dos naturais, Lei da Fusão e Lei da Absorção }
+\just\equiv{ definição de in dos naturais, lei da fusão (x2) e lei da absorção (x2) }
 %
     |lcbr(
 		fk . in = (either (const 1) mul) . (id + split lk fk)
@@ -1357,7 +1358,7 @@ outlineBlock a b = Block
 		lk . in = (either (const (k+1)) succ) . (id + lk)
 	)|
 %
-\just\equiv{ A ver depois mas será aplicação de swap e de cancelamento-X }
+\just\equiv{ definição de swap e lei do cancelamento-x }
 %
     |lcbr(
 		fk . in = (either (const 1) mul . swap) . (id + split fk lk)
@@ -1366,7 +1367,7 @@ outlineBlock a b = Block
 	)|
 
 %
-\just\equiv{ Fokkinga }
+\just\equiv{ fokkinga }
 %
 	|split fk lk = cataA (split (either (const 1) (mul . swap)) (either (const (k+1)) (succ . p2)))|
 
@@ -1386,7 +1387,7 @@ outlineBlock a b = Block
 		s (d+1) = s d+1
 	)|
 %
-\just\equiv{ lei 73 e lei 74 }
+\just\equiv{ lei 73 (x2), lei 74 (x4), lei 76 (x2), definição de (d+1) e lei 78 }
 %
     |lcbr(
 		g . (const 0) = const 1
@@ -1399,7 +1400,7 @@ outlineBlock a b = Block
 		s . succ = succ . s
 	)|
 %
-\just\equiv{ Lei Eq-+ }
+\just\equiv{ lei eq-+ }
 %
     |lcbr(
 		either (g . (const 0)) (g . succ) = either (const 1) (mul . (split s g))
@@ -1407,15 +1408,15 @@ outlineBlock a b = Block
 		either (s . (const 0)) (s . succ) = either (const 1) (succ . s)
 	)|
 %
-\just\equiv{ Definição de in dos naturais, Lei da Fusão e Lei da Absorção }
+\just\equiv{ definição de in dos naturais, lei da fusão (x2) e lei da absorção (x2) }
 %
     |lcbr(
 		g . in = (either (const 1) mul) . (id + split s g)
 	)(
-		s . in = (either (const (k+1)) succ . p1) . (id + split s g)
+		s . in = (either (const (1)) succ . p1) . (id + split s g)
 	)|
 %
-\just\equiv{ A ver depois mas será aplicação de swap e de cancelamento-X }
+\just\equiv{ propriedade do swap (x2) e cancelamento-x }
 %
     |lcbr(
 		g . in = (either (const 1) (mul . swap)) . (id + split g s)
@@ -1423,7 +1424,7 @@ outlineBlock a b = Block
 		s . in = (either (const 1) (succ . p1 . swap) . (id + split g s)
 	)|
 %
-\just\equiv{ Fokkinga }
+\just\equiv{ fokkinga }
 %
 	|split g s = cataA (split (either (const 1) (mul . swap)) (either (const 1) (succ . p1 . swap)))|
 
@@ -1439,30 +1440,30 @@ outlineBlock a b = Block
         cataA j = cataA (split (either (const 1) (mul . swap)) (either (const 1) (succ . p1 . swap)))
     )|
 %
-\just\equiv{ Banana-Split }
+\just\equiv{ lei banana-split }
 %
-	|split (cataA i) (cataA j) = cataA ((split (either (const 1) (mul . swap)) (either (const (k+1)) (succ . p2))) >< (split (either (const 1) (mul . swap)) (either (const 1) (succ . p1 . swap))))|
+	|split (cataA i) (cataA j) = cataA ((split (either (const 1) (mul . swap)) (either (const (k+1)) (succ . p2))) >< (split (either (const 1) (mul . swap)) (either (const 1) (succ . p1 . swap))) . split (F p1) (F p2))|
 %
-\just\equiv{ Lei da Troca }
+\just\equiv{ lei da Troca }
 %
 
-    |split (cataA i) (cataA j) = cataA ((either (split (const 1) (const (k+1))) (split (mul . swap) (succ . p2))) >< (either (split (const 1) (const 1)) (split (mul . swap) (succ . p1 . swap))))|
+    |split (cataA i) (cataA j) = cataA ((either (split (const 1) (const (k+1))) (split (mul . swap) (succ . p2))) >< (either (split (const 1) (const 1)) (split (mul . swap) (succ . p1 . swap))) . split (F p1) (F p2))|
 %
-\just\equiv{ Conforme 3.90 a 3.95 dos apontamentos (lei 11) }
+\just\equiv{ conforme 3.90 a 3.95 dos apontamentos / lei 11) }
 %
 
     |split (cataA i) (cataA j) = cataA ( split ( (either (split (const 1) (const (k+1))) (split (mul . swap) (succ . p2))) . F p1 ) ( (either (split (const 1) (const (k+1))) (split (mul . swap) (succ . p2))) . F p2 )
 
     )|
 %
-\just\equiv{ Lei da Troca - outra vez }
+\just\equiv{ lei da troca }
 %
 
     |split (cataA i) (cataA j) = cataA ( either (split (split (const 1) (const (k+1))) (split (const 1) (const 1))) (split (split (mul . swap) (succ . p2) . p1) (split (mul . swap) (succ . p1 . swap) . p2)) )
 
     )|
 %
-\just\equiv{ Pela definição de for b i }
+\just\equiv{ definição de for b i }
 %
 
     |lcbr(

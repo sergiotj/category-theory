@@ -1603,13 +1603,13 @@ Aplicando a definição de toBlock e toCell temos:
            \ar[d]_-{\ensuremath{\Varid{cataQTree}\;\Varid{r}}}
 &
     \ensuremath{(\Conid{A},(\Conid{Int},\Conid{Int}))\mathbin{+}((\Conid{QTree}\;\Conid{A})\mathbin{\uparrow}\mathrm{4})}
-           \ar[d]^{\ensuremath{\Varid{inQTree}}}
+           \ar[d]^{\ensuremath{\Varid{recQTree}\;\Varid{r}}}
            \ar[l]_-{\ensuremath{\Varid{inQTree}}}
 \\
     \ensuremath{\Conid{QTree}\;\Conid{A}}
 &
     \ensuremath{(\Conid{A},(\Conid{Int},\Conid{Int}))\mathbin{+}((\Conid{QTree}\;\Conid{A})\mathbin{\uparrow}\mathrm{4})}
-           \ar[l]^-{\ensuremath{\Varid{r}}}
+           \ar[l]^-{\ensuremath{\Varid{g}}}
 }
 \end{eqnarray*}
 
@@ -1631,13 +1631,13 @@ Por isso, rotateQTree vem:
            \ar[d]_-{\ensuremath{\Varid{cataQTree}\;\Varid{s}}}
 &
     \ensuremath{\Conid{Int}\times(\Conid{A},(\Conid{Int},\Conid{Int}))\mathbin{+}((\Conid{QTree}\;\Conid{A})\mathbin{\uparrow}\mathrm{4})}
-           \ar[d]^{\ensuremath{\Varid{id}\;\Varid{x}\;\Varid{id}}}
+           \ar[d]^{\ensuremath{\Varid{recQTree}\;\Varid{s}}}
            \ar[l]_-{\ensuremath{\Varid{inQTree}}}
 \\
     \ensuremath{\Conid{QTree}\;\Conid{A}}
 &
     \ensuremath{\Conid{Int}\times(\Conid{A},(\Conid{Int},\Conid{Int}))\mathbin{+}((\Conid{QTree}\;\Conid{A})\mathbin{\uparrow}\mathrm{4})}
-           \ar[l]^-{\ensuremath{\Varid{s}}}
+           \ar[l]^-{\ensuremath{\Varid{g}}}
 }
 \end{eqnarray*}
 
@@ -1657,13 +1657,13 @@ Por isso, scaleQTree vem:
            \ar[d]_-{\ensuremath{\Varid{cataQTree}\;\Varid{i}}}
 &
     \ensuremath{(\Conid{A},(\Conid{Int},\Conid{Int}))\mathbin{+}((\Conid{QTree}\;\Conid{A})\mathbin{\uparrow}\mathrm{4})}
-           \ar[d]^{\ensuremath{\Varid{id}\;\Varid{x}\;\Varid{id}}}
+           \ar[d]^{\ensuremath{\Varid{recQTree}\;\Varid{i}}}
            \ar[l]_-{\ensuremath{\Varid{inQTree}}}
 \\
     \ensuremath{\Conid{QTree}\;\Conid{A}}
 &
     \ensuremath{(\Conid{A},(\Conid{Int},\Conid{Int}))\mathbin{+}((\Conid{QTree}\;\Conid{A})\mathbin{\uparrow}\mathrm{4})}
-           \ar[l]^-{\ensuremath{\Varid{i}}}
+           \ar[l]^-{\ensuremath{\Varid{g}}}
 }
 \end{eqnarray*}
 
@@ -1677,9 +1677,6 @@ Por isso, invertQTree vem:
 \ColumnHook
 \end{hscode}\resethooks
 
-compressQTree comp =  cataQTree (either (compressCell comp) toBlock)
-compressCell red (a,(b,c)) = if (red > (depthQTree((Cell a b c)))) then (Cell a b c) else (Cell a 0 0)
-
 \begin{eqnarray*}
 \xymatrix@C=2cm{
     \ensuremath{\Conid{QTree}\;\Conid{A}}
@@ -1698,24 +1695,51 @@ compressCell red (a,(b,c)) = if (red > (depthQTree((Cell a b c)))) then (Cell a 
 
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\Varid{compressQTree}\mathrel{=}\bot {}\<[E]%
+\>[B]{}\Varid{compressQTree}\;\Varid{a}\;\Varid{b}\mathrel{=}(\Varid{anaQTree}\;\Varid{geneCompress})\;(\Varid{a},\Varid{b}){}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\Varid{geneCompress}\mathbin{::}(\Conid{Int},\Conid{QTree}\;\Varid{a})\to (\Varid{a},(\Conid{Int},\Conid{Int}))+((\Conid{Int},\Conid{QTree}\;\Varid{a}),((\Conid{Int},\Conid{QTree}\;\Varid{a}),((\Conid{Int},\Conid{QTree}\;\Varid{a}),(\Conid{Int},\Conid{QTree}\;\Varid{a})))){}\<[E]%
+\\
+\>[B]{}\Varid{geneCompress}\;(\Varid{x},(\Conid{Cell}\;\Varid{a}\;\Varid{b}\;\Varid{c}))\mathrel{=}i_1\;(\Varid{a},(\Varid{b},\Varid{c})){}\<[E]%
+\\
+\>[B]{}\Varid{geneCompress}\;(\Varid{x},\Varid{t}\mathord{@}(\Conid{Block}\;\Varid{a}\;\Varid{b}\;\Varid{c}\;\Varid{d})){}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\mid \Varid{x}\geq (\Varid{depthQTree}\;\Varid{t})\mathrel{=}i_1\;((\Varid{anyValue}\;\Varid{t}),((\p1\;(\Varid{sizeQTree}\;\Varid{t})),(\p2\;(\Varid{sizeQTree}\;\Varid{t})))){}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\mid \Varid{otherwise}\mathrel{=}i_2\;(((\Varid{x},\Varid{a}),((\Varid{x},\Varid{b}),((\Varid{x},\Varid{c}),(\Varid{x},\Varid{d}))))){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+
+\par Retorna um valor qualquer de uma QTree.
+Precisamos disto para a compress, para escolher um valor qualquer para o Block pai ao tirar os filhos.
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{anyValue}\mathbin{::}\Conid{QTree}\;\Varid{a}\to \Varid{a}{}\<[E]%
+\\
+\>[B]{}\Varid{anyValue}\;(\Conid{Cell}\;\Varid{a}\;\Varid{b}\;\Varid{c})\mathrel{=}\Varid{a}{}\<[E]%
+\\
+\>[B]{}\Varid{anyValue}\;(\Conid{Block}\;\Varid{a}\;\Varid{b}\;\Varid{c}\;\Varid{d})\mathrel{=}\Varid{anyValue}\;\Varid{a}{}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
 
 \begin{eqnarray*}
 \xymatrix@C=2cm{
     \ensuremath{\Conid{QTree}\;\Conid{A}}
-           \ar[d]_-{\ensuremath{\Varid{cataQTree}\;\Varid{i}}}
+           \ar[d]_-{\ensuremath{\Varid{cataQTree}\;\Varid{o}}}
 &
     \ensuremath{\Varid{f}\times(\Conid{A},(\Conid{Int},\Conid{Int}))\mathbin{+}((\Conid{QTree}\;\Conid{A})\mathbin{\uparrow}\mathrm{4})}
-           \ar[d]^{\ensuremath{\Varid{id}\;\Varid{x}\;\Varid{id}}}
+           \ar[d]^{\ensuremath{\Varid{recQTree}\;\Varid{o}}}
            \ar[l]_-{\ensuremath{\Varid{inQTree}}}
 \\
     \ensuremath{\Varid{qt2bm}\comp \Conid{QTree}\;\Conid{A}\comp \Conid{Bool}}
 &
     \ensuremath{\Varid{f}\times(\Conid{A},(\Conid{Int},\Conid{Int}))\mathbin{+}((\Conid{QTree}\;\Conid{A})\mathbin{\uparrow}\mathrm{4})}
-           \ar[l]^-{\ensuremath{\Varid{i}}}
+           \ar[l]^-{\ensuremath{\Varid{g}}}
 }
 \end{eqnarray*}
 
@@ -1760,25 +1784,25 @@ compressCell red (a,(b,c)) = if (red > (depthQTree((Cell a b c)))) then (Cell a 
         \ensuremath{\begin{lcbr}\Varid{fk}\;\mathrm{0}\mathrel{=}\mathrm{1}\\\Varid{fk}\;(\Varid{d}\mathbin{+}\mathrm{1})\mathrel{=}(\Varid{d}\mathbin{+}\Varid{k}\mathbin{+}\mathrm{1})\mathbin{*}\Varid{fk}\;\Varid{d}\end{lcbr}}
     \ensuremath{\begin{lcbr}\Varid{lk}\;\mathrm{0}\mathrel{=}\mathrm{1}\\\Varid{lk}\;(\Varid{d}\mathbin{+}\mathrm{1})\mathrel{=}\Varid{lk}\;\Varid{d}\mathbin{+}\mathrm{1}\end{lcbr}}
 %
-\just\equiv{ lei 73 e lei 74 }
+\just\equiv{ lei 73 (x2), lei 74 (x4), definiçao de (d+k+1), lei 76 (x2), lei 78 }
 %
     \ensuremath{\begin{lcbr}\Varid{fk}\comp \underline{\mathrm{0}}\mathrel{=}\underline{\mathrm{1}}\\\Varid{fk}\comp \succ \mathrel{=}\Varid{mul}\comp \conj{\Varid{lk}}{\Varid{fk}}\end{lcbr}}
-    \ensuremath{\begin{lcbr}\Varid{lk}\comp \underline{\mathrm{0}}\mathrel{=}\underline{\mathrm{1}}\\\Varid{lk}\comp \succ \mathrel{=}\succ \comp \Varid{lk}\end{lcbr}}
+    \ensuremath{\begin{lcbr}\Varid{lk}\comp \underline{\mathrm{0}}\mathrel{=}\underline{(\Varid{k}\mathbin{+}\mathrm{1})}\\\Varid{lk}\comp \succ \mathrel{=}\succ \comp \Varid{lk}\end{lcbr}}
 %
-\just\equiv{ Lei Eq-+ }
+\just\equiv{ lei eq-+ }
 %
     \ensuremath{\begin{lcbr}\alt{\Varid{fk}\comp \underline{\mathrm{0}}}{\Varid{fk}\comp \succ }\mathrel{=}\alt{\underline{\mathrm{1}}}{\Varid{mul}\comp \conj{\Varid{lk}}{\Varid{fk}}}\\\alt{\Varid{lk}\comp \underline{\mathrm{0}}}{\Varid{lk}\comp \succ }\mathrel{=}\alt{\underline{(\Varid{k}\mathbin{+}\mathrm{1})}}{\succ \comp \Varid{lk}}\end{lcbr}}
 %
-\just\equiv{ Definição de in dos naturais, Lei da Fusão e Lei da Absorção }
+\just\equiv{ definição de in dos naturais, lei da fusão (x2) e lei da absorção (x2) }
 %
     \ensuremath{\begin{lcbr}\Varid{fk}\comp \mathbf{in}\mathrel{=}\alt{\underline{\mathrm{1}}}{\Varid{mul}}\comp (\Varid{id}\mathbin{+}\conj{\Varid{lk}}{\Varid{fk}})\\\Varid{lk}\comp \mathbf{in}\mathrel{=}\alt{\underline{(\Varid{k}\mathbin{+}\mathrm{1})}}{\succ }\comp (\Varid{id}\mathbin{+}\Varid{lk})\end{lcbr}}
 %
-\just\equiv{ A ver depois mas será aplicação de swap e de cancelamento-X }
+\just\equiv{ definição de swap e lei do cancelamento-x }
 %
     \ensuremath{\begin{lcbr}\Varid{fk}\comp \mathbf{in}\mathrel{=}(\alt{\underline{\mathrm{1}}}{\Varid{mul}}\comp \Varid{swap})\comp (\Varid{id}\mathbin{+}\conj{\Varid{fk}}{\Varid{lk}})\\\Varid{lk}\comp \mathbf{in}\mathrel{=}(\alt{\underline{(\Varid{k}\mathbin{+}\mathrm{1})}}{\succ \comp \p2}\comp (\Varid{id}\mathbin{+}\conj{\Varid{fk}}{\Varid{lk}}))\end{lcbr}}
 
 %
-\just\equiv{ Fokkinga }
+\just\equiv{ fokkinga }
 %
 	\ensuremath{\conj{\Varid{fk}}{\Varid{lk}}\mathrel{=}\cata{\conj{\alt{\underline{\mathrm{1}}}{\Varid{mul}\comp \Varid{swap}}}{\alt{\underline{(\Varid{k}\mathbin{+}\mathrm{1})}}{\succ \comp \p2}}~\cdot }_A}
 
@@ -1790,24 +1814,24 @@ compressCell red (a,(b,c)) = if (red > (depthQTree((Cell a b c)))) then (Cell a 
     \ensuremath{\begin{lcbr}\Varid{g}\;\mathrm{0}\mathrel{=}\mathrm{1}\\\Varid{g}\;(\Varid{d}\mathbin{+}\mathrm{1})\mathrel{=}(\Varid{d}\mathbin{+}\mathrm{1})\mathbin{*}\Varid{g}\;\Varid{d}\end{lcbr}}
     \ensuremath{\begin{lcbr}\Varid{s}\;\mathrm{0}\mathrel{=}\mathrm{1}\\\Varid{s}\;(\Varid{d}\mathbin{+}\mathrm{1})\mathrel{=}\Varid{s}\;\Varid{d}\mathbin{+}\mathrm{1}\end{lcbr}}
 %
-\just\equiv{ lei 73 e lei 74 }
+\just\equiv{ lei 73 (x2), lei 74 (x4), lei 76 (x2), definição de (d+1) e lei 78 }
 %
     \ensuremath{\begin{lcbr}\Varid{g}\comp \underline{\mathrm{0}}\mathrel{=}\underline{\mathrm{1}}\\\Varid{g}\comp \succ \mathrel{=}\Varid{mul}\comp \conj{\Varid{s}}{\Varid{g}}\end{lcbr}}
     \ensuremath{\begin{lcbr}\Varid{s}\comp \underline{\mathrm{0}}\mathrel{=}\underline{\mathrm{1}}\\\Varid{s}\comp \succ \mathrel{=}\succ \comp \Varid{s}\end{lcbr}}
 %
-\just\equiv{ Lei Eq-+ }
+\just\equiv{ lei eq-+ }
 %
     \ensuremath{\begin{lcbr}\alt{\Varid{g}\comp \underline{\mathrm{0}}}{\Varid{g}\comp \succ }\mathrel{=}\alt{\underline{\mathrm{1}}}{\Varid{mul}\comp \conj{\Varid{s}}{\Varid{g}}}\\\alt{\Varid{s}\comp \underline{\mathrm{0}}}{\Varid{s}\comp \succ }\mathrel{=}\alt{\underline{\mathrm{1}}}{\succ \comp \Varid{s}}\end{lcbr}}
 %
-\just\equiv{ Definição de in dos naturais, Lei da Fusão e Lei da Absorção }
+\just\equiv{ definição de in dos naturais, lei da fusão (x2) e lei da absorção (x2) }
 %
-    \ensuremath{\begin{lcbr}\Varid{g}\comp \mathbf{in}\mathrel{=}\alt{\underline{\mathrm{1}}}{\Varid{mul}}\comp (\Varid{id}\mathbin{+}\conj{\Varid{s}}{\Varid{g}})\\\Varid{s}\comp \mathbf{in}\mathrel{=}(\alt{\underline{(\Varid{k}\mathbin{+}\mathrm{1})}}{\succ }\comp \p1)\comp (\Varid{id}\mathbin{+}\conj{\Varid{s}}{\Varid{g}})\end{lcbr}}
+    \ensuremath{\begin{lcbr}\Varid{g}\comp \mathbf{in}\mathrel{=}\alt{\underline{\mathrm{1}}}{\Varid{mul}}\comp (\Varid{id}\mathbin{+}\conj{\Varid{s}}{\Varid{g}})\\\Varid{s}\comp \mathbf{in}\mathrel{=}(\alt{\underline{(\mathrm{1})}}{\succ }\comp \p1)\comp (\Varid{id}\mathbin{+}\conj{\Varid{s}}{\Varid{g}})\end{lcbr}}
 %
-\just\equiv{ A ver depois mas será aplicação de swap e de cancelamento-X }
+\just\equiv{ propriedade do swap (x2) e cancelamento-x }
 %
     \ensuremath{\begin{lcbr}\Varid{g}\comp \mathbf{in}\mathrel{=}\alt{\underline{\mathrm{1}}}{\Varid{mul}\comp \Varid{swap}}\comp (\Varid{id}\mathbin{+}\conj{\Varid{g}}{\Varid{s}})\\\Varid{s}\comp \mathbf{in}\mathrel{=}(\alt{\underline{\mathrm{1}}}{\succ \comp \p1\comp \Varid{swap}}\comp (\Varid{id}\mathbin{+}\conj{\Varid{g}}{\Varid{s}}))\end{lcbr}}
 %
-\just\equiv{ Fokkinga }
+\just\equiv{ fokkinga }
 %
 	\ensuremath{\conj{\Varid{g}}{\Varid{s}}\mathrel{=}\cata{\conj{\alt{\underline{\mathrm{1}}}{\Varid{mul}\comp \Varid{swap}}}{\alt{\underline{\mathrm{1}}}{\succ \comp \p1\comp \Varid{swap}}}~\cdot }_A}
 
@@ -1819,26 +1843,26 @@ compressCell red (a,(b,c)) = if (red > (depthQTree((Cell a b c)))) then (Cell a 
 
 \ensuremath{\begin{lcbr}\cata{\Varid{i}~\cdot }_A\mathrel{=}\cata{\conj{\alt{\underline{\mathrm{1}}}{\Varid{mul}\comp \Varid{swap}}}{\alt{\underline{(\Varid{k}\mathbin{+}\mathrm{1})}}{\succ \comp \p2}}~\cdot }_A\\\cata{\Varid{j}~\cdot }_A\mathrel{=}\cata{\conj{\alt{\underline{\mathrm{1}}}{\Varid{mul}\comp \Varid{swap}}}{\alt{\underline{\mathrm{1}}}{\succ \comp \p1\comp \Varid{swap}}}~\cdot }_A\end{lcbr}}
 %
-\just\equiv{ Banana-Split }
+\just\equiv{ lei banana-split }
 %
-	\ensuremath{\conj{\cata{\Varid{i}~\cdot }_A}{\cata{\Varid{j}~\cdot }_A}\mathrel{=}\cata{\conj{\alt{\underline{\mathrm{1}}}{\Varid{mul}\comp \Varid{swap}}}{\alt{\underline{(\Varid{k}\mathbin{+}\mathrm{1})}}{\succ \comp \p2}}\times\conj{\alt{\underline{\mathrm{1}}}{\Varid{mul}\comp \Varid{swap}}}{\alt{\underline{\mathrm{1}}}{\succ \comp \p1\comp \Varid{swap}}}~\cdot }_A}
+	\ensuremath{\conj{\cata{\Varid{i}~\cdot }_A}{\cata{\Varid{j}~\cdot }_A}\mathrel{=}\cata{\conj{\alt{\underline{\mathrm{1}}}{\Varid{mul}\comp \Varid{swap}}}{\alt{\underline{(\Varid{k}\mathbin{+}\mathrm{1})}}{\succ \comp \p2}}\times\conj{\alt{\underline{\mathrm{1}}}{\Varid{mul}\comp \Varid{swap}}}{\alt{\underline{\mathrm{1}}}{\succ \comp \p1\comp \Varid{swap}}}\comp \conj{\Conid{F}\;\p1}{\Conid{F}\;\p2}~\cdot }_A}
 %
-\just\equiv{ Lei da Troca }
+\just\equiv{ lei da Troca }
 %
 
-    \ensuremath{\conj{\cata{\Varid{i}~\cdot }_A}{\cata{\Varid{j}~\cdot }_A}\mathrel{=}\cata{\alt{\conj{\underline{\mathrm{1}}}{\underline{(\Varid{k}\mathbin{+}\mathrm{1})}}}{\conj{\Varid{mul}\comp \Varid{swap}}{\succ \comp \p2}}\times\alt{\conj{\underline{\mathrm{1}}}{\underline{\mathrm{1}}}}{\conj{\Varid{mul}\comp \Varid{swap}}{\succ \comp \p1\comp \Varid{swap}}}~\cdot }_A}
+    \ensuremath{\conj{\cata{\Varid{i}~\cdot }_A}{\cata{\Varid{j}~\cdot }_A}\mathrel{=}\cata{\alt{\conj{\underline{\mathrm{1}}}{\underline{(\Varid{k}\mathbin{+}\mathrm{1})}}}{\conj{\Varid{mul}\comp \Varid{swap}}{\succ \comp \p2}}\times\alt{\conj{\underline{\mathrm{1}}}{\underline{\mathrm{1}}}}{\conj{\Varid{mul}\comp \Varid{swap}}{\succ \comp \p1\comp \Varid{swap}}}\comp \conj{\Conid{F}\;\p1}{\Conid{F}\;\p2}~\cdot }_A}
 %
-\just\equiv{ Conforme 3.90 a 3.95 dos apontamentos (lei 11) }
+\just\equiv{ conforme 3.90 a 3.95 dos apontamentos / lei 11) }
 %
 
     \ensuremath{\conj{\cata{\Varid{i}~\cdot }_A}{\cata{\Varid{j}~\cdot }_A}\mathrel{=}\cata{\conj{\alt{\conj{\underline{\mathrm{1}}}{\underline{(\Varid{k}\mathbin{+}\mathrm{1})}}}{\conj{\Varid{mul}\comp \Varid{swap}}{\succ \comp \p2}}\comp \Conid{F}\;\p1}{\alt{\conj{\underline{\mathrm{1}}}{\underline{(\Varid{k}\mathbin{+}\mathrm{1})}}}{\conj{\Varid{mul}\comp \Varid{swap}}{\succ \comp \p2}}\comp \Conid{F}\;\p2}~\cdot }_A}
 %
-\just\equiv{ Lei da Troca - outra vez }
+\just\equiv{ lei da troca }
 %
 
     \ensuremath{\conj{\cata{\Varid{i}~\cdot }_A}{\cata{\Varid{j}~\cdot }_A}\mathrel{=}\cata{\alt{\conj{\conj{\underline{\mathrm{1}}}{\underline{(\Varid{k}\mathbin{+}\mathrm{1})}}}{\conj{\underline{\mathrm{1}}}{\underline{\mathrm{1}}}}}{\conj{\conj{\Varid{mul}\comp \Varid{swap}}{\succ \comp \p2}\comp \p1}{\conj{\Varid{mul}\comp \Varid{swap}}{\succ \comp \p1\comp \Varid{swap}}\comp \p2}}~\cdot }_A)}
 %
-\just\equiv{ Pela definição de for b i }
+\just\equiv{ definição de for b i }
 %
 
     \ensuremath{\begin{lcbr}\Varid{b}\mathrel{=}\conj{\conj{\Varid{mul}\comp \Varid{swap}}{\succ \comp \p2}\comp \p1}{\conj{\Varid{mul}\comp \Varid{swap}}{\succ \comp \p1\comp \Varid{swap}}\comp \p2}\\\Varid{i}\mathrel{=}\conj{\conj{\underline{\mathrm{1}}}{\underline{(\Varid{k}\mathbin{+}\mathrm{1})}}}{\conj{\underline{\mathrm{1}}}{\underline{\mathrm{1}}}}\end{lcbr}}
