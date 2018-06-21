@@ -1188,13 +1188,13 @@ instance Functor QTree where
            \ar[d]_-{|cataQTree r|}
 &
     |(A, (Int, Int)) + ((QTree A) ^ 4)|
-           \ar[d]^{|inQTree|}
+           \ar[d]^{|recQTree r|}
            \ar[l]_-{|inQTree|}
 \\
     |QTree A|
 &
     |(A, (Int, Int)) + ((QTree A) ^ 4)|
-           \ar[l]^-{|r|}
+           \ar[l]^-{|g|}
 }
 \end{eqnarray*}
 
@@ -1211,13 +1211,13 @@ rotateBlock (a, (b, (c,d))) = Block c a d b
            \ar[d]_-{|cataQTree s|}
 &
     |Int ><  (A, (Int, Int)) + ((QTree A) ^ 4)|
-           \ar[d]^{|id x id|}
+           \ar[d]^{|recQTree s|}
            \ar[l]_-{|inQTree|}
 \\
     |QTree A|
 &
     |Int >< (A, (Int, Int)) + ((QTree A) ^ 4)|
-           \ar[l]^-{|s|}
+           \ar[l]^-{|g|}
 }
 \end{eqnarray*}
 
@@ -1233,13 +1233,13 @@ scaleCell mult (a,(b,c)) = Cell a (mult * b) (mult * c)
            \ar[d]_-{|cataQTree i|}
 &
     |(A, (Int, Int)) + ((QTree A) ^ 4)|
-           \ar[d]^{|id x id|}
+           \ar[d]^{|recQTree i|}
            \ar[l]_-{|inQTree|}
 \\
     |QTree A|
 &
     |(A, (Int, Int)) + ((QTree A) ^ 4)|
-           \ar[l]^-{|i|}
+           \ar[l]^-{|g|}
 }
 \end{eqnarray*}
 
@@ -1276,9 +1276,10 @@ geneCompress (x, t@(Block a b c d))
   | otherwise = i2 (((x, a), ((x, b), ((x, c), (x, d)))))
 \end{code}
 
-\begin{code}
-Retorna um valor qualquer de uma QTree.
+
+\par Retorna um valor qualquer de uma QTree.
 Precisamos disto para a compress, para escolher um valor qualquer para o Block pai ao tirar os filhos.
+\begin{code}
 anyValue :: QTree a -> a
 anyValue (Cell a b c) = a
 anyValue (Block a b c d) = anyValue a
@@ -1287,16 +1288,16 @@ anyValue (Block a b c d) = anyValue a
 \begin{eqnarray*}
 \xymatrix@@C=2cm{
     |QTree A|
-           \ar[d]_-{|cataQTree i|}
+           \ar[d]_-{|cataQTree o|}
 &
     |f >< (A, (Int, Int)) + ((QTree A) ^ 4)|
-           \ar[d]^{|id x id|}
+           \ar[d]^{|recQTree o|}
            \ar[l]_-{|inQTree|}
 \\
     |qt2bm . QTree A . Bool|
 &
     |f >< (A, (Int, Int)) + ((QTree A) ^ 4)|
-           \ar[l]^-{|i|}
+           \ar[l]^-{|g|}
 }
 \end{eqnarray*}
 

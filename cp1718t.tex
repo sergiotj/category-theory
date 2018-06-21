@@ -1603,13 +1603,13 @@ Aplicando a definição de toBlock e toCell temos:
            \ar[d]_-{\ensuremath{\Varid{cataQTree}\;\Varid{r}}}
 &
     \ensuremath{(\Conid{A},(\Conid{Int},\Conid{Int}))\mathbin{+}((\Conid{QTree}\;\Conid{A})\mathbin{\uparrow}\mathrm{4})}
-           \ar[d]^{\ensuremath{\Varid{inQTree}}}
+           \ar[d]^{\ensuremath{\Varid{recQTree}\;\Varid{r}}}
            \ar[l]_-{\ensuremath{\Varid{inQTree}}}
 \\
     \ensuremath{\Conid{QTree}\;\Conid{A}}
 &
     \ensuremath{(\Conid{A},(\Conid{Int},\Conid{Int}))\mathbin{+}((\Conid{QTree}\;\Conid{A})\mathbin{\uparrow}\mathrm{4})}
-           \ar[l]^-{\ensuremath{\Varid{r}}}
+           \ar[l]^-{\ensuremath{\Varid{g}}}
 }
 \end{eqnarray*}
 
@@ -1631,13 +1631,13 @@ Por isso, rotateQTree vem:
            \ar[d]_-{\ensuremath{\Varid{cataQTree}\;\Varid{s}}}
 &
     \ensuremath{\Conid{Int}\times(\Conid{A},(\Conid{Int},\Conid{Int}))\mathbin{+}((\Conid{QTree}\;\Conid{A})\mathbin{\uparrow}\mathrm{4})}
-           \ar[d]^{\ensuremath{\Varid{id}\;\Varid{x}\;\Varid{id}}}
+           \ar[d]^{\ensuremath{\Varid{recQTree}\;\Varid{s}}}
            \ar[l]_-{\ensuremath{\Varid{inQTree}}}
 \\
     \ensuremath{\Conid{QTree}\;\Conid{A}}
 &
     \ensuremath{\Conid{Int}\times(\Conid{A},(\Conid{Int},\Conid{Int}))\mathbin{+}((\Conid{QTree}\;\Conid{A})\mathbin{\uparrow}\mathrm{4})}
-           \ar[l]^-{\ensuremath{\Varid{s}}}
+           \ar[l]^-{\ensuremath{\Varid{g}}}
 }
 \end{eqnarray*}
 
@@ -1657,13 +1657,13 @@ Por isso, scaleQTree vem:
            \ar[d]_-{\ensuremath{\Varid{cataQTree}\;\Varid{i}}}
 &
     \ensuremath{(\Conid{A},(\Conid{Int},\Conid{Int}))\mathbin{+}((\Conid{QTree}\;\Conid{A})\mathbin{\uparrow}\mathrm{4})}
-           \ar[d]^{\ensuremath{\Varid{id}\;\Varid{x}\;\Varid{id}}}
+           \ar[d]^{\ensuremath{\Varid{recQTree}\;\Varid{i}}}
            \ar[l]_-{\ensuremath{\Varid{inQTree}}}
 \\
     \ensuremath{\Conid{QTree}\;\Conid{A}}
 &
     \ensuremath{(\Conid{A},(\Conid{Int},\Conid{Int}))\mathbin{+}((\Conid{QTree}\;\Conid{A})\mathbin{\uparrow}\mathrm{4})}
-           \ar[l]^-{\ensuremath{\Varid{i}}}
+           \ar[l]^-{\ensuremath{\Varid{g}}}
 }
 \end{eqnarray*}
 
@@ -1713,11 +1713,12 @@ Por isso, invertQTree vem:
 \ColumnHook
 \end{hscode}\resethooks
 
+
+\par Retorna um valor qualquer de uma QTree.
+Precisamos disto para a compress, para escolher um valor qualquer para o Block pai ao tirar os filhos.
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\Conid{Retorna}\;\Varid{um}\;\Varid{valor}\;\Varid{qualquer}\;\Varid{de}\;\Varid{uma}\;\Conid{QTree}\comp \Conid{Precisamos}\;\Varid{disto}\;\Varid{para}\;\Varid{a}\;\Varid{compress},\Varid{para}\;\Varid{escolher}\;\Varid{um}\;\Varid{valor}\;\Varid{qualquer}\;\Varid{para}\;\Varid{o}\;\Conid{Block}\;\Varid{pai}\;\Varid{ao}\;\Varid{tirar}\;\Varid{os}\;\Varid{filhos}\comp {}\<[E]%
-\\
 \>[B]{}\Varid{anyValue}\mathbin{::}\Conid{QTree}\;\Varid{a}\to \Varid{a}{}\<[E]%
 \\
 \>[B]{}\Varid{anyValue}\;(\Conid{Cell}\;\Varid{a}\;\Varid{b}\;\Varid{c})\mathrel{=}\Varid{a}{}\<[E]%
@@ -1729,16 +1730,16 @@ Por isso, invertQTree vem:
 \begin{eqnarray*}
 \xymatrix@C=2cm{
     \ensuremath{\Conid{QTree}\;\Conid{A}}
-           \ar[d]_-{\ensuremath{\Varid{cataQTree}\;\Varid{i}}}
+           \ar[d]_-{\ensuremath{\Varid{cataQTree}\;\Varid{o}}}
 &
     \ensuremath{\Varid{f}\times(\Conid{A},(\Conid{Int},\Conid{Int}))\mathbin{+}((\Conid{QTree}\;\Conid{A})\mathbin{\uparrow}\mathrm{4})}
-           \ar[d]^{\ensuremath{\Varid{id}\;\Varid{x}\;\Varid{id}}}
+           \ar[d]^{\ensuremath{\Varid{recQTree}\;\Varid{o}}}
            \ar[l]_-{\ensuremath{\Varid{inQTree}}}
 \\
     \ensuremath{\Varid{qt2bm}\comp \Conid{QTree}\;\Conid{A}\comp \Conid{Bool}}
 &
     \ensuremath{\Varid{f}\times(\Conid{A},(\Conid{Int},\Conid{Int}))\mathbin{+}((\Conid{QTree}\;\Conid{A})\mathbin{\uparrow}\mathrm{4})}
-           \ar[l]^-{\ensuremath{\Varid{i}}}
+           \ar[l]^-{\ensuremath{\Varid{g}}}
 }
 \end{eqnarray*}
 
