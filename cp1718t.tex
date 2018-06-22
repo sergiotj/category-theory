@@ -1634,31 +1634,14 @@ A função checkDuplicates retorna \emph{true} se uma lista não tem elementos d
 \end{hscode}\resethooks
 
 \vskip 1em
-\begin{hscode}\SaveRestoreHook
-\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\mathbin{<<<<<<}\Conid{HEAD}{}\<[E]%
-\ColumnHook
-\end{hscode}\resethooks
+
+Foram também definidas duas Blockchains de teste de maneira a verificar as funcionalidades criadas para a resolução deste primeiro problema:
+
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{3}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{5}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\Varid{block1}\mathrel{=}(\text{\ttfamily \char34 1234\char34},(\mathrm{177777},[\mskip1.5mu (\text{\ttfamily \char34 Marcos\char34},(\mathrm{200},\text{\ttfamily \char34 Tarracho\char34})),(\text{\ttfamily \char34 Antonio\char34},(\mathrm{200},\text{\ttfamily \char34 Joao\char34})),{}\<[E]%
-\\
-\>[B]{}(\text{\ttfamily \char34 Tarracho\char34},(\mathrm{200},\text{\ttfamily \char34 Marcos\char34})),(\text{\ttfamily \char34 Marcos\char34},(\mathrm{200},\text{\ttfamily \char34 Tarracho\char34}))\mskip1.5mu])){}\<[E]%
-\\
-\>[B]{}\Varid{block2}\mathrel{=}(\text{\ttfamily \char34 6789\char34},(\mathrm{177888},[\mskip1.5mu (\text{\ttfamily \char34 Marcos\char34},(\mathrm{200},\text{\ttfamily \char34 Tarracho\char34})),(\text{\ttfamily \char34 Antonio\char34},(\mathrm{200},\text{\ttfamily \char34 Joao\char34}))\mskip1.5mu])){}\<[E]%
-\\
-\>[B]{}\Varid{block3}\mathrel{=}(\text{\ttfamily \char34 4444\char34},(\mathrm{177888},[\mskip1.5mu (\text{\ttfamily \char34 Maria\char34},(\mathrm{200},\text{\ttfamily \char34 Matilde\char34})),(\text{\ttfamily \char34 Matilde\char34},(\mathrm{200},\text{\ttfamily \char34 Maria\char34}))\mskip1.5mu])){}\<[E]%
-\\
-\>[B]{}\mathbin{=======}{}\<[E]%
-\\
-\>[B]{}\Conid{Foram}\;\Varid{também}\;\Varid{definidas}\;\Varid{duas}\;\Conid{Blockchains}\;\Varid{de}\;\Varid{teste}\;\Varid{de}\;\Varid{maneira}\;\Varid{a}\;\Varid{verificar}\;\Varid{as}\;\Varid{funcionalidades}\;\Varid{criadas}\;\Varid{para}\;\Varid{a}\;\Varid{resolução}\;\Varid{deste}\;\Varid{primeiro}\;\Varid{problema}\mathbin{:}{}\<[E]%
-\\[\blanklineskip]%
-\>[B]{}\lambda \Varid{begin}\;\{\mskip1.5mu \Varid{code}\mskip1.5mu\}{}\<[E]%
-\\
 \>[B]{}\Varid{block1}\mathrel{=}(\text{\ttfamily \char34 1234\char34},{}\<[E]%
 \\
 \>[B]{}\hsindent{3}{}\<[3]%
@@ -1706,8 +1689,6 @@ A função checkDuplicates retorna \emph{true} se uma lista não tem elementos d
 \\
 \>[B]{}\hsindent{3}{}\<[3]%
 \>[3]{}\mskip1.5mu])){}\<[E]%
-\\
-\>[B]{}\mathbin{>>>>>>>}\mathrm{64244644596}\;\Varid{a46b3ae6b563016d290b0fb3b7b8e}{}\<[E]%
 \\[\blanklineskip]%
 \>[B]{}\Varid{testBlockchain1}\mathrel{=}\Conid{Bcs}\;(\Varid{block1},\Conid{Bc}\;\Varid{block2}){}\<[E]%
 \\
