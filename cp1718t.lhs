@@ -1613,15 +1613,34 @@ base = untuple . (split (split (const 1) (succ)) (split (const 1) (const 1)))
 loop = untuple . (split ((split (mul . swap . p1) (succ . p2 . p1)) . tuple) ((split (mul . swap . p2) (succ . p1 . swap . p2)) . tuple))
 \end{code}
 
-
-
 \subsection*{Problema 4}
+
+De maneira a resolver o problema 4, foi necessário definir as funções que facilitam a manipulação do tipo de dados \emph{FTree}:
+
+\vskip 1em
+
+\emph{|inFTree|} usa os construtores de \emph{|FTree|}, usando uma função auxiliar
+\emph{|toComp|} de maneira a poder converter um par recebido.
 
 \begin{code}
 inFTree = either Unit toComp
 toComp (a, (b, c)) = Comp a b c
+\end{code}
+
+\vskip 1em
+
+\emph{|outFTree|} foi derivada de uma maneira semelhante à out das Blockchain (Problema 1):
+
+\begin{code}
 outFTree (Unit a) = i1 a
 outFTree (Comp a b c) = i2 (a, (b, c))
+\end{code}
+
+\vskip 1em
+
+As restantes funções são:
+
+\begin{code}
 baseFTree f g h = g -|- (f >< (h >< h))
 recFTree f = baseFTree id id f
 cataFTree g = g . (recFTree (cataFTree g)) . outFTree
@@ -1629,50 +1648,157 @@ anaFTree g = inFTree . (recFTree (anaFTree g)) . g
 hyloFTree f g = cataFTree f . anaFTree g
 \end{code}
 
-\par Lei 47: def-map-cata
-\par Tf = (| in . B(f, id) |)
+\vskip 1em
+
+A partir da lei 47 (def-map-cata) foi definido:
 
 \begin{code}
 instance Bifunctor FTree where
     bimap f g = cataFTree (inFTree . (baseFTree f g id))
 \end{code}
 
-\par Fiz o diagrama do anamorfismo de FTree para fazer a generatePTree, que devemos incluir no relatório para se perceber como foi criado o gene.
-\par generatePTree é um anamorfismo de FTree (pode ser FTree em vez de PTree porque type PTree = FTree Square Square
+\subsubsection*{generatePTree}
 
-\par O gene é uma função que passa Int (profundidade da PTree que queremos gerar) para Float + (Float, (Int, Int))
-\par Porque no fim queremos usar o in da FTree para ficar com uma PTree (por isso é que aparecem Floats)
+\emph{generatePTree} deve gerar uma árvore de Pitágoras para uma dada ordem,
+sendo definida como um anamorfismo.\par
 
-\par O rank recebido pela generatePTree tem de ir diminuindo à medida que o anamorfismo corre, por isso o gene não pode aumentar o Int original.
-\par Caso contrário, não saberíamos quando é que devíamos parar. Isto significa que a árvore vai ser gerada das folhas para a raiz.
+\vskip 1em
+
+Para este efeito, o grupo partiu do diagrama do anamorfismo de \emph{FTree},
+que pode ser usado em vez de \emph{PTree} simplesmente porque: \par
+
+\vskip 1em
+
+\emph{type PTree = FTree Square Square}\par
+
+\vskip 1em
+
+O diagrama é o seguinte:
+
+\begin{eqnarray*}
+\xymatrix@@C=2cm{
+    |FTree A B|
+&
+    |B + A >< (FTree A B >< FTree A B)|
+           \ar[l]_-{|in|}
+\\
+    C
+           \ar[u]^-{|f|}
+           \ar[r]_-{|g|}
+&
+    |B + A >< (C >< C)|
+           \ar[u]_-{|id + id >< (f >< f)|}
+}
+\end{eqnarray*}
+
+Neste diagrama, A e B ambos representam o tipo \emph{Float}, para que
+a \emph{FTree} seja convertível para uma \emph{PTree}.
+
+\vskip 1em
+
+Na primeira tentativa, o grupo definiu um anamorfismo que recebe um \emph{Int}
+igual ao rank da árvore de Pitágoras pretendida. Esse \emph{Int} iria
+diminuindo, e o anamorfismo pararia quando este fosse igual a zero.
+
+\vskip 1em
+
+O gene deste primeiro anamorfismo era:
+
+\vskip 1em
+
+\emph{|genePTree = (id + (split p2 (split p1 p1))) . (id + (pred >< id)) . (id + (split id rankToMultiplier)) . (fromIntegral + id) . oneToLeft|}
+
+\vskip 1em
+
+O que aconteceu foi que o anamorfismo criado gerava uma árvore invertida,
+pelo que seria necessário começar com o inteiro a zero e parar de iterar
+quando este fosse igual ao rank pretendido. \par
+
+\vskip 1em
+
+Para isso foi criado um segundo anamorfismo que recebe um par \emph{(Int, Int)},
+onde o primeiro inteiro representa o rank da iteração atual, e o segundo representa
+o rank final pretendido. \par
+
+Ao encaixar uma função \emph{|split (const 1) id|} antes do anamorfismo, consegue-se
+manter esta mudança invisível para o utilizador. Ficamos então com uma função \emph{generatePTree}:\par
 
 \begin{code}
 generatePTree = anaFTree genePTree . (split (const 0) id)
 \end{code}
 
-\par Primeira tentativa, dava uma árvore invertida:
-\par genePTree = (id -|- (split p2 (split p1 p1))) . (id -|- (pred >< id)) . (id -|- (split id rankToMultiplier)) . (fromIntegral -|- id) . oneToLeft
+Em que \emph{genePTree} é o gene do anamorfismo:
 
 \begin{code}
 genePTree = (id -|- (id >< (split id id))) . (id -|- (id >< (succ >< id))) . (id -|- (split (rankToMultiplier . p1) id))
  . ((rankToMultiplier . p1) -|- id) . checkComplete
 \end{code}
 
-\par Retorna o multiplicador de uma PTree para um dado Rank. Por exemplo, o multiplicador de ordem 0 é 1, o de ordem 1 é (raiz de 2)/2, e o de ordem 2 é ((raiz de 2)/2)^2.
+Este gene é representado no seguinte diagrama:
+
+\begin{eqnarray*}
+\xymatrix@@C=2cm{
+    |Int >< Int|
+           \ar[d]^-{checkComplete}
+\\
+    |Int >< Int + Int >< Int|
+           \ar[d]^-{|(rankToMultiplier . p1) + id|}
+\\
+    |Float + Int >< Int|
+           \ar[d]^-{|id + (split (rankToMultiplier . p1) id)|}
+\\
+    |Float + Float >< (Int >< Int) |
+           \ar[d]^-{|id + id >< (succ >< id)|}
+\\
+    |Float + Float >< (Int >< Int)|
+           \ar[d]^-{|id + id >< (split id id)|}
+\\
+    |Float + Float >< ((Int >< Int) >< (Int >< Int))|
+}
+\end{eqnarray*}
+
+\vskip 1em
+
+De seguida são definidas as funções usadas pelo anamorfismo: \par
+
+\vskip 1em
+
+\emph{rankToMultiplier} retorna o multiplicador de uma PTree para um dado Rank.
+Por exemplo, o multiplicador de ordem 0 é 1,
+o de ordem 1 é $\frac{\sqrt{2}}{2}$, e o de ordem 2 é $(\frac{\sqrt{2}}{2})^2$.
 
 \begin{code}
 rankToMultiplier :: Int -> Float
 rankToMultiplier a = (((sqrt 2) / 2) ^ a)
 \end{code}
 
-\par Se um par tem dois Ints iguais, mete à esquerda, senão mete à direita
+\vskip 1em
+
+\emph{checkComplete} executa \emph{|i1|} sobre um par de inteiros se estes forem iguais,
+ou \emph{|i2|} se forem diferentes. Esta função é importante para determinar
+quando chegamos à última iteração do anamorfismo.
+
 \begin{code}
 checkComplete :: (Int, Int) -> Either (Int, Int) (Int, Int)
 checkComplete (a, b)
-    | b < 0 = i1 (a, 0) -- Evitar loop infinito com mau input (rank negativo)
+    | b < 0 = i1 (a, 0)
     | a == b = i1 (a, b)
     | otherwise = i2 (a, b)
 \end{code}
+
+O caso
+
+\vskip 1em
+
+\emph{|b < 0 = i1 (a, 0)|}
+
+\vskip 1em
+
+evita um loop infinito no caso de ser pedida uma \emph{PTree} com rank negativo.
+
+\subsubsection*{drawPTree}
+
+O grupo não definiu a função drawPTree.
 
 \begin{code}
 drawPTree = undefined
