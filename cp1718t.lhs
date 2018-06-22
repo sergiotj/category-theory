@@ -1854,6 +1854,8 @@ drawPTree = undefined
 
 \par Para a realização deste exercício, foi necessário compreender qual a função de \emph{singletonbag} e \emph{muB}. A primeira permite, tendo um determinado objeto, inseri-lo num dado \emph{Bag}. Quanto à segunda, dado um determinado \emph{Bag} com \emph{Bags} e o respetivo número dos mesmos, deve permitir criar apenas um \emph{Bag} com o conteúdo de todos os interiores.
 
+\subsubsection*{singletonbag}
+
 \par Para a realização de \emph{singletonbag}, devemos primeiro criar um tuplo com o elemento que recebemos, e o respetivo número de elementos, ou seja, um.
 
 \begin{eqnarray*}
@@ -1872,6 +1874,8 @@ Posteriormente, basta aplicar o construtor \emph{B}. Abaixo, mostram-se as defin
 singletonbag = B . singl . toTuple
 toTuple a = (a,1)
 \end{code}
+
+\subsubsection*{|muB|}
 
 \par Para fazer o |muB|, tendo em conta o seu objetivo, optou-se por, desde logo, realizar um \emph{fmap unB}. Isto vai permitir fazer \emph{unBag} dos \emph{Bags} interiores do \emph{Bag} fornecido. Desta forma, dentro do \emph{Bag} inicial vamos ter tuplos (cujo primeiro elemento é uma lista de elementos depois do \emph{unBag}, e o segundo é o respetivo número de sacos iguais existentes).
 
@@ -1916,6 +1920,8 @@ multBags :: ([(a, Int)], Int) -> [(a, Int)]
 multBags ([], c) = []
 multBags (((a, b):tail), c) = [(a,b*c)] ++ (multBags (tail, c))
 \end{code}
+
+\subsubsection*{dist}
 
 O \emph{dist}, após recebido um \emph{Bag} tem, naturalmente, que fazer o seu \emph{unBag}. Tendo a lista de tuplos, em que o primeiro elemento é um elemento específico e o segundo o número de existentes desse elemento. Feito isto, é usada a \emph{marbleReplication} (com recurso a \emph{map}), para transformar tuplos de A |><| Int em uma lista de A, como se demonstra.
 
