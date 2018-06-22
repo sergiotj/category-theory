@@ -1170,8 +1170,8 @@ checkDuplicates x = (remDup x) == x
 Foi também definida uma Blockchain de teste de maneira a verificar as funcionalidades criadas para a resolução deste primeiro problema.
 
 \begin{code}
-block1 = ("1234", (177777, [("Marcos", (200, "Tarracho")), ("Antonio", (200, "Joao"))
-, ("Tarracho", (200, "Marcos")), ("Marcos", (200, "Tarracho"))]))
+block1 = ("1234", (177777, [("Marcos", (200, "Tarracho")), ("Antonio", (200, "Joao")),
+ ("Tarracho", (200, "Marcos")), ("Marcos", (200, "Tarracho"))]))
 block2 = ("6789", (177888, [("Marcos", (200, "Tarracho")), ("Antonio", (200, "Joao"))]))
 block3 = ("4444", (177888, [("Maria", (200, "Matilde")), ("Matilde", (200, "Maria"))]))
 
@@ -1597,14 +1597,85 @@ drawPTree = undefined
 
 \subsection*{Problema 5}
 
+\par Para a realização deste exercício, foi necessário compreender qual a função de \emph{singletonbag} e \emph{muB}. A primeira permite, tendo um determinado objeto, inseri-lo num dado \emph{Bag}. Quanto à segunda, dado um determinado \emph{Bag} com \emph{Bags} e o respetivo número dos mesmos, deve permitir criar apenas um \emph{Bag} com o conteúdo de todos os interiores.
+
+\par Para a realização de \emph{singletonbag}, devemos primeiro criar um tuplo com o elemento que recebemos, e o respetivo número de elementos, ou seja, um.
+
+\begin{eqnarray*}
+\xymatrix@@C=3cm{
+    |A|
+            \ar[r]^-{|toTuple|}
+&
+    |A >< 1|
+}
+\end{eqnarray*}
+
+\par Depois de ter o tuplo, este deve ser inserido dentro de uma lista, uma vez que o construtor de \emph{Bag} recebe tal. Para isso, usou-se \emph{singl}.
+Posteriormente, basta aplicar o construtor \emph{B}. Abaixo, mostram-se as definições realizadas.
+
 \begin{code}
 singletonbag = B . singl . toTuple
 toTuple a = (a,1)
+\end{code}
+
+\par Para fazer o |muB|, tendo em conta o seu objetivo, optou-se por, desde logo, realizar um \emph{fmap unB}. Isto vai permitir fazer \emph{unBag} dos \emph{Bags} interiores do \emph{Bag} fornecido. Desta forma, dentro do \emph{Bag} inicial vamos ter tuplos (cujo primeiro elemento é uma lista de elementos depois do \emph{unBag}, e o segundo é o respetivo número de sacos iguais existentes).
+
+\begin{eqnarray*}
+\xymatrix@@C=3cm{
+    | Bag (Bag A, Int) above |
+            \ar[r]^-{|fmap unB|}
+&
+    |Bag ((A, Int) above, Int) above|
+}
+\end{eqnarray*}
+
+Depois de termos a \emph{Bag} com tuplos, em que o primeiro elemento do mesmo é uma lista de tuplos do \emph{Bag} interior, e em que o segundo é o número respetivo de \emph{Bags} existentes à \emph{priori}, é necessário retirar este último. Para retirar sem perder informação, devemos multiplicar o número de elementos de cada tipo em cada um dos \emph{bags} interiores, pelo respetivo número de \emph{bags} daquele tipo. Isso foi feito com recurso a um \emph{map multBags}, após um \emph{unBag}.
+
+Faz-se então o \emph{unB}:
+
+\begin{eqnarray*}
+\xymatrix@@C=3cm{
+    |Bag ((A, Int) above, Int) above|
+            \ar[r]^-{|unB|}
+&
+    | ((A, Int) above, Int) above|
+}
+\end{eqnarray*}
+
+E agora aplicar a função \emph{multBags} a toda a lista, através de um \emph{map}.
+
+\begin{eqnarray*}
+\xymatrix@@C=3cm{
+    |((A, Int) above, Int) above|
+            \ar[r]^-{|map multBags|}
+&
+    |((A, Int) above) above|
+}
+\end{eqnarray*}
+
+Tendo feito todos os passos anteriores, basta concatenar as listas numa só, através da função \emph{concat}. Naturalmente, posteriormente, aplica-se o construtor \emph{B}, obtendo-se a \emph{Bag} final.
+
+\begin{code}
 muB = B . concat . (map multBags) . unB . (fmap unB)
 multBags :: ([(a, Int)], Int) -> [(a, Int)]
 multBags ([], c) = []
 multBags (((a, b):tail), c) = [(a,b*c)] ++ (multBags (tail, c))
+\end{code}
 
+O \emph{dist}, após recebido um \emph{Bag} tem, naturalmente, que fazer o seu \emph{unBag}. Tendo a lista de tuplos, em que o primeiro elemento é um elemento específico e o segundo o número de existentes desse elemento. Feito isto, é usada a \emph{marbleReplication} (com recurso a \emph{map}), para transformar tuplos de A |><| Int em uma lista de A, como se demonstra.
+
+\begin{eqnarray*}
+\xymatrix@@C=3cm{
+    |(A, Int) above|
+            \ar[r]^-{|map marbleReplication|}
+&
+    |A above above|
+}
+\end{eqnarray*}
+
+Tendo agora uma lista com as listas formadas após replicação, resta fazer o concat das mesmas. Esta lista fica assim pronta a ser processada pela função \emph{uniform}, obtendo-se a distribuição pedida.
+
+\begin{code}
 dist = uniform . concat . map marbleReplication . unB
 marbleReplication = uncurry replicate . swap
 \end{code}
