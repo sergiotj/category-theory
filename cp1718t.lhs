@@ -1023,6 +1023,8 @@ anaBlockchain g = inBlockchain . (recBlockchain (anaBlockchain g)) . g
 hyloBlockchain f g = cataBlockchain f . anaBlockchain g
 \end{code}
 
+\subsubsection*{allTransactions}
+
 Para definir o allTransactions, que calcula uma lista de todas as transações de uma Blockchain, foi usado um catamorfismo de Blockchains:
 
 \begin{eqnarray*}
@@ -1051,7 +1053,7 @@ getTransactions = conc . ((p2 . p2) >< id)
 
 É importante notar que \emph{conc} gera uma lista concatenando um par que contém duas listas: \emph{|([a], [a]) -> [a]|}
 
-\vskip 1em
+\subsubsection*{ledger}
 
 Para calcular o ledger de uma blockchain vamos fazer 3 passos:
 
@@ -1102,6 +1104,8 @@ O código Haskell correspondente ao diagrama será:
 ledger = zipPair . (split p1 (mapPair . swap)) . (id >< getBalance) . (split getUniqueEntities id) . allTransactions
 \end{code}
 
+\vskip 1em
+
 \emph{getEntities} será um catamorfismo de listas que calcula uma lista de entidades a partir de uma de transações.
 
 \begin{code}
@@ -1109,11 +1113,11 @@ getEntities :: [Transaction] -> [String]
 getEntities = cataList ( either nil (conc . ((pairToList . split p1 (p2 . p2)) >< id)) )
 \end{code}
 
-Para transformar uma transação em uma lista com as duas entidades, usamos \emph{|pairToList . (split p1 (p2 . p2))|}.
-\par No caso final, usamos \emph{|nil|} para introduzir uma lista vazia.\newline
-\par É útil recordar que uma transação corresponde ao par \emph{|(origem, (valor, destino))|}.
+Para transformar uma transação em uma lista com as duas entidades, usamos \emph{|pairToList . (split p1 (p2 . p2))|}. \par
+No caso final, usamos \emph{|nil|} para introduzir uma lista vazia. \par
+É útil recordar que uma transação corresponde ao par \emph{|(origem, (valor, destino))|}.
 
-\vskip 1em
+\vskip 2em
 
 A função getUniqueEntities remove repetições de uma lista de entidades:
 
@@ -1121,6 +1125,8 @@ A função getUniqueEntities remove repetições de uma lista de entidades:
 getUniqueEntities :: [Transaction] -> [String]
 getUniqueEntities = remDup . getEntities
 \end{code}
+
+\vskip 1em
 
 getBalance será um catamorfismo de listas de transações que calcula o saldo de uma dada entidade.
 
@@ -1132,7 +1138,7 @@ getBalance transactions entity = (cataList ( either (const 0) ( addInt . ((delta
 Esta função foi definida em pointwise uma vez que tem de receber a lista de transações antes da entidade,
 o que nos é útil para o map que vamos querer executar.
 
-\vskip 1em
+\vskip 2em
 
 A função delta retorna a diferença de saldo resultante de uma transação para uma dada entidade
 (se a entidade não aparece na transação, delta será 0):
@@ -1144,6 +1150,8 @@ delta entity (a, (v, b))
     | entity == b = v
     | otherwise = 0
 \end{code}
+
+\vskip 1em
 
 Foi necessário definir as funções auxiliares \emph{mapPair} e \emph{zipPair}:
 
@@ -1157,12 +1165,16 @@ zipPair :: ([a], [b]) -> [(a, b)]
 zipPair (x, y) = zip x y
 \end{code}
 
+\vskip 1em
+
 A função addInt soma um par de Ints:
 
 \begin{code}
 addInt :: (Int, Int) -> Int
 addInt (a, b) = a + b
 \end{code}
+
+\vskip 1em
 
 A função remDup Remove elementos duplicados de uma lista:
 
@@ -1171,10 +1183,10 @@ remDup :: (Ord a) => [a] -> [a]
 remDup = map head . group . sort
 \end{code}
 
-Esta função foi uma descoberta interessante, e tem um desempenho melhor que a equivalente nativa!
-\emph{nub} é O(N^2) enquanto que \emph{remDup} é O(N log N).
+Esta função foi uma descoberta interessante, e tem um desempenho melhor que a equivalente nativa -
+\emph{nub} é \emph{O(N\textsuperscript{2})} enquanto que \emph{remDup} é \emph{O(N log(N))}.
 
-\vskip 1em
+\vskip 2em
 
 A função \emph{pairToList} cria um par a partir de uma lista com dois elementos:
 
@@ -1183,24 +1195,9 @@ pairToList :: (a, a) -> [a]
 pairToList (x, y) = [x, y]
 \end{code}
 
-\vskip 1em
+\subsubsection*{isValidMagicNr}
 
 Para definir \emph{isValidMagicNr} foi definido um catamorfismo \emph{getMagicNumbers}:
-
-// TODO: criar diagrama do que está aqui em baixo:
-
-\par Diagrama do isValidMagicNr:
-\par (verifica se os números mágicos de uma blockchain são únicos)
-\par
-\par Blockchain
-\par /
-\par / getMagicNumbers
-\par v
-\par [String]
-\par /
-\par / checkDuplicates
-\par v
-\par Bool
 
 \begin{eqnarray*}
 \xymatrix@@C=2cm{
@@ -1220,22 +1217,29 @@ Ao que corresponde o seguinte código Haskell:
 isValidMagicNr = checkDuplicates . getMagicNumbers
 \end{code}
 
-O catamorfismo getMagicNumbers retorna a lista de números mágicos de uma Blockchain.
-O caso final, \emph{cons . (split p1 nil)}, retorna uma lista que contém apenas o número mágico do último bloco.
+\vskip 1em
+
+O catamorfismo getMagicNumbers retorna a lista de números mágicos de uma Blockchain:
 
 \begin{code}
 getMagicNumbers :: Blockchain -> [String]
 getMagicNumbers = cataBlockchain (either (cons . (split p1 nil)) (cons . (p1 >< id)))
 \end{code}
 
-A função checkDuplicates retorna true se uma lista não tem elementos duplicados, usando a função \emph{remDup} definida anteriormente.
+O caso final, \emph{|cons . (split p1 nil)|}, retorna uma lista que contém apenas o número mágico do último bloco.
+
+\vskip 2em
+
+A função checkDuplicates retorna \emph{true} se uma lista não tem elementos duplicados, usando a função \emph{remDup} definida anteriormente.
 
 \begin{code}
 checkDuplicates :: (Ord a) => [a] -> Bool
 checkDuplicates x = (remDup x) == x
 \end{code}
 
-Foi também definida uma Blockchain de teste de maneira a verificar as funcionalidades criadas para a resolução deste primeiro problema.
+\vskip 1em
+
+Foram também definidas duas Blockchains de teste de maneira a verificar as funcionalidades criadas para a resolução deste primeiro problema:
 
 \begin{code}
 block1 = ("1234",
@@ -1259,8 +1263,6 @@ block3 = ("4444",
 testBlockchain1 = Bcs (block1, Bc block2)
 testBlockchain2 = Bcs (block3, Bcs (block1, Bc block2))
 \end{code}
-
-// TODO: parei aqui, antes do problema 2!
 
 \subsection*{Problema 2}
 
