@@ -1634,14 +1634,31 @@ A função checkDuplicates retorna \emph{true} se uma lista não tem elementos d
 \end{hscode}\resethooks
 
 \vskip 1em
-
-Foram também definidas duas Blockchains de teste de maneira a verificar as funcionalidades criadas para a resolução deste primeiro problema:
-
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\mathbin{<<<<<<}\Conid{HEAD}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{3}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{5}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{block1}\mathrel{=}(\text{\ttfamily \char34 1234\char34},(\mathrm{177777},[\mskip1.5mu (\text{\ttfamily \char34 Marcos\char34},(\mathrm{200},\text{\ttfamily \char34 Tarracho\char34})),(\text{\ttfamily \char34 Antonio\char34},(\mathrm{200},\text{\ttfamily \char34 Joao\char34})),{}\<[E]%
+\\
+\>[B]{}(\text{\ttfamily \char34 Tarracho\char34},(\mathrm{200},\text{\ttfamily \char34 Marcos\char34})),(\text{\ttfamily \char34 Marcos\char34},(\mathrm{200},\text{\ttfamily \char34 Tarracho\char34}))\mskip1.5mu])){}\<[E]%
+\\
+\>[B]{}\Varid{block2}\mathrel{=}(\text{\ttfamily \char34 6789\char34},(\mathrm{177888},[\mskip1.5mu (\text{\ttfamily \char34 Marcos\char34},(\mathrm{200},\text{\ttfamily \char34 Tarracho\char34})),(\text{\ttfamily \char34 Antonio\char34},(\mathrm{200},\text{\ttfamily \char34 Joao\char34}))\mskip1.5mu])){}\<[E]%
+\\
+\>[B]{}\Varid{block3}\mathrel{=}(\text{\ttfamily \char34 4444\char34},(\mathrm{177888},[\mskip1.5mu (\text{\ttfamily \char34 Maria\char34},(\mathrm{200},\text{\ttfamily \char34 Matilde\char34})),(\text{\ttfamily \char34 Matilde\char34},(\mathrm{200},\text{\ttfamily \char34 Maria\char34}))\mskip1.5mu])){}\<[E]%
+\\
+\>[B]{}\mathbin{=======}{}\<[E]%
+\\
+\>[B]{}\Conid{Foram}\;\Varid{também}\;\Varid{definidas}\;\Varid{duas}\;\Conid{Blockchains}\;\Varid{de}\;\Varid{teste}\;\Varid{de}\;\Varid{maneira}\;\Varid{a}\;\Varid{verificar}\;\Varid{as}\;\Varid{funcionalidades}\;\Varid{criadas}\;\Varid{para}\;\Varid{a}\;\Varid{resolução}\;\Varid{deste}\;\Varid{primeiro}\;\Varid{problema}\mathbin{:}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\lambda \Varid{begin}\;\{\mskip1.5mu \Varid{code}\mskip1.5mu\}{}\<[E]%
+\\
 \>[B]{}\Varid{block1}\mathrel{=}(\text{\ttfamily \char34 1234\char34},{}\<[E]%
 \\
 \>[B]{}\hsindent{3}{}\<[3]%
@@ -1689,6 +1706,8 @@ Foram também definidas duas Blockchains de teste de maneira a verificar as func
 \\
 \>[B]{}\hsindent{3}{}\<[3]%
 \>[3]{}\mskip1.5mu])){}\<[E]%
+\\
+\>[B]{}\mathbin{>>>>>>>}\mathrm{64244644596}\;\Varid{a46b3ae6b563016d290b0fb3b7b8e}{}\<[E]%
 \\[\blanklineskip]%
 \>[B]{}\Varid{testBlockchain1}\mathrel{=}\Conid{Bcs}\;(\Varid{block1},\Conid{Bc}\;\Varid{block2}){}\<[E]%
 \\
@@ -2181,13 +2200,71 @@ Precisamos disto para a compress, para escolher um valor qualquer para o Block p
 
 \subsection*{Problema 5}
 
+\par Para a realização deste exercício, foi necessário compreender qual a função de \emph{singletonbag} e \emph{muB}. A primeira permite, tendo um determinado objeto, inseri-lo num dado \emph{Bag}. Quanto à segunda, dado um determinado \emph{Bag} com \emph{Bags} e o respetivo número dos mesmos, deve permitir criar apenas um \emph{Bag} com o conteúdo de todos os interiores.
+
+\par Para a realização de \emph{singletonbag}, devemos primeiro criar um tuplo com o elemento que recebemos, e o respetivo número de elementos, ou seja, um.
+
+\begin{eqnarray*}
+\xymatrix@C=3cm{
+    \ensuremath{\Conid{A}}
+            \ar[r]^-{\ensuremath{\Varid{toTuple}}}
+&
+    \ensuremath{\Conid{A}\times\mathrm{1}}
+}
+\end{eqnarray*}
+
+\par Depois de ter o tuplo, este deve ser inserido dentro de uma lista, uma vez que o construtor de \emph{Bag} recebe tal. Para isso, usou-se \emph{singl}.
+Posteriormente, basta aplicar o construtor \emph{B}. Abaixo, mostram-se as definições realizadas.
+
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{singletonbag}\mathrel{=}\mathit B\comp \Varid{singl}\comp \Varid{toTuple}{}\<[E]%
 \\
 \>[B]{}\Varid{toTuple}\;\Varid{a}\mathrel{=}(\Varid{a},\mathrm{1}){}\<[E]%
-\\
+\ColumnHook
+\end{hscode}\resethooks
+
+\par Para fazer o \ensuremath{\mu }, tendo em conta o seu objetivo, optou-se por, desde logo, realizar um \emph{fmap unB}. Isto vai permitir fazer \emph{unBag} dos \emph{Bags} interiores do \emph{Bag} fornecido. Desta forma, dentro do \emph{Bag} inicial vamos ter tuplos (cujo primeiro elemento é uma lista de elementos depois do \emph{unBag}, e o segundo é o respetivo número de sacos iguais existentes).
+
+\begin{eqnarray*}
+\xymatrix@C=3cm{
+    \ensuremath{\Conid{Bag}\;(\Conid{Bag}\;\Conid{A},\Conid{Int})\;\Varid{above}}
+            \ar[r]^-{\ensuremath{\mathsf{fmap}\;\Varid{unB}}}
+&
+    \ensuremath{\Conid{Bag}\;((\Conid{A},\Conid{Int})\;\Varid{above},\Conid{Int})\;\Varid{above}}
+}
+\end{eqnarray*}
+
+Depois de termos a \emph{Bag} com tuplos, em que o primeiro elemento do mesmo é uma lista de tuplos do \emph{Bag} interior, e em que o segundo é o número respetivo de \emph{Bags} existentes à \emph{priori}, é necessário retirar este último. Para retirar sem perder informação, devemos multiplicar o número de elementos de cada tipo em cada um dos \emph{bags} interiores, pelo respetivo número de \emph{bags} daquele tipo. Isso foi feito com recurso a um \emph{map multBags}, após um \emph{unBag}.
+
+Faz-se então o \emph{unB}:
+
+\begin{eqnarray*}
+\xymatrix@C=3cm{
+    \ensuremath{\Conid{Bag}\;((\Conid{A},\Conid{Int})\;\Varid{above},\Conid{Int})\;\Varid{above}}
+            \ar[r]^-{\ensuremath{\Varid{unB}}}
+&
+    \ensuremath{((\Conid{A},\Conid{Int})\;\Varid{above},\Conid{Int})\;\Varid{above}}
+}
+\end{eqnarray*}
+
+E agora aplicar a função \emph{multBags} a toda a lista, através de um \emph{map}.
+
+\begin{eqnarray*}
+\xymatrix@C=3cm{
+    \ensuremath{((\Conid{A},\Conid{Int})\;\Varid{above},\Conid{Int})\;\Varid{above}}
+            \ar[r]^-{\ensuremath{\map \;\Varid{multBags}}}
+&
+    \ensuremath{((\Conid{A},\Conid{Int})\;\Varid{above})\;\Varid{above}}
+}
+\end{eqnarray*}
+
+Tendo feito todos os passos anteriores, basta concatenar as listas numa só, através da função \emph{concat}. Naturalmente, posteriormente, aplica-se o construtor \emph{B}, obtendo-se a \emph{Bag} final.
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\mu \mathrel{=}\mathit B\comp \Varid{concat}\comp (\map \;\Varid{multBags})\comp \Varid{unB}\comp (\mathsf{fmap}\;\Varid{unB}){}\<[E]%
 \\
 \>[B]{}\Varid{multBags}\mathbin{::}([\mskip1.5mu (\Varid{a},\Conid{Int})\mskip1.5mu],\Conid{Int})\to [\mskip1.5mu (\Varid{a},\Conid{Int})\mskip1.5mu]{}\<[E]%
@@ -2195,7 +2272,25 @@ Precisamos disto para a compress, para escolher um valor qualquer para o Block p
 \>[B]{}\Varid{multBags}\;([\mskip1.5mu \mskip1.5mu],\Varid{c})\mathrel{=}[\mskip1.5mu \mskip1.5mu]{}\<[E]%
 \\
 \>[B]{}\Varid{multBags}\;(((\Varid{a},\Varid{b})\mathbin{:}\Varid{tail}),\Varid{c})\mathrel{=}[\mskip1.5mu (\Varid{a},\Varid{b}\mathbin{*}\Varid{c})\mskip1.5mu]\plus (\Varid{multBags}\;(\Varid{tail},\Varid{c})){}\<[E]%
-\\[\blanklineskip]%
+\ColumnHook
+\end{hscode}\resethooks
+
+O \emph{dist}, após recebido um \emph{Bag} tem, naturalmente, que fazer o seu \emph{unBag}. Tendo a lista de tuplos, em que o primeiro elemento é um elemento específico e o segundo o número de existentes desse elemento. Feito isto, é usada a \emph{marbleReplication} (com recurso a \emph{map}), para transformar tuplos de A \ensuremath{\times} Int em uma lista de A, como se demonstra.
+
+\begin{eqnarray*}
+\xymatrix@C=3cm{
+    \ensuremath{(\Conid{A},\Conid{Int})\;\Varid{above}}
+            \ar[r]^-{\ensuremath{\map \;\Varid{marbleReplication}}}
+&
+    \ensuremath{\Conid{A}\;\Varid{above}\;\Varid{above}}
+}
+\end{eqnarray*}
+
+Tendo agora uma lista com as listas formadas após replicação, resta fazer o concat das mesmas. Esta lista fica assim pronta a ser processada pela função \emph{uniform}, obtendo-se a distribuição pedida.
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{dist}\mathrel{=}\Varid{uniform}\comp \Varid{concat}\comp \map \;\Varid{marbleReplication}\comp \Varid{unB}{}\<[E]%
 \\
 \>[B]{}\Varid{marbleReplication}\mathrel{=}\uncurry{\Varid{replicate}}\comp \Varid{swap}{}\<[E]%
