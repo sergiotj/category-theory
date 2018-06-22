@@ -1421,7 +1421,6 @@ outlineBlock a b = Block
 	)(
 		lk . in = (either (const (k+1)) (succ . p2) . (id + split fk lk)
 	)|
-
 %
 \just\equiv{ fokkinga }
 %
@@ -1489,12 +1488,11 @@ outlineBlock a b = Block
 
 \begin{eqnarray*}
 \start
-
-|lcbr(
-		cataA i = cataA (split (either (const 1) (mul . swap)) (either (const (k+1)) (succ . p2)))
-	)(
-        cataA j = cataA (split (either (const 1) (mul . swap)) (either (const 1) (succ . p1 . swap)))
-    )|
+    |lcbr(
+            cataA i = cataA (split (either (const 1) (mul . swap)) (either (const (k+1)) (succ . p2)))
+        )(
+            cataA j = cataA (split (either (const 1) (mul . swap)) (either (const 1) (succ . p1 . swap)))
+        )|
 %
 \just\equiv{ lei banana-split }
 %
@@ -1502,33 +1500,25 @@ outlineBlock a b = Block
 %
 \just\equiv{ lei da Troca }
 %
-
     |split (cataA i) (cataA j) = cataA ((either (split (const 1) (const (k+1))) (split (mul . swap) (succ . p2))) >< (either (split (const 1) (const 1)) (split (mul . swap) (succ . p1 . swap))) . split (F p1) (F p2))|
 %
 \just\equiv{ conforme 3.90 a 3.95 dos apontamentos / lei 11) }
 %
-
-    |split (cataA i) (cataA j) = cataA ( split ( (either (split (const 1) (const (k+1))) (split (mul . swap) (succ . p2))) . F p1 ) ( (either (split (const 1) (const (k+1))) (split (mul . swap) (succ . p2))) . F p2 )
-
-    )|
+    |split (cataA i) (cataA j) = cataA ( split ( (either (split (const 1) (const (k+1))) (split (mul . swap) (succ . p2))) . F p1 ) ( (either (split (const 1) (const (k+1))) (split (mul . swap) (succ . p2))) . F p2 ))|
 %
 \just\equiv{ lei da troca }
 %
-
     |split (cataA i) (cataA j) = cataA ( either (split (split (const 1) (const (k+1))) (split (const 1) (const 1))) (split (split (mul . swap) (succ . p2) . p1) (split (mul . swap) (succ . p1 . swap) . p2)) )
 
     )|
 %
 \just\equiv{ definição de for b i }
 %
-
     |lcbr(
 		b = (split (split (mul . swap) (succ . p2) . p1) (split (mul . swap) (succ . p1 . swap) . p2))
 	)(
 		i = (split (split (const 1) (const (k+1))) (split (const 1) (const 1)))
 	)|
-
-
 \qed
 \end{eqnarray*}
 

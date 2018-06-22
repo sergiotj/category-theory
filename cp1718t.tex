@@ -1856,7 +1856,6 @@ Precisamos disto para a compress, para escolher um valor qualquer para o Block p
 \just\equiv{ definição de swap e lei do cancelamento-x }
 %
     \ensuremath{\begin{lcbr}\Varid{fk}\comp \mathbf{in}\mathrel{=}(\alt{\underline{\mathrm{1}}}{\Varid{mul}}\comp \Varid{swap})\comp (\Varid{id}\mathbin{+}\conj{\Varid{fk}}{\Varid{lk}})\\\Varid{lk}\comp \mathbf{in}\mathrel{=}(\alt{\underline{(\Varid{k}\mathbin{+}\mathrm{1})}}{\succ \comp \p2}\comp (\Varid{id}\mathbin{+}\conj{\Varid{fk}}{\Varid{lk}}))\end{lcbr}}
-
 %
 \just\equiv{ fokkinga }
 %
@@ -1896,8 +1895,7 @@ Precisamos disto para a compress, para escolher um valor qualquer para o Block p
 
 \begin{eqnarray*}
 \start
-
-\ensuremath{\begin{lcbr}\cata{\Varid{i}~\cdot }_A\mathrel{=}\cata{\conj{\alt{\underline{\mathrm{1}}}{\Varid{mul}\comp \Varid{swap}}}{\alt{\underline{(\Varid{k}\mathbin{+}\mathrm{1})}}{\succ \comp \p2}}~\cdot }_A\\\cata{\Varid{j}~\cdot }_A\mathrel{=}\cata{\conj{\alt{\underline{\mathrm{1}}}{\Varid{mul}\comp \Varid{swap}}}{\alt{\underline{\mathrm{1}}}{\succ \comp \p1\comp \Varid{swap}}}~\cdot }_A\end{lcbr}}
+    \ensuremath{\begin{lcbr}\cata{\Varid{i}~\cdot }_A\mathrel{=}\cata{\conj{\alt{\underline{\mathrm{1}}}{\Varid{mul}\comp \Varid{swap}}}{\alt{\underline{(\Varid{k}\mathbin{+}\mathrm{1})}}{\succ \comp \p2}}~\cdot }_A\\\cata{\Varid{j}~\cdot }_A\mathrel{=}\cata{\conj{\alt{\underline{\mathrm{1}}}{\Varid{mul}\comp \Varid{swap}}}{\alt{\underline{\mathrm{1}}}{\succ \comp \p1\comp \Varid{swap}}}~\cdot }_A\end{lcbr}}
 %
 \just\equiv{ lei banana-split }
 %
@@ -1905,25 +1903,19 @@ Precisamos disto para a compress, para escolher um valor qualquer para o Block p
 %
 \just\equiv{ lei da Troca }
 %
-
     \ensuremath{\conj{\cata{\Varid{i}~\cdot }_A}{\cata{\Varid{j}~\cdot }_A}\mathrel{=}\cata{\alt{\conj{\underline{\mathrm{1}}}{\underline{(\Varid{k}\mathbin{+}\mathrm{1})}}}{\conj{\Varid{mul}\comp \Varid{swap}}{\succ \comp \p2}}\times\alt{\conj{\underline{\mathrm{1}}}{\underline{\mathrm{1}}}}{\conj{\Varid{mul}\comp \Varid{swap}}{\succ \comp \p1\comp \Varid{swap}}}\comp \conj{\Conid{F}\;\p1}{\Conid{F}\;\p2}~\cdot }_A}
 %
 \just\equiv{ conforme 3.90 a 3.95 dos apontamentos / lei 11) }
 %
-
     \ensuremath{\conj{\cata{\Varid{i}~\cdot }_A}{\cata{\Varid{j}~\cdot }_A}\mathrel{=}\cata{\conj{\alt{\conj{\underline{\mathrm{1}}}{\underline{(\Varid{k}\mathbin{+}\mathrm{1})}}}{\conj{\Varid{mul}\comp \Varid{swap}}{\succ \comp \p2}}\comp \Conid{F}\;\p1}{\alt{\conj{\underline{\mathrm{1}}}{\underline{(\Varid{k}\mathbin{+}\mathrm{1})}}}{\conj{\Varid{mul}\comp \Varid{swap}}{\succ \comp \p2}}\comp \Conid{F}\;\p2}~\cdot }_A}
 %
 \just\equiv{ lei da troca }
 %
-
     \ensuremath{\conj{\cata{\Varid{i}~\cdot }_A}{\cata{\Varid{j}~\cdot }_A}\mathrel{=}\cata{\alt{\conj{\conj{\underline{\mathrm{1}}}{\underline{(\Varid{k}\mathbin{+}\mathrm{1})}}}{\conj{\underline{\mathrm{1}}}{\underline{\mathrm{1}}}}}{\conj{\conj{\Varid{mul}\comp \Varid{swap}}{\succ \comp \p2}\comp \p1}{\conj{\Varid{mul}\comp \Varid{swap}}{\succ \comp \p1\comp \Varid{swap}}\comp \p2}}~\cdot }_A)}
 %
 \just\equiv{ definição de for b i }
 %
-
     \ensuremath{\begin{lcbr}\Varid{b}\mathrel{=}\conj{\conj{\Varid{mul}\comp \Varid{swap}}{\succ \comp \p2}\comp \p1}{\conj{\Varid{mul}\comp \Varid{swap}}{\succ \comp \p1\comp \Varid{swap}}\comp \p2}\\\Varid{i}\mathrel{=}\conj{\conj{\underline{\mathrm{1}}}{\underline{(\Varid{k}\mathbin{+}\mathrm{1})}}}{\conj{\underline{\mathrm{1}}}{\underline{\mathrm{1}}}}\end{lcbr}}
-
-
 \qed
 \end{eqnarray*}
 
