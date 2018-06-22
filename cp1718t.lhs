@@ -1582,17 +1582,18 @@ generatePTree = anaFTree genePTree . (split (const 0) id)
 genePTree = (id -|- (id >< (split id id))) . (id -|- (id >< (succ >< id))) . (id -|- (split (rankToMultiplier . p1) id)) . ((rankToMultiplier . p1) -|- id) . checkComplete
 \end{code}
 
-\par Retorna o multiplicador de uma PTree para um dado Rank. Por exemplo, o multiplicador de ordem 0 é 1, o de ordem 1 é (raiz de 2)/2, e o de ordem 2 é ((raiz de 2)/2)^2
+\par Retorna o multiplicador de uma PTree para um dado Rank. Por exemplo, o multiplicador de ordem 0 é 1, o de ordem 1 é (raiz de 2)/2, e o de ordem 2 é ((raiz de 2)/2)^2.
+
 \begin{code}
 rankToMultiplier :: Int -> Float
-rankToMultiplier a = ((sqrt 2) / 2) ^ a
+rankToMultiplier a = (((sqrt 2) / 2) ^ a)
 \end{code}
 
 \par Se um par tem dois Ints iguais, mete à esquerda, senão mete à direita
 \begin{code}
 checkComplete :: (Int, Int) -> Either (Int, Int) (Int, Int)
 checkComplete (a, b)
-    | b < 0 = i1 (a, 0) -- Evitar loop infinito com má iput (rank negativo)
+    | b < 0 = i1 (a, 0) -- Evitar loop infinito com mau input (rank negativo)
     | a == b = i1 (a, b)
     | otherwise = i2 (a, b)
 \end{code}
