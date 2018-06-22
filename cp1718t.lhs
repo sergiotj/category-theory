@@ -1,5 +1,5 @@
 \documentclass[a4paper]{article}
-\usepackage[a4paper,left=3cm,right=2cm,top=2.5cm,bottom=2.5cm]{geometry}
+\usepackage[a4paper,left=2cm,right=2cm,top=2.5cm,bottom=2.5cm]{geometry}
 \usepackage{palatino}
 \usepackage[colorlinks=true,linkcolor=blue,citecolor=blue]{hyperref}
 \usepackage{graphicx}
@@ -1170,7 +1170,8 @@ checkDuplicates x = (remDup x) == x
 Foi também definida uma Blockchain de teste de maneira a verificar as funcionalidades criadas para a resolução deste primeiro problema.
 
 \begin{code}
-block1 = ("1234", (177777, [("Marcos", (200, "Tarracho")), ("Antonio", (200, "Joao")), ("Tarracho", (200, "Marcos")), ("Marcos", (200, "Tarracho"))]))
+block1 = ("1234", (177777, [("Marcos", (200, "Tarracho")), ("Antonio", (200, "Joao"))
+, ("Tarracho", (200, "Marcos")), ("Marcos", (200, "Tarracho"))]))
 block2 = ("6789", (177888, [("Marcos", (200, "Tarracho")), ("Antonio", (200, "Joao"))]))
 block3 = ("4444", (177888, [("Maria", (200, "Matilde")), ("Matilde", (200, "Maria"))]))
 
@@ -1323,7 +1324,8 @@ invertCell ((PixelRGBA8 r g b a),(x,y)) = Cell (PixelRGBA8 (255-r) (255-g) (255-
 
 compressQTree a b = (anaQTree geneCompress) (a, b)
 
-geneCompress :: (Int, QTree a) -> Either (a, (Int, Int)) ((Int, QTree a), ((Int, QTree a), ((Int, QTree a), (Int, QTree a))))
+geneCompress :: (Int, QTree a) -> Either (a, (Int, Int)) ((Int, QTree a), ((Int, QTree a),
+ ((Int, QTree a), (Int, QTree a))))
 geneCompress (x, (Cell a b c)) = i1 (a, (b, c))
 geneCompress (x, t@(Block a b c d))
   | x >= (depthQTree t) = i1 ((anyValue t), ((fst (sizeQTree t)), (snd (sizeQTree t))))
@@ -1579,7 +1581,8 @@ generatePTree = anaFTree genePTree . (split (const 0) id)
 \par genePTree = (id -|- (split p2 (split p1 p1))) . (id -|- (pred >< id)) . (id -|- (split id rankToMultiplier)) . (fromIntegral -|- id) . oneToLeft
 
 \begin{code}
-genePTree = (id -|- (id >< (split id id))) . (id -|- (id >< (succ >< id))) . (id -|- (split (rankToMultiplier . p1) id)) . ((rankToMultiplier . p1) -|- id) . checkComplete
+genePTree = (id -|- (id >< (split id id))) . (id -|- (id >< (succ >< id))) . (id -|- (split (rankToMultiplier . p1) id))
+ . ((rankToMultiplier . p1) -|- id) . checkComplete
 \end{code}
 
 \par Retorna o multiplicador de uma PTree para um dado Rank. Por exemplo, o multiplicador de ordem 0 é 1, o de ordem 1 é (raiz de 2)/2, e o de ordem 2 é ((raiz de 2)/2)^2.

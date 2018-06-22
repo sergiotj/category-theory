@@ -1,5 +1,5 @@
 \documentclass[a4paper]{article}
-\usepackage[a4paper,left=3cm,right=2cm,top=2.5cm,bottom=2.5cm]{geometry}
+\usepackage[a4paper,left=2cm,right=2cm,top=2.5cm,bottom=2.5cm]{geometry}
 \usepackage{palatino}
 \usepackage[colorlinks=true,linkcolor=blue,citecolor=blue]{hyperref}
 \usepackage{graphicx}
@@ -1572,7 +1572,9 @@ Foi também definida uma Blockchain de teste de maneira a verificar as funcional
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\Varid{block1}\mathrel{=}(\text{\ttfamily \char34 1234\char34},(\mathrm{177777},[\mskip1.5mu (\text{\ttfamily \char34 Marcos\char34},(\mathrm{200},\text{\ttfamily \char34 Tarracho\char34})),(\text{\ttfamily \char34 Antonio\char34},(\mathrm{200},\text{\ttfamily \char34 Joao\char34})),(\text{\ttfamily \char34 Tarracho\char34},(\mathrm{200},\text{\ttfamily \char34 Marcos\char34})),(\text{\ttfamily \char34 Marcos\char34},(\mathrm{200},\text{\ttfamily \char34 Tarracho\char34}))\mskip1.5mu])){}\<[E]%
+\>[B]{}\Varid{block1}\mathrel{=}(\text{\ttfamily \char34 1234\char34},(\mathrm{177777},[\mskip1.5mu (\text{\ttfamily \char34 Marcos\char34},(\mathrm{200},\text{\ttfamily \char34 Tarracho\char34})),(\text{\ttfamily \char34 Antonio\char34},(\mathrm{200},\text{\ttfamily \char34 Joao\char34})){}\<[E]%
+\\
+\>[B]{},(\text{\ttfamily \char34 Tarracho\char34},(\mathrm{200},\text{\ttfamily \char34 Marcos\char34})),(\text{\ttfamily \char34 Marcos\char34},(\mathrm{200},\text{\ttfamily \char34 Tarracho\char34}))\mskip1.5mu])){}\<[E]%
 \\
 \>[B]{}\Varid{block2}\mathrel{=}(\text{\ttfamily \char34 6789\char34},(\mathrm{177888},[\mskip1.5mu (\text{\ttfamily \char34 Marcos\char34},(\mathrm{200},\text{\ttfamily \char34 Tarracho\char34})),(\text{\ttfamily \char34 Antonio\char34},(\mathrm{200},\text{\ttfamily \char34 Joao\char34}))\mskip1.5mu])){}\<[E]%
 \\
@@ -1751,7 +1753,9 @@ Por isso, invertQTree vem:
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{compressQTree}\;\Varid{a}\;\Varid{b}\mathrel{=}(\Varid{anaQTree}\;\Varid{geneCompress})\;(\Varid{a},\Varid{b}){}\<[E]%
 \\[\blanklineskip]%
-\>[B]{}\Varid{geneCompress}\mathbin{::}(\Conid{Int},\Conid{QTree}\;\Varid{a})\to (\Varid{a},(\Conid{Int},\Conid{Int}))+((\Conid{Int},\Conid{QTree}\;\Varid{a}),((\Conid{Int},\Conid{QTree}\;\Varid{a}),((\Conid{Int},\Conid{QTree}\;\Varid{a}),(\Conid{Int},\Conid{QTree}\;\Varid{a})))){}\<[E]%
+\>[B]{}\Varid{geneCompress}\mathbin{::}(\Conid{Int},\Conid{QTree}\;\Varid{a})\to (\Varid{a},(\Conid{Int},\Conid{Int}))+((\Conid{Int},\Conid{QTree}\;\Varid{a}),((\Conid{Int},\Conid{QTree}\;\Varid{a}),{}\<[E]%
+\\
+\>[B]{}((\Conid{Int},\Conid{QTree}\;\Varid{a}),(\Conid{Int},\Conid{QTree}\;\Varid{a})))){}\<[E]%
 \\
 \>[B]{}\Varid{geneCompress}\;(\Varid{x},(\Conid{Cell}\;\Varid{a}\;\Varid{b}\;\Varid{c}))\mathrel{=}i_1\;(\Varid{a},(\Varid{b},\Varid{c})){}\<[E]%
 \\
@@ -1999,7 +2003,9 @@ Precisamos disto para a compress, para escolher um valor qualquer para o Block p
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\Varid{genePTree}\mathrel{=}(\Varid{id}+(\Varid{id}\times\conj{\Varid{id}}{\Varid{id}}))\comp (\Varid{id}+(\Varid{id}\times(\succ \times\Varid{id})))\comp (\Varid{id}+\conj{\Varid{rankToMultiplier}\comp \p1}{\Varid{id}})\comp ((\Varid{rankToMultiplier}\comp \p1)+\Varid{id})\comp \Varid{checkComplete}{}\<[E]%
+\>[B]{}\Varid{genePTree}\mathrel{=}(\Varid{id}+(\Varid{id}\times\conj{\Varid{id}}{\Varid{id}}))\comp (\Varid{id}+(\Varid{id}\times(\succ \times\Varid{id})))\comp (\Varid{id}+\conj{\Varid{rankToMultiplier}\comp \p1}{\Varid{id}}){}\<[E]%
+\\
+\>[B]{}\comp ((\Varid{rankToMultiplier}\comp \p1)+\Varid{id})\comp \Varid{checkComplete}{}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
 
