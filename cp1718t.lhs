@@ -77,6 +77,7 @@
 %format .<==>. = "\Leftrightarrow"
 %format .==. = "\equiv"
 %format .<=. = "\leq"
+%format above = "\textsuperscript{*}"
 
 %---------------------------------------------------------------------------
 
