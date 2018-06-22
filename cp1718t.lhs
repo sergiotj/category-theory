@@ -1482,6 +1482,8 @@ outlineBlock a b = Block
 
 \subsection*{Problema 3}
 
+\par Tendo em conta o enunciado do problema 3, decidimos que a estratégia a adotar seria fazer o \emph{split} de \emph{f} e \emph{l} e o \emph{split} de \emph{g} e \emph{s}. Faz-se, então, a seguinte demonstração:
+
 \begin{eqnarray*}
 \start
         |lcbr(
@@ -1538,6 +1540,8 @@ outlineBlock a b = Block
 
 \qed
 \end{eqnarray*}
+
+Neste passo, faz-se a demonstração respetiva ao \emph{g} e \emph{s}:
 
 \begin{eqnarray*}
 \start
@@ -1596,6 +1600,8 @@ outlineBlock a b = Block
 \qed
 \end{eqnarray*}
 
+Por fim, procedeu-se à combinação dos resultados obtidos através de um \emph{banana-split}, tal como sugerido no enunciado.
+
 \begin{eqnarray*}
 \start
     |lcbr(
@@ -1608,7 +1614,7 @@ outlineBlock a b = Block
 %
 	|split (cataA i) (cataA j) = cataA ((split (either (const 1) (mul . swap)) (either (const (k+1)) (succ . p2))) >< (split (either (const 1) (mul . swap)) (either (const 1) (succ . p1 . swap))) . split (F p1) (F p2))|
 %
-\just\equiv{ lei da Troca }
+\just\equiv{ lei da troca }
 %
     |split (cataA i) (cataA j) = cataA ((either (split (const 1) (const (k+1))) (split (mul . swap) (succ . p2))) >< (either (split (const 1) (const 1)) (split (mul . swap) (succ . p1 . swap))) . split (F p1) (F p2))|
 %
@@ -1631,6 +1637,8 @@ outlineBlock a b = Block
 	)|
 \qed
 \end{eqnarray*}
+
+\par A \emph{base} foi extraída diretamente do cálculo anterior, enquanto que o \emph{loop} precisou de uns ajustes de tipos internos, os quais foram realizados através das funções \emph{tuple} e \emph{untuple}.
 
 \begin{code}
 untuple ((a,b),(c,d)) = (a,b,c,d)
