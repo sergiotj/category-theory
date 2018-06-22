@@ -1615,7 +1615,8 @@ multBags :: ([(a, Int)], Int) -> [(a, Int)]
 multBags ([], c) = []
 multBags (((a, b):tail), c) = [(a,b*c)] ++ (multBags (tail, c))
 
-dist = undefined
+dist = uniform . concat . map marbleReplication . unB
+marbleReplication = uncurry replicate . swap
 \end{code}
 
 %----------------- Fim do anexo com soluções dos alunos ------------------------%
