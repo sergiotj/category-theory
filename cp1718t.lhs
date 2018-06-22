@@ -1265,6 +1265,8 @@ testBlockchain1 = Bcs (block1, Bc block2)
 testBlockchain2 = Bcs (block3, Bcs (block1, Bc block2))
 \end{code}
 
+\newpage
+
 \subsection*{Problema 2}
 
 Antes de proceder à resolução das alíneas, foi necessária a definição das funções relativas à manipulação de QTrees.
