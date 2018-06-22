@@ -1239,13 +1239,6 @@ checkDuplicates x = (remDup x) == x
 
 \vskip 1em
 
-<<<<<<< HEAD
-\begin{code}
-block1 = ("1234", (177777, [("Marcos", (200, "Tarracho")), ("Antonio", (200, "Joao")),
- ("Tarracho", (200, "Marcos")), ("Marcos", (200, "Tarracho"))]))
-block2 = ("6789", (177888, [("Marcos", (200, "Tarracho")), ("Antonio", (200, "Joao"))]))
-block3 = ("4444", (177888, [("Maria", (200, "Matilde")), ("Matilde", (200, "Maria"))]))
-=======
 Foram também definidas duas Blockchains de teste de maneira a verificar as funcionalidades criadas para a resolução deste primeiro problema:
 
 \begin{code}
@@ -1266,7 +1259,6 @@ block3 = ("4444",
     ("Maria", (200, "Matilde")),
     ("Matilde", (200, "Maria"))
   ]))
->>>>>>> 64244644596a46b3ae6b563016d290b0fb3b7b8e
 
 testBlockchain1 = Bcs (block1, Bc block2)
 testBlockchain2 = Bcs (block3, Bcs (block1, Bc block2))
