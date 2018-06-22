@@ -1266,13 +1266,19 @@ testBlockchain2 = Bcs (block3, Bcs (block1, Bc block2))
 
 \subsection*{Problema 2}
 
+Antes de proceder à resolução das alíneas, foi necessária a definição das funções relativas à manipulação de QTrees.
+
 \begin{code}
 toCell (a,(b,c)) = Cell a b c
 toBlock (a,(b,(c,d))) = Block a b c d
-
-inQTree = either toCell toBlock
-
 \end{code}
+
+Aplicando a definição de toBlock e toCell temos:
+\begin{code}
+inQTree = either toCell toBlock
+\end{code}
+
+O out da QTree foi calculado da seguinte forma:
 
 \begin{eqnarray*}
 \start
@@ -1305,10 +1311,15 @@ inQTree = either toCell toBlock
 \qed
 \end{eqnarray*}
 
-Aplicando a definição de toBlock e toCell temos:
+
+Resultando na seguinte definição em Haskell:
 \begin{code}
 outQTree (Cell a b c) = i1 (a,(b,c))
 outQTree (Block a b c d) = i2 (a,(b,(c,d)))
+\end{code}
+
+As restantes funções são:
+\begin{code}
 baseQTree g f = (g >< id) -|- (f >< (f >< (f >< f)))
 recQTree f = baseQTree id f
 cataQTree cata = cata . recQTree (cataQTree cata) . outQTree
@@ -1319,6 +1330,9 @@ instance Functor QTree where
     fmap f = cataQTree (inQTree . (baseQTree f id))
 \end{code}
 
+\subsubsection*{RotateQTree}
+
+Para uma rotação de 90 graus da QTree, temos de reposicionar as células e os blocos. Usámos um catamorfismo de QTree.
 
 \begin{eqnarray*}
 \xymatrix@@C=2cm{
@@ -1343,6 +1357,10 @@ rotateCell (a,(b,c)) = Cell a c b
 rotateBlock (a, (b, (c,d))) = Block c a d b
 \end{code}
 
+\subsubsection*{ScaleQTree}
+
+Para redimensionar, temos de multiplicar cada célula pelo fator de multiplicação. Usámos um catamorfismo de QTree.
+
 \begin{eqnarray*}
 \xymatrix@@C=2cm{
     |Int >< QTree A|
@@ -1365,6 +1383,10 @@ scaleQTree a = cataQTree (either (scaleCell a) (toBlock))
 scaleCell mult (a,(b,c)) = Cell a (mult * b) (mult * c)
 \end{code}
 
+\subsubsection*{InvertQTree}
+
+Para inverter as cores de uma QTree, temos de inverter a cor de cada pixel. Usámos um catamorfismo de QTree.
+
 \begin{eqnarray*}
 \xymatrix@@C=2cm{
     |QTree A|
@@ -1386,6 +1408,8 @@ Por isso, invertQTree vem:
 invertQTree = cataQTree (either (invertCell) (toBlock))
 invertCell ((PixelRGBA8 r g b a),(x,y)) = Cell (PixelRGBA8 (255-r) (255-g) (255-b) a) x y
 \end{code}
+
+\subsubsection*{CompressQTree}
 
 \begin{eqnarray*}
 \xymatrix@@C=2cm{
@@ -1423,6 +1447,8 @@ anyValue :: QTree a -> a
 anyValue (Cell a b c) = a
 anyValue (Block a b c d) = anyValue a
 \end{code}
+
+\subsubsection*{OutlineQTree}
 
 \begin{eqnarray*}
 \xymatrix@@C=2cm{
