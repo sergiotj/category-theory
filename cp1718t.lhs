@@ -1333,7 +1333,7 @@ instance Functor QTree where
 
 \subsubsection*{RotateQTree}
 
-Para uma rotação de 90 graus da QTree, temos de reposicionar as células e os blocos. Usámos um catamorfismo de QTree.
+Para uma rotação de 90 graus da QTree, temos de reposicionar as células e os blocos. Usou-se um catamorfismo de QTree.
 
 \begin{eqnarray*}
 \xymatrix@@C=2cm{
@@ -1341,15 +1341,17 @@ Para uma rotação de 90 graus da QTree, temos de reposicionar as células e os 
            \ar[d]_-{|cataQTree r|}
 &
     |(A, (Int, Int)) + ((QTree A) ^ 4)|
-           \ar[d]^{|recQTree r|}
+           \ar[d]^{|recQTree (cataQTree r)|}
            \ar[l]_-{|inQTree|}
 \\
     |QTree A|
 &
     |(A, (Int, Int)) + ((QTree A) ^ 4)|
-           \ar[l]^-{|g|}
+           \ar[l]^-{|r|}
 }
 \end{eqnarray*}
+
+Por questões de legibilidade, colocou-se \emph{r} ao invés do \emph{either} de \emph{rotateCell} e \emph{rotateBlock}.
 
 Por isso, rotateQTree vem:
 \begin{code}
@@ -1360,7 +1362,7 @@ rotateBlock (a, (b, (c,d))) = Block c a d b
 
 \subsubsection*{ScaleQTree}
 
-Para redimensionar, temos de multiplicar cada célula pelo fator de multiplicação. Usámos um catamorfismo de QTree.
+Para redimensionar, temos de multiplicar cada célula pelo fator de multiplicação. Usámos um catamorfismo de QTree. De notar que, devido à definição da \emph{baseQTree}, é possível aplicação do \emph{outQTree} apesar de termos um \emph{Int} de entrada.
 
 \begin{eqnarray*}
 \xymatrix@@C=2cm{
@@ -1368,15 +1370,17 @@ Para redimensionar, temos de multiplicar cada célula pelo fator de multiplicaç
            \ar[d]_-{|cataQTree s|}
 &
     |Int ><  (A, (Int, Int)) + ((QTree A) ^ 4)|
-           \ar[d]^{|recQTree s|}
+           \ar[d]^{|recQTree (cataQTree s)|}
            \ar[l]_-{|inQTree|}
 \\
     |QTree A|
 &
     |Int >< (A, (Int, Int)) + ((QTree A) ^ 4)|
-           \ar[l]^-{|g|}
+           \ar[l]^-{|s|}
 }
 \end{eqnarray*}
+
+Por questões de legibilidade, colocou-se \emph{s} ao invés do \emph{either} de \emph{scaleCell a} e \emph{toBlock}.
 
 Por isso, scaleQTree vem:
 \begin{code}
@@ -1394,15 +1398,17 @@ Para inverter as cores de uma QTree, temos de inverter a cor de cada pixel. Usá
            \ar[d]_-{|cataQTree i|}
 &
     |(A, (Int, Int)) + ((QTree A) ^ 4)|
-           \ar[d]^{|recQTree i|}
+           \ar[d]^{|recQTree (cataQTree i)|}
            \ar[l]_-{|inQTree|}
 \\
     |QTree A|
 &
     |(A, (Int, Int)) + ((QTree A) ^ 4)|
-           \ar[l]^-{|g|}
+           \ar[l]^-{|i|}
 }
 \end{eqnarray*}
+
+Por questões de legibilidade, colocou-se \emph{i} ao invés do \emph{either} de \emph{invertCell} e \emph{toBlock}.
 
 Por isso, invertQTree vem:
 \begin{code}
@@ -1451,22 +1457,27 @@ anyValue (Block a b c d) = anyValue a
 
 \subsubsection*{OutlineQTree}
 
+Para fazer o \emph{outline} da figura é preciso verificar se a célula, após aplicada a função dada, é de valor \emph{True}. Se sim, utiliza-se a função \emph{outlineBlock} que, dado um tamanho de bloco, procede ao contorno do mesmo. O cata apresentado é o que transforma uma \emph{QTree} em a respetiva \emph{QTree} de \emph{Bool}. Após esta conversão, basta utilizar a função \emph{qt2bm} para converter para \emph{Matrix}, tal como pedido.
+
 \begin{eqnarray*}
 \xymatrix@@C=2cm{
     |QTree A|
            \ar[d]_-{|cataQTree o|}
 &
     |f >< (A, (Int, Int)) + ((QTree A) ^ 4)|
-           \ar[d]^{|recQTree o|}
+           \ar[d]^{|recQTree (cataQTree o)|}
            \ar[l]_-{|inQTree|}
 \\
-    |qt2bm . QTree A . Bool|
+    |QTree Bool|
 &
     |f >< (A, (Int, Int)) + ((QTree A) ^ 4)|
-           \ar[l]^-{|g|}
+           \ar[l]^-{|o|}
 }
 \end{eqnarray*}
 
+Por questões de legibilidade, colocou-se \emph{o} ao invés do \emph{either} de \emph{outlineCell fun} e \emph{toBlock}.
+
+Por isso, outlineQTree vem:
 \begin{code}
 outlineQTree fun = qt2bm . (cataQTree (either (outlineCell fun) (toBlock)))
 outlineCell fun (a,(b,c)) = if (fun a) then (outlineBlock b c) else (Cell (fun a) b c)
