@@ -1265,6 +1265,8 @@ testBlockchain1 = Bcs (block1, Bc block2)
 testBlockchain2 = Bcs (block3, Bcs (block1, Bc block2))
 \end{code}
 
+\newpage
+
 \subsection*{Problema 2}
 
 Antes de proceder à resolução das alíneas, foi necessária a definição das funções relativas à manipulação de QTrees.
@@ -1333,7 +1335,7 @@ instance Functor QTree where
 
 \subsubsection*{rotateQTree}
 
-Para uma rotação de 90 graus da QTree, temos de reposicionar as células e os blocos. Usámos um catamorfismo de QTree.
+Para uma rotação de 90 graus da QTree, temos de reposicionar as células e os blocos. Usou-se um catamorfismo de QTree.
 
 \begin{eqnarray*}
 \xymatrix@@C=2cm{
@@ -1341,15 +1343,17 @@ Para uma rotação de 90 graus da QTree, temos de reposicionar as células e os 
            \ar[d]_-{|cataQTree r|}
 &
     |(A, (Int, Int)) + ((QTree A) ^ 4)|
-           \ar[d]^{|recQTree r|}
+           \ar[d]^{|recQTree (cataQTree r)|}
            \ar[l]_-{|inQTree|}
 \\
     |QTree A|
 &
     |(A, (Int, Int)) + ((QTree A) ^ 4)|
-           \ar[l]^-{|g|}
+           \ar[l]^-{|r|}
 }
 \end{eqnarray*}
+
+Por questões de legibilidade, colocou-se \emph{r} ao invés do \emph{either} de \emph{rotateCell} e \emph{rotateBlock}.
 
 Por isso, rotateQTree vem:
 \begin{code}
@@ -1360,7 +1364,7 @@ rotateBlock (a, (b, (c,d))) = Block c a d b
 
 \subsubsection*{scaleQTree}
 
-Para redimensionar, temos de multiplicar cada célula pelo fator de multiplicação. Usámos um catamorfismo de QTree.
+Para redimensionar, temos de multiplicar cada célula pelo fator de multiplicação. Usámos um catamorfismo de QTree. De notar que, devido à definição da \emph{baseQTree}, é possível aplicação do \emph{outQTree} apesar de termos um \emph{Int} de entrada.
 
 \begin{eqnarray*}
 \xymatrix@@C=2cm{
@@ -1368,15 +1372,17 @@ Para redimensionar, temos de multiplicar cada célula pelo fator de multiplicaç
            \ar[d]_-{|cataQTree s|}
 &
     |Int ><  (A, (Int, Int)) + ((QTree A) ^ 4)|
-           \ar[d]^{|recQTree s|}
+           \ar[d]^{|recQTree (cataQTree s)|}
            \ar[l]_-{|inQTree|}
 \\
     |QTree A|
 &
     |Int >< (A, (Int, Int)) + ((QTree A) ^ 4)|
-           \ar[l]^-{|g|}
+           \ar[l]^-{|s|}
 }
 \end{eqnarray*}
+
+Por questões de legibilidade, colocou-se \emph{s} ao invés do \emph{either} de \emph{scaleCell a} e \emph{toBlock}.
 
 Por isso, scaleQTree vem:
 \begin{code}
@@ -1394,15 +1400,17 @@ Para inverter as cores de uma QTree, temos de inverter a cor de cada pixel. Usá
            \ar[d]_-{|cataQTree i|}
 &
     |(A, (Int, Int)) + ((QTree A) ^ 4)|
-           \ar[d]^{|recQTree i|}
+           \ar[d]^{|recQTree (cataQTree i)|}
            \ar[l]_-{|inQTree|}
 \\
     |QTree A|
 &
     |(A, (Int, Int)) + ((QTree A) ^ 4)|
-           \ar[l]^-{|g|}
+           \ar[l]^-{|i|}
 }
 \end{eqnarray*}
+
+Por questões de legibilidade, colocou-se \emph{i} ao invés do \emph{either} de \emph{invertCell} e \emph{toBlock}.
 
 Por isso, invertQTree vem:
 \begin{code}
@@ -1472,22 +1480,27 @@ a realizar uma compressão mais elegante.
 
 \subsubsection*{outlineQTree}
 
+Para fazer o \emph{outline} da figura é preciso verificar se a célula, após aplicada a função dada, é de valor \emph{True}. Se sim, utiliza-se a função \emph{outlineBlock} que, dado um tamanho de bloco, procede ao contorno do mesmo. O cata apresentado é o que transforma uma \emph{QTree} em a respetiva \emph{QTree} de \emph{Bool}. Após esta conversão, basta utilizar a função \emph{qt2bm} para converter para \emph{Matrix}, tal como pedido.
+
 \begin{eqnarray*}
 \xymatrix@@C=2cm{
     |QTree A|
            \ar[d]_-{|cataQTree o|}
 &
     |f >< (A, (Int, Int)) + ((QTree A) ^ 4)|
-           \ar[d]^{|recQTree o|}
+           \ar[d]^{|recQTree (cataQTree o)|}
            \ar[l]_-{|inQTree|}
 \\
-    |qt2bm . QTree A . Bool|
+    |QTree Bool|
 &
     |f >< (A, (Int, Int)) + ((QTree A) ^ 4)|
-           \ar[l]^-{|g|}
+           \ar[l]^-{|o|}
 }
 \end{eqnarray*}
 
+Por questões de legibilidade, colocou-se \emph{o} ao invés do \emph{either} de \emph{outlineCell fun} e \emph{toBlock}.
+
+Por isso, outlineQTree vem:
 \begin{code}
 outlineQTree fun = qt2bm . (cataQTree (either (outlineCell fun) (toBlock)))
 outlineCell fun (a,(b,c)) = if (fun a) then (outlineBlock b c) else (Cell (fun a) b c)
@@ -1502,6 +1515,8 @@ outlineBlock a b = Block
 \end{code}
 
 \subsection*{Problema 3}
+
+\par Tendo em conta o enunciado do problema 3, decidimos que a estratégia a adotar seria fazer o \emph{split} de \emph{f} e \emph{l} e o \emph{split} de \emph{g} e \emph{s}. Faz-se, então, a seguinte demonstração:
 
 \begin{eqnarray*}
 \start
@@ -1560,6 +1575,8 @@ outlineBlock a b = Block
 \qed
 \end{eqnarray*}
 
+Neste passo, faz-se a demonstração respetiva ao \emph{g} e \emph{s}:
+
 \begin{eqnarray*}
 \start
     |lcbr(
@@ -1617,6 +1634,8 @@ outlineBlock a b = Block
 \qed
 \end{eqnarray*}
 
+Por fim, procedeu-se à combinação dos resultados obtidos através de um \emph{banana-split}, tal como sugerido no enunciado.
+
 \begin{eqnarray*}
 \start
     |lcbr(
@@ -1629,7 +1648,7 @@ outlineBlock a b = Block
 %
 	|split (cataA i) (cataA j) = cataA ((split (either (const 1) (mul . swap)) (either (const (k+1)) (succ . p2))) >< (split (either (const 1) (mul . swap)) (either (const 1) (succ . p1 . swap))) . split (F p1) (F p2))|
 %
-\just\equiv{ lei da Troca }
+\just\equiv{ lei da troca }
 %
     |split (cataA i) (cataA j) = cataA ((either (split (const 1) (const (k+1))) (split (mul . swap) (succ . p2))) >< (either (split (const 1) (const 1)) (split (mul . swap) (succ . p1 . swap))) . split (F p1) (F p2))|
 %
@@ -1652,6 +1671,8 @@ outlineBlock a b = Block
 	)|
 \qed
 \end{eqnarray*}
+
+\par A \emph{base} foi extraída diretamente do cálculo anterior, enquanto que o \emph{loop} precisou de uns ajustes de tipos internos, os quais foram realizados através das funções \emph{tuple} e \emph{untuple}.
 
 \begin{code}
 untuple ((a,b),(c,d)) = (a,b,c,d)
@@ -1856,6 +1877,8 @@ drawPTree = undefined
 
 \par Para a realização deste exercício, foi necessário compreender qual a função de \emph{singletonbag} e \emph{muB}. A primeira permite, tendo um determinado objeto, inseri-lo num dado \emph{Bag}. Quanto à segunda, dado um determinado \emph{Bag} com \emph{Bags} e o respetivo número dos mesmos, deve permitir criar apenas um \emph{Bag} com o conteúdo de todos os interiores.
 
+\subsubsection*{singletonbag}
+
 \par Para a realização de \emph{singletonbag}, devemos primeiro criar um tuplo com o elemento que recebemos, e o respetivo número de elementos, ou seja, um.
 
 \begin{eqnarray*}
@@ -1874,6 +1897,8 @@ Posteriormente, basta aplicar o construtor \emph{B}. Abaixo, mostram-se as defin
 singletonbag = B . singl . toTuple
 toTuple a = (a,1)
 \end{code}
+
+\subsubsection*{|muB|}
 
 \par Para fazer o |muB|, tendo em conta o seu objetivo, optou-se por, desde logo, realizar um \emph{fmap unB}. Isto vai permitir fazer \emph{unBag} dos \emph{Bags} interiores do \emph{Bag} fornecido. Desta forma, dentro do \emph{Bag} inicial vamos ter tuplos (cujo primeiro elemento é uma lista de elementos depois do \emph{unBag}, e o segundo é o respetivo número de sacos iguais existentes).
 
@@ -1918,6 +1943,8 @@ multBags :: ([(a, Int)], Int) -> [(a, Int)]
 multBags ([], c) = []
 multBags (((a, b):tail), c) = [(a,b*c)] ++ (multBags (tail, c))
 \end{code}
+
+\subsubsection*{dist}
 
 O \emph{dist}, após recebido um \emph{Bag} tem, naturalmente, que fazer o seu \emph{unBag}. Tendo a lista de tuplos, em que o primeiro elemento é um elemento específico e o segundo o número de existentes desse elemento. Feito isto, é usada a \emph{marbleReplication} (com recurso a \emph{map}), para transformar tuplos de A |><| Int em uma lista de A, como se demonstra.
 

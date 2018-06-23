@@ -357,9 +357,9 @@ o ``kit'' básico, escrito em \Haskell, para realizar o trabalho. Basta executar
 \noindent Abra o ficheiro \texttt{cp1718t.lhs} no seu editor de texto preferido
 e verifique que assim é: todo o texto que se encontra dentro do ambiente
 \begin{quote}\small\tt
-\text{\tt \char92{}begin\char123{}code\char125{}}
+\text{\ttfamily \char92{}begin\char123{}code\char125{}}
 \\ ... \\
-\text{\tt \char92{}end\char123{}code\char125{}}
+\text{\ttfamily \char92{}end\char123{}code\char125{}}
 \end{quote}
 vai ser seleccionado pelo \GHCi\ para ser executado.
 
@@ -392,9 +392,9 @@ de imagens e a biblioteca \href{http://gloss.ouroborus.net/}{gloss} para geraç�
     $ cabal install QuickCheck JuicyPixels gloss
 \end{Verbatim}
 Para testar uma propriedade \QuickCheck~\ensuremath{\Varid{prop}}, basta invocá-la com o comando:
-\begin{tabbing}\tt
+\begin{tabbing}\ttfamily
 ~~~~~\char62{}~quickCheck~prop\char13{}\\
-\tt ~~~~~\char43{}\char43{}\char43{}~OK\char44{}~passed~100~tests\char46{}\char13{}
+\ttfamily ~~~~~\char43{}\char43{}\char43{}~OK\char44{}~passed~100~tests\char46{}\char13{}
 \end{tabbing}
 
 \section*{Problema 1}
@@ -561,29 +561,29 @@ Uma \emph{quadtree} é uma árvore quaternária em que cada nodo tem quatro sub-
 
 \begin{figure}
 \begin{subfigure}{0.3\textwidth}
-\begin{tabbing}\tt
+\begin{tabbing}\ttfamily
 ~\char40{}~0~0~0~0~0~0~0~0~\char41{}\char13{}\\
-\tt ~\char40{}~0~0~0~0~0~0~0~0~\char41{}\char13{}\\
-\tt ~\char40{}~0~0~0~0~1~1~1~0~\char41{}\char13{}\\
-\tt ~\char40{}~0~0~0~0~1~1~0~0~\char41{}\char13{}\\
-\tt ~\char40{}~1~1~1~1~1~1~0~0~\char41{}\char13{}\\
-\tt ~\char40{}~1~1~1~1~1~1~0~0~\char41{}\char13{}\\
-\tt ~\char40{}~1~1~1~1~0~0~0~0~\char41{}\char13{}\\
-\tt ~\char40{}~1~1~1~1~0~0~0~1~\char41{}\char13{}
+\ttfamily ~\char40{}~0~0~0~0~0~0~0~0~\char41{}\char13{}\\
+\ttfamily ~\char40{}~0~0~0~0~1~1~1~0~\char41{}\char13{}\\
+\ttfamily ~\char40{}~0~0~0~0~1~1~0~0~\char41{}\char13{}\\
+\ttfamily ~\char40{}~1~1~1~1~1~1~0~0~\char41{}\char13{}\\
+\ttfamily ~\char40{}~1~1~1~1~1~1~0~0~\char41{}\char13{}\\
+\ttfamily ~\char40{}~1~1~1~1~0~0~0~0~\char41{}\char13{}\\
+\ttfamily ~\char40{}~1~1~1~1~0~0~0~1~\char41{}\char13{}
 \end{tabbing}
 \caption{Matriz de exemplo \ensuremath{\Varid{bm}}.}
 \label{fig:bm}
 \end{subfigure}
 \begin{subfigure}{0.7\textwidth}
-\begin{tabbing}\tt
+\begin{tabbing}\ttfamily
 ~Block\char13{}\\
-\tt ~~\char40{}Cell~0~4~4\char41{}~\char40{}Block\char13{}\\
-\tt ~~~\char40{}Cell~0~2~2\char41{}~\char40{}Cell~0~2~2\char41{}~\char40{}Cell~1~2~2\char41{}~\char40{}Block\char13{}\\
-\tt ~~~~\char40{}Cell~1~1~1\char41{}~\char40{}Cell~0~1~1\char41{}~\char40{}Cell~0~1~1\char41{}~\char40{}Cell~0~1~1\char41{}\char41{}\char41{}\char13{}\\
-\tt ~~\char40{}Cell~1~4~4\char41{}\char13{}\\
-\tt ~~\char40{}Block\char13{}\\
-\tt ~~~\char40{}Cell~1~2~2\char41{}~\char40{}Cell~0~2~2\char41{}~\char40{}Cell~0~2~2\char41{}~\char40{}Block\char13{}\\
-\tt ~~~~\char40{}Cell~0~1~1\char41{}~\char40{}Cell~0~1~1\char41{}~\char40{}Cell~0~1~1\char41{}~\char40{}Cell~1~1~1\char41{}\char41{}\char41{}\char13{}
+\ttfamily ~~\char40{}Cell~0~4~4\char41{}~\char40{}Block\char13{}\\
+\ttfamily ~~~\char40{}Cell~0~2~2\char41{}~\char40{}Cell~0~2~2\char41{}~\char40{}Cell~1~2~2\char41{}~\char40{}Block\char13{}\\
+\ttfamily ~~~~\char40{}Cell~1~1~1\char41{}~\char40{}Cell~0~1~1\char41{}~\char40{}Cell~0~1~1\char41{}~\char40{}Cell~0~1~1\char41{}\char41{}\char41{}\char13{}\\
+\ttfamily ~~\char40{}Cell~1~4~4\char41{}\char13{}\\
+\ttfamily ~~\char40{}Block\char13{}\\
+\ttfamily ~~~\char40{}Cell~1~2~2\char41{}~\char40{}Cell~0~2~2\char41{}~\char40{}Cell~0~2~2\char41{}~\char40{}Block\char13{}\\
+\ttfamily ~~~~\char40{}Cell~0~1~1\char41{}~\char40{}Cell~0~1~1\char41{}~\char40{}Cell~0~1~1\char41{}~\char40{}Cell~1~1~1\char41{}\char41{}\char41{}\char13{}
 \end{tabbing}
 \caption{Quadtree de exemplo \ensuremath{\Varid{qt}}.}
 \label{fig:qt}
@@ -756,7 +756,7 @@ O módulo \ensuremath{\Conid{BMP}}, disponibilizado juntamente com o enunciado, 
 \end{hscode}\resethooks
 
 Teste, por exemplo, no \ensuremath{\Conid{GHCi}}, carregar a Figura~\ref{fig:person}:
-\begin{tabbing}\tt
+\begin{tabbing}\ttfamily
 ~~~~~\char62{}~readBMP~\char34{}cp1718t\char95{}media\char47{}person\char46{}bmp\char34{}\char13{}
 \end{tabbing}
 
@@ -764,10 +764,10 @@ Esta questão aborda operações de processamento de imagens utilizando quadtree
 \begin{enumerate}
     \item Defina as funções \ensuremath{\Varid{rotateQTree}\mathbin{::}\Conid{QTree}\;\Varid{a}\to \Conid{QTree}\;\Varid{a}}, \ensuremath{\Varid{scaleQTree}\mathbin{::}\Conid{Int}\to \Conid{QTree}\;\Varid{a}\to \Conid{QTree}\;\Varid{a}} e \ensuremath{\Varid{invertQTree}\mathbin{::}\Conid{QTree}\;\Varid{a}\to \Conid{QTree}\;\Varid{a}}, como catamorfismos e/ou anamorfismos, que rodam\footnote{Segundo um ângulo de $90º$ no sentido dos ponteiros do relógio.}, redimensionam \footnote{Multiplicando o seu tamanho pelo valor recebido.} e invertem as cores de uma quadtree\footnote{Um pixel pode ser invertido calculando $255 - c$ para cada componente $c$ de cor RGB, exceptuando o componente alpha.}, respectivamente.
     Tente produzir imagens similares às Figuras~\ref{fig:person90}, \ref{fig:personx2} e \ref{fig:personinv}:
-        \begin{tabbing}\tt
+        \begin{tabbing}\ttfamily
 ~~~~~\char62{}~rotateBMP~~\char34{}cp1718t\char95{}media\char47{}person\char46{}bmp\char34{}~\char34{}person90\char46{}bmp\char34{}\char13{}\\
-\tt ~~~~~\char62{}~scaleBMP~2~\char34{}cp1718t\char95{}media\char47{}person\char46{}bmp\char34{}~\char34{}personx2\char46{}bmp\char34{}\char13{}\\
-\tt ~~~~~\char62{}~invertBMP~~\char34{}cp1718t\char95{}media\char47{}person\char46{}bmp\char34{}~\char34{}personinv\char46{}bmp\char34{}\char13{}
+\ttfamily ~~~~~\char62{}~scaleBMP~2~\char34{}cp1718t\char95{}media\char47{}person\char46{}bmp\char34{}~\char34{}personx2\char46{}bmp\char34{}\char13{}\\
+\ttfamily ~~~~~\char62{}~invertBMP~~\char34{}cp1718t\char95{}media\char47{}person\char46{}bmp\char34{}~\char34{}personinv\char46{}bmp\char34{}\char13{}
 \end{tabbing}
 
 \begin{propriedade}
@@ -800,11 +800,11 @@ Esta questão aborda operações de processamento de imagens utilizando quadtree
 
     \item Defina a função \ensuremath{\Varid{compressQTree}\mathbin{::}\Conid{Int}\to \Conid{QTree}\;\Varid{a}\to \Conid{QTree}\;\Varid{a}}, utilizando catamorfismos e/ou anamorfismos, que comprime uma quadtree cortando folhas da árvore para reduzir a sua profundidade num dado número de níveis.
     Tente produzir imagens similares (mas não necessariamente iguais) às Figuras~\ref{fig:person1}, \ref{fig:person2}, \ref{fig:person3} e \ref{fig:person4}:
-        \begin{tabbing}\tt
+        \begin{tabbing}\ttfamily
 ~~~~~\char62{}~compressBMP~1~\char34{}cp1718t\char95{}media\char47{}person\char46{}bmp\char34{}~\char34{}person1\char46{}bmp\char34{}\char13{}\\
-\tt ~~~~~\char62{}~compressBMP~2~\char34{}cp1718t\char95{}media\char47{}person\char46{}bmp\char34{}~\char34{}person2\char46{}bmp\char34{}\char13{}\\
-\tt ~~~~~\char62{}~compressBMP~3~\char34{}cp1718t\char95{}media\char47{}person\char46{}bmp\char34{}~\char34{}person3\char46{}bmp\char34{}\char13{}\\
-\tt ~~~~~\char62{}~compressBMP~4~\char34{}cp1718t\char95{}media\char47{}person\char46{}bmp\char34{}~\char34{}person4\char46{}bmp\char34{}\char13{}
+\ttfamily ~~~~~\char62{}~compressBMP~2~\char34{}cp1718t\char95{}media\char47{}person\char46{}bmp\char34{}~\char34{}person2\char46{}bmp\char34{}\char13{}\\
+\ttfamily ~~~~~\char62{}~compressBMP~3~\char34{}cp1718t\char95{}media\char47{}person\char46{}bmp\char34{}~\char34{}person3\char46{}bmp\char34{}\char13{}\\
+\ttfamily ~~~~~\char62{}~compressBMP~4~\char34{}cp1718t\char95{}media\char47{}person\char46{}bmp\char34{}~\char34{}person4\char46{}bmp\char34{}\char13{}
 \end{tabbing}
     \begin{propriedade}
         A quadtree comprimida tem profundidade igual à da quadtree original menos a taxa de compressão:
@@ -819,9 +819,9 @@ Esta questão aborda operações de processamento de imagens utilizando quadtree
 
     \item Defina a função \ensuremath{\Varid{outlineQTree}\mathbin{::}(\Varid{a}\to \Conid{Bool})\to \Conid{QTree}\;\Varid{a}\to \Conid{Matrix}\;\Conid{Bool}}, utilizando catamorfismos e/ou anamorfismos, que recebe uma função que determina quais os píxeis de fundo e converte uma quadtree numa matriz monocromática, de forma a desenhar o contorno de uma \href{https://en.wikipedia.org/wiki/Polygon_mesh}{malha poligonal} contida na imagem.
         Tente produzir imagens similares (mas não necessariamente iguais) às Figuras~\ref{fig:personOut1} e \ref{fig:personOut2}:
-            \begin{tabbing}\tt
+            \begin{tabbing}\ttfamily
 ~~~~~\char62{}~outlineBMP~~~~\char34{}cp1718t\char95{}media\char47{}person\char46{}bmp\char34{}~\char34{}personOut1\char46{}bmp\char34{}\char13{}\\
-\tt ~~~~~\char62{}~addOutlineBMP~\char34{}cp1718t\char95{}media\char47{}person\char46{}bmp\char34{}~\char34{}personOut2\char46{}bmp\char34{}\char13{}
+\ttfamily ~~~~~\char62{}~addOutlineBMP~\char34{}cp1718t\char95{}media\char47{}person\char46{}bmp\char34{}~\char34{}personOut2\char46{}bmp\char34{}\char13{}
 \end{tabbing}
     \begin{propriedade}
         A matriz de contorno tem dimensões iguais às da quadtree:
@@ -969,7 +969,7 @@ Uma árvore de Pitágoras pode ser codificada em Haskell como uma full tree cont
 
 \item Defina a função \ensuremath{\Varid{drawPTree}\mathbin{::}\Conid{PTree}\to [\mskip1.5mu \Conid{Picture}\mskip1.5mu]}, utilizando catamorfismos e/ou anamorfismos, que anima incrementalmente os passos de construção de uma árvore de Pitágoras recorrendo à biblioteca \href{https://hackage.haskell.org/package/gloss}{gloss}.
     Anime a sua solução:
-\begin{tabbing}\tt
+\begin{tabbing}\ttfamily
 ~~~~~\char62{}~animatePTree~3\char13{}
 \end{tabbing}
 
@@ -994,7 +994,7 @@ um tipo dado.\footnote{``Marble" traduz para ``berlinde" em português.}
 A lista \ensuremath{[\mskip1.5mu \Conid{Pink},\Conid{Green},\Conid{Red},\Conid{Blue},\Conid{Green},\Conid{Red},\Conid{Green},\Conid{Pink},\Conid{Blue},\Conid{White}\mskip1.5mu]} tem elementos
 repetidos. Assumindo que a ordem não é importante, essa lista corresponde ao saco
 \begin{quote}\small
-\begin{tabbing}\tt
+\begin{tabbing}\ttfamily
 ~\char123{}~Red~\char124{}\char45{}\char62{}~2~\char44{}~Pink~\char124{}\char45{}\char62{}~2~\char44{}~Green~\char124{}\char45{}\char62{}~3~\char44{}~Blue~\char124{}\char45{}\char62{}~2~\char44{}~White~\char124{}\char45{}\char62{}~1~\char125{}\char13{}
 \end{tabbing}
 \end{quote}
@@ -1037,11 +1037,11 @@ basta calcular
 \end{hscode}\resethooks
 onde \ensuremath{\Varid{bagOfMarbles}} é o saco de berlindes referido acima, obtendo-se:
 \begin{quote}\small
-	\text{\tt \char123{}~2~\char124{}\char45{}\char62{}~3~\char44{}~3~\char124{}\char45{}\char62{}~5~\char44{}~6~\char124{}\char45{}\char62{}~2~\char125{}}.
+	\text{\ttfamily \char123{}~2~\char124{}\char45{}\char62{}~3~\char44{}~3~\char124{}\char45{}\char62{}~5~\char44{}~6~\char124{}\char45{}\char62{}~2~\char125{}}.
 \end{quote}
 %
 Mais ainda, se quisermos saber o total de berlindes em \ensuremath{\Varid{bagOfMarbles}} basta
-calcular \ensuremath{\mathsf{fmap}\;(\mathbin{!})\;\Varid{bagOfMarbles}} obtendo-se \text{\tt \char123{}~\char40{}\char41{}~\char124{}\char45{}\char62{}~10~\char125{}}; isto é,
+calcular \ensuremath{\mathsf{fmap}\;(\mathbin{!})\;\Varid{bagOfMarbles}} obtendo-se \text{\ttfamily \char123{}~\char40{}\char41{}~\char124{}\char45{}\char62{}~10~\char125{}}; isto é,
 o saco tem \ensuremath{\mathrm{10}} berlindes no total.
 
 
@@ -1055,12 +1055,12 @@ o referido saco numa distribuição correndo:
 \end{hscode}\resethooks
 obtendo-se a distribuição (graças ao módulo \Probability):
 \begin{quote}\small
-\begin{tabbing}\tt
+\begin{tabbing}\ttfamily
 ~Green~~30\char46{}0\char37{}\char13{}\\
-\tt ~~~Red~~20\char46{}0\char37{}\char13{}\\
-\tt ~~Pink~~20\char46{}0\char37{}\char13{}\\
-\tt ~~Blue~~20\char46{}0\char37{}\char13{}\\
-\tt ~White~~10\char46{}0\char37{}\char13{}
+\ttfamily ~~~Red~~20\char46{}0\char37{}\char13{}\\
+\ttfamily ~~Pink~~20\char46{}0\char37{}\char13{}\\
+\ttfamily ~~Blue~~20\char46{}0\char37{}\char13{}\\
+\ttfamily ~White~~10\char46{}0\char37{}\char13{}
 \end{tabbing}
 \end{quote}
 cf.\ Figura \ref{fig:dist}.
@@ -1163,7 +1163,7 @@ será representada pela distribuição
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{d1}\mathbin{::}\fun{Dist}\;\Conid{Char}{}\<[E]%
 \\
-\>[B]{}\Varid{d1}\mathrel{=}\Conid{D}\;[\mskip1.5mu (\text{\tt 'A'},\mathrm{0.02}),(\text{\tt 'B'},\mathrm{0.12}),(\text{\tt 'C'},\mathrm{0.29}),(\text{\tt 'D'},\mathrm{0.35}),(\text{\tt 'E'},\mathrm{0.22})\mskip1.5mu]{}\<[E]%
+\>[B]{}\Varid{d1}\mathrel{=}\Conid{D}\;[\mskip1.5mu (\text{\ttfamily 'A'},\mathrm{0.02}),(\text{\ttfamily 'B'},\mathrm{0.12}),(\text{\ttfamily 'C'},\mathrm{0.29}),(\text{\ttfamily 'D'},\mathrm{0.35}),(\text{\ttfamily 'E'},\mathrm{0.22})\mskip1.5mu]{}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
 que o \GHCi\ mostrará assim:
@@ -1199,17 +1199,17 @@ Funções para mostrar \emph{bags}:
 \>[8]{}\Varid{showbag}\mathrel{=}\Varid{concat}\comp {}\<[E]%
 \\
 \>[8]{}\hsindent{10}{}\<[18]%
-\>[18]{}(\plus [\mskip1.5mu \text{\tt \char34 ~\char125 \char34}\mskip1.5mu])\comp {}\<[33]%
-\>[33]{}(\text{\tt \char34 \char123 ~\char34}\mathbin{:})\comp {}\<[E]%
+\>[18]{}(\plus [\mskip1.5mu \text{\ttfamily \char34 ~\char125 \char34}\mskip1.5mu])\comp {}\<[33]%
+\>[33]{}(\text{\ttfamily \char34 \char123 ~\char34}\mathbin{:})\comp {}\<[E]%
 \\
 \>[8]{}\hsindent{10}{}\<[18]%
-\>[18]{}(\Varid{intersperse}\;\text{\tt \char34 ~,~\char34})\comp {}\<[E]%
+\>[18]{}(\Varid{intersperse}\;\text{\ttfamily \char34 ~,~\char34})\comp {}\<[E]%
 \\
 \>[8]{}\hsindent{10}{}\<[18]%
 \>[18]{}\Varid{sort}\comp {}\<[E]%
 \\
 \>[8]{}\hsindent{10}{}\<[18]%
-\>[18]{}(\map \;\Varid{f})\;\mathbf{where}\;\Varid{f}\;(\Varid{a},\Varid{b})\mathrel{=}(\Varid{show}\;\Varid{a})\plus \text{\tt \char34 ~|->~\char34}\plus (\Varid{show}\;\Varid{b}){}\<[E]%
+\>[18]{}(\map \;\Varid{f})\;\mathbf{where}\;\Varid{f}\;(\Varid{a},\Varid{b})\mathrel{=}(\Varid{show}\;\Varid{a})\plus \text{\ttfamily \char34 ~|->~\char34}\plus (\Varid{show}\;\Varid{b}){}\<[E]%
 \\
 \>[B]{}\Varid{unB}\;(\mathit B\;\Varid{x})\mathrel{=}\Varid{x}{}\<[E]%
 \ColumnHook
@@ -1642,50 +1642,50 @@ Foram também definidas duas Blockchains de teste de maneira a verificar as func
 \column{3}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{5}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\Varid{block1}\mathrel{=}(\text{\tt \char34 1234\char34},{}\<[E]%
+\>[B]{}\Varid{block1}\mathrel{=}(\text{\ttfamily \char34 1234\char34},{}\<[E]%
 \\
 \>[B]{}\hsindent{3}{}\<[3]%
 \>[3]{}(\mathrm{177777},[\mskip1.5mu {}\<[E]%
 \\
 \>[3]{}\hsindent{2}{}\<[5]%
-\>[5]{}(\text{\tt \char34 Marcos\char34},(\mathrm{200},\text{\tt \char34 Tarracho\char34})),{}\<[E]%
+\>[5]{}(\text{\ttfamily \char34 Marcos\char34},(\mathrm{200},\text{\ttfamily \char34 Tarracho\char34})),{}\<[E]%
 \\
 \>[3]{}\hsindent{2}{}\<[5]%
-\>[5]{}(\text{\tt \char34 Antonio\char34},(\mathrm{200},\text{\tt \char34 Joao\char34})),{}\<[E]%
+\>[5]{}(\text{\ttfamily \char34 Antonio\char34},(\mathrm{200},\text{\ttfamily \char34 Joao\char34})),{}\<[E]%
 \\
 \>[3]{}\hsindent{2}{}\<[5]%
-\>[5]{}(\text{\tt \char34 Tarracho\char34},(\mathrm{200},\text{\tt \char34 Marcos\char34})),{}\<[E]%
+\>[5]{}(\text{\ttfamily \char34 Tarracho\char34},(\mathrm{200},\text{\ttfamily \char34 Marcos\char34})),{}\<[E]%
 \\
 \>[3]{}\hsindent{2}{}\<[5]%
-\>[5]{}(\text{\tt \char34 Marcos\char34},(\mathrm{200},\text{\tt \char34 Tarracho\char34})){}\<[E]%
+\>[5]{}(\text{\ttfamily \char34 Marcos\char34},(\mathrm{200},\text{\ttfamily \char34 Tarracho\char34})){}\<[E]%
 \\
 \>[B]{}\hsindent{3}{}\<[3]%
 \>[3]{}\mskip1.5mu])){}\<[E]%
 \\
-\>[B]{}\Varid{block2}\mathrel{=}(\text{\tt \char34 6789\char34},{}\<[E]%
+\>[B]{}\Varid{block2}\mathrel{=}(\text{\ttfamily \char34 6789\char34},{}\<[E]%
 \\
 \>[B]{}\hsindent{3}{}\<[3]%
 \>[3]{}(\mathrm{177888},[\mskip1.5mu {}\<[E]%
 \\
 \>[3]{}\hsindent{2}{}\<[5]%
-\>[5]{}(\text{\tt \char34 Marcos\char34},(\mathrm{200},\text{\tt \char34 Tarracho\char34})),{}\<[E]%
+\>[5]{}(\text{\ttfamily \char34 Marcos\char34},(\mathrm{200},\text{\ttfamily \char34 Tarracho\char34})),{}\<[E]%
 \\
 \>[3]{}\hsindent{2}{}\<[5]%
-\>[5]{}(\text{\tt \char34 Antonio\char34},(\mathrm{200},\text{\tt \char34 Joao\char34})){}\<[E]%
+\>[5]{}(\text{\ttfamily \char34 Antonio\char34},(\mathrm{200},\text{\ttfamily \char34 Joao\char34})){}\<[E]%
 \\
 \>[B]{}\hsindent{3}{}\<[3]%
 \>[3]{}\mskip1.5mu])){}\<[E]%
 \\
-\>[B]{}\Varid{block3}\mathrel{=}(\text{\tt \char34 4444\char34},{}\<[E]%
+\>[B]{}\Varid{block3}\mathrel{=}(\text{\ttfamily \char34 4444\char34},{}\<[E]%
 \\
 \>[B]{}\hsindent{3}{}\<[3]%
 \>[3]{}(\mathrm{177888},[\mskip1.5mu {}\<[E]%
 \\
 \>[3]{}\hsindent{2}{}\<[5]%
-\>[5]{}(\text{\tt \char34 Maria\char34},(\mathrm{200},\text{\tt \char34 Matilde\char34})),{}\<[E]%
+\>[5]{}(\text{\ttfamily \char34 Maria\char34},(\mathrm{200},\text{\ttfamily \char34 Matilde\char34})),{}\<[E]%
 \\
 \>[3]{}\hsindent{2}{}\<[5]%
-\>[5]{}(\text{\tt \char34 Matilde\char34},(\mathrm{200},\text{\tt \char34 Maria\char34})){}\<[E]%
+\>[5]{}(\text{\ttfamily \char34 Matilde\char34},(\mathrm{200},\text{\ttfamily \char34 Maria\char34})){}\<[E]%
 \\
 \>[B]{}\hsindent{3}{}\<[3]%
 \>[3]{}\mskip1.5mu])){}\<[E]%
@@ -1777,7 +1777,7 @@ As restantes funções são:
 
 \subsubsection*{RotateQTree}
 
-Para uma rotação de 90 graus da QTree, temos de reposicionar as células e os blocos. Usámos um catamorfismo de QTree.
+Para uma rotação de 90 graus da QTree, temos de reposicionar as células e os blocos. Usou-se um catamorfismo de QTree.
 
 \begin{eqnarray*}
 \xymatrix@C=2cm{
@@ -1785,15 +1785,17 @@ Para uma rotação de 90 graus da QTree, temos de reposicionar as células e os 
            \ar[d]_-{\ensuremath{\Varid{cataQTree}\;\Varid{r}}}
 &
     \ensuremath{(\Conid{A},(\Conid{Int},\Conid{Int}))\mathbin{+}((\Conid{QTree}\;\Conid{A})\mathbin{\uparrow}\mathrm{4})}
-           \ar[d]^{\ensuremath{\Varid{recQTree}\;\Varid{r}}}
+           \ar[d]^{\ensuremath{\Varid{recQTree}\;(\Varid{cataQTree}\;\Varid{r})}}
            \ar[l]_-{\ensuremath{\Varid{inQTree}}}
 \\
     \ensuremath{\Conid{QTree}\;\Conid{A}}
 &
     \ensuremath{(\Conid{A},(\Conid{Int},\Conid{Int}))\mathbin{+}((\Conid{QTree}\;\Conid{A})\mathbin{\uparrow}\mathrm{4})}
-           \ar[l]^-{\ensuremath{\Varid{g}}}
+           \ar[l]^-{\ensuremath{\Varid{r}}}
 }
 \end{eqnarray*}
+
+Por questões de legibilidade, colocou-se \emph{r} ao invés do \emph{either} de \emph{rotateCell} e \emph{rotateBlock}.
 
 Por isso, rotateQTree vem:
 \begin{hscode}\SaveRestoreHook
@@ -1809,7 +1811,7 @@ Por isso, rotateQTree vem:
 
 \subsubsection*{ScaleQTree}
 
-Para redimensionar, temos de multiplicar cada célula pelo fator de multiplicação. Usámos um catamorfismo de QTree.
+Para redimensionar, temos de multiplicar cada célula pelo fator de multiplicação. Usámos um catamorfismo de QTree. De notar que, devido à definição da \emph{baseQTree}, é possível aplicação do \emph{outQTree} apesar de termos um \emph{Int} de entrada.
 
 \begin{eqnarray*}
 \xymatrix@C=2cm{
@@ -1817,15 +1819,17 @@ Para redimensionar, temos de multiplicar cada célula pelo fator de multiplicaç
            \ar[d]_-{\ensuremath{\Varid{cataQTree}\;\Varid{s}}}
 &
     \ensuremath{\Conid{Int}\times(\Conid{A},(\Conid{Int},\Conid{Int}))\mathbin{+}((\Conid{QTree}\;\Conid{A})\mathbin{\uparrow}\mathrm{4})}
-           \ar[d]^{\ensuremath{\Varid{recQTree}\;\Varid{s}}}
+           \ar[d]^{\ensuremath{\Varid{recQTree}\;(\Varid{cataQTree}\;\Varid{s})}}
            \ar[l]_-{\ensuremath{\Varid{inQTree}}}
 \\
     \ensuremath{\Conid{QTree}\;\Conid{A}}
 &
     \ensuremath{\Conid{Int}\times(\Conid{A},(\Conid{Int},\Conid{Int}))\mathbin{+}((\Conid{QTree}\;\Conid{A})\mathbin{\uparrow}\mathrm{4})}
-           \ar[l]^-{\ensuremath{\Varid{g}}}
+           \ar[l]^-{\ensuremath{\Varid{s}}}
 }
 \end{eqnarray*}
+
+Por questões de legibilidade, colocou-se \emph{s} ao invés do \emph{either} de \emph{scaleCell a} e \emph{toBlock}.
 
 Por isso, scaleQTree vem:
 \begin{hscode}\SaveRestoreHook
@@ -1847,15 +1851,17 @@ Para inverter as cores de uma QTree, temos de inverter a cor de cada pixel. Usá
            \ar[d]_-{\ensuremath{\Varid{cataQTree}\;\Varid{i}}}
 &
     \ensuremath{(\Conid{A},(\Conid{Int},\Conid{Int}))\mathbin{+}((\Conid{QTree}\;\Conid{A})\mathbin{\uparrow}\mathrm{4})}
-           \ar[d]^{\ensuremath{\Varid{recQTree}\;\Varid{i}}}
+           \ar[d]^{\ensuremath{\Varid{recQTree}\;(\Varid{cataQTree}\;\Varid{i})}}
            \ar[l]_-{\ensuremath{\Varid{inQTree}}}
 \\
     \ensuremath{\Conid{QTree}\;\Conid{A}}
 &
     \ensuremath{(\Conid{A},(\Conid{Int},\Conid{Int}))\mathbin{+}((\Conid{QTree}\;\Conid{A})\mathbin{\uparrow}\mathrm{4})}
-           \ar[l]^-{\ensuremath{\Varid{g}}}
+           \ar[l]^-{\ensuremath{\Varid{i}}}
 }
 \end{eqnarray*}
+
+Por questões de legibilidade, colocou-se \emph{i} ao invés do \emph{either} de \emph{invertCell} e \emph{toBlock}.
 
 Por isso, invertQTree vem:
 \begin{hscode}\SaveRestoreHook
@@ -1923,22 +1929,27 @@ Precisamos disto para a compress, para escolher um valor qualquer para o Block p
 
 \subsubsection*{OutlineQTree}
 
+Para fazer o \emph{outline} da figura é preciso verificar se a célula, após aplicada a função dada, é de valor \emph{True}. Se sim, utiliza-se a função \emph{outlineBlock} que, dado um tamanho de bloco, procede ao contorno do mesmo. O cata apresentado é o que transforma uma \emph{QTree} em a respetiva \emph{QTree} de \emph{Bool}. Após esta conversão, basta utilizar a função \emph{qt2bm} para converter para \emph{Matrix}, tal como pedido.
+
 \begin{eqnarray*}
 \xymatrix@C=2cm{
     \ensuremath{\Conid{QTree}\;\Conid{A}}
            \ar[d]_-{\ensuremath{\Varid{cataQTree}\;\Varid{o}}}
 &
     \ensuremath{\Varid{f}\times(\Conid{A},(\Conid{Int},\Conid{Int}))\mathbin{+}((\Conid{QTree}\;\Conid{A})\mathbin{\uparrow}\mathrm{4})}
-           \ar[d]^{\ensuremath{\Varid{recQTree}\;\Varid{o}}}
+           \ar[d]^{\ensuremath{\Varid{recQTree}\;(\Varid{cataQTree}\;\Varid{o})}}
            \ar[l]_-{\ensuremath{\Varid{inQTree}}}
 \\
-    \ensuremath{\Varid{qt2bm}\comp \Conid{QTree}\;\Conid{A}\comp \Conid{Bool}}
+    \ensuremath{\Conid{QTree}\;\Conid{Bool}}
 &
     \ensuremath{\Varid{f}\times(\Conid{A},(\Conid{Int},\Conid{Int}))\mathbin{+}((\Conid{QTree}\;\Conid{A})\mathbin{\uparrow}\mathrm{4})}
-           \ar[l]^-{\ensuremath{\Varid{g}}}
+           \ar[l]^-{\ensuremath{\Varid{o}}}
 }
 \end{eqnarray*}
 
+Por questões de legibilidade, colocou-se \emph{o} ao invés do \emph{either} de \emph{outlineCell fun} e \emph{toBlock}.
+
+Por isso, outlineQTree vem:
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{5}{@{}>{\hspre}l<{\hspost}@{}}%
@@ -1975,6 +1986,8 @@ Precisamos disto para a compress, para escolher um valor qualquer para o Block p
 
 \subsection*{Problema 3}
 
+\par Tendo em conta o enunciado do problema 3, decidimos que a estratégia a adotar seria fazer o \emph{split} de \emph{f} e \emph{l} e o \emph{split} de \emph{g} e \emph{s}. Faz-se, então, a seguinte demonstração:
+
 \begin{eqnarray*}
 \start
         \ensuremath{\begin{lcbr}\Varid{fk}\;\mathrm{0}\mathrel{=}\mathrm{1}\\\Varid{fk}\;(\Varid{d}\mathbin{+}\mathrm{1})\mathrel{=}(\Varid{d}\mathbin{+}\Varid{k}\mathbin{+}\mathrm{1})\mathbin{*}\Varid{fk}\;\Varid{d}\end{lcbr}}
@@ -2003,6 +2016,8 @@ Precisamos disto para a compress, para escolher um valor qualquer para o Block p
 
 \qed
 \end{eqnarray*}
+
+Neste passo, faz-se a demonstração respetiva ao \emph{g} e \emph{s}:
 
 \begin{eqnarray*}
 \start
@@ -2033,6 +2048,8 @@ Precisamos disto para a compress, para escolher um valor qualquer para o Block p
 \qed
 \end{eqnarray*}
 
+Por fim, procedeu-se à combinação dos resultados obtidos através de um \emph{banana-split}, tal como sugerido no enunciado.
+
 \begin{eqnarray*}
 \start
     \ensuremath{\begin{lcbr}\cata{\Varid{i}~\cdot }_A\mathrel{=}\cata{\conj{\alt{\underline{\mathrm{1}}}{\Varid{mul}\comp \Varid{swap}}}{\alt{\underline{(\Varid{k}\mathbin{+}\mathrm{1})}}{\succ \comp \p2}}~\cdot }_A\\\cata{\Varid{j}~\cdot }_A\mathrel{=}\cata{\conj{\alt{\underline{\mathrm{1}}}{\Varid{mul}\comp \Varid{swap}}}{\alt{\underline{\mathrm{1}}}{\succ \comp \p1\comp \Varid{swap}}}~\cdot }_A\end{lcbr}}
@@ -2041,7 +2058,7 @@ Precisamos disto para a compress, para escolher um valor qualquer para o Block p
 %
 	\ensuremath{\conj{\cata{\Varid{i}~\cdot }_A}{\cata{\Varid{j}~\cdot }_A}\mathrel{=}\cata{\conj{\alt{\underline{\mathrm{1}}}{\Varid{mul}\comp \Varid{swap}}}{\alt{\underline{(\Varid{k}\mathbin{+}\mathrm{1})}}{\succ \comp \p2}}\times\conj{\alt{\underline{\mathrm{1}}}{\Varid{mul}\comp \Varid{swap}}}{\alt{\underline{\mathrm{1}}}{\succ \comp \p1\comp \Varid{swap}}}\comp \conj{\Conid{F}\;\p1}{\Conid{F}\;\p2}~\cdot }_A}
 %
-\just\equiv{ lei da Troca }
+\just\equiv{ lei da troca }
 %
     \ensuremath{\conj{\cata{\Varid{i}~\cdot }_A}{\cata{\Varid{j}~\cdot }_A}\mathrel{=}\cata{\alt{\conj{\underline{\mathrm{1}}}{\underline{(\Varid{k}\mathbin{+}\mathrm{1})}}}{\conj{\Varid{mul}\comp \Varid{swap}}{\succ \comp \p2}}\times\alt{\conj{\underline{\mathrm{1}}}{\underline{\mathrm{1}}}}{\conj{\Varid{mul}\comp \Varid{swap}}{\succ \comp \p1\comp \Varid{swap}}}\comp \conj{\Conid{F}\;\p1}{\Conid{F}\;\p2}~\cdot }_A}
 %
@@ -2058,6 +2075,8 @@ Precisamos disto para a compress, para escolher um valor qualquer para o Block p
     \ensuremath{\begin{lcbr}\Varid{b}\mathrel{=}\conj{\conj{\Varid{mul}\comp \Varid{swap}}{\succ \comp \p2}\comp \p1}{\conj{\Varid{mul}\comp \Varid{swap}}{\succ \comp \p1\comp \Varid{swap}}\comp \p2}\\\Varid{i}\mathrel{=}\conj{\conj{\underline{\mathrm{1}}}{\underline{(\Varid{k}\mathbin{+}\mathrm{1})}}}{\conj{\underline{\mathrm{1}}}{\underline{\mathrm{1}}}}\end{lcbr}}
 \qed
 \end{eqnarray*}
+
+\par A \emph{base} foi extraída diretamente do cálculo anterior, enquanto que o \emph{loop} precisou de uns ajustes de tipos internos, os quais foram realizados através das funções \emph{tuple} e \emph{untuple}.
 
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
@@ -2313,6 +2332,8 @@ O grupo não definiu a função drawPTree.
 
 \par Para a realização deste exercício, foi necessário compreender qual a função de \emph{singletonbag} e \emph{muB}. A primeira permite, tendo um determinado objeto, inseri-lo num dado \emph{Bag}. Quanto à segunda, dado um determinado \emph{Bag} com \emph{Bags} e o respetivo número dos mesmos, deve permitir criar apenas um \emph{Bag} com o conteúdo de todos os interiores.
 
+\subsubsection*{singletonbag}
+
 \par Para a realização de \emph{singletonbag}, devemos primeiro criar um tuplo com o elemento que recebemos, e o respetivo número de elementos, ou seja, um.
 
 \begin{eqnarray*}
@@ -2335,6 +2356,8 @@ Posteriormente, basta aplicar o construtor \emph{B}. Abaixo, mostram-se as defin
 \>[B]{}\Varid{toTuple}\;\Varid{a}\mathrel{=}(\Varid{a},\mathrm{1}){}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
+
+\subsubsection*{\ensuremath{\mu }}
 
 \par Para fazer o \ensuremath{\mu }, tendo em conta o seu objetivo, optou-se por, desde logo, realizar um \emph{fmap unB}. Isto vai permitir fazer \emph{unBag} dos \emph{Bags} interiores do \emph{Bag} fornecido. Desta forma, dentro do \emph{Bag} inicial vamos ter tuplos (cujo primeiro elemento é uma lista de elementos depois do \emph{unBag}, e o segundo é o respetivo número de sacos iguais existentes).
 
@@ -2385,6 +2408,8 @@ Tendo feito todos os passos anteriores, basta concatenar as listas numa só, atr
 \>[B]{}\Varid{multBags}\;(((\Varid{a},\Varid{b})\mathbin{:}\Varid{tail}),\Varid{c})\mathrel{=}[\mskip1.5mu (\Varid{a},\Varid{b}\mathbin{*}\Varid{c})\mskip1.5mu]\plus (\Varid{multBags}\;(\Varid{tail},\Varid{c})){}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
+
+\subsubsection*{dist}
 
 O \emph{dist}, após recebido um \emph{Bag} tem, naturalmente, que fazer o seu \emph{unBag}. Tendo a lista de tuplos, em que o primeiro elemento é um elemento específico e o segundo o número de existentes desse elemento. Feito isto, é usada a \emph{marbleReplication} (com recurso a \emph{map}), para transformar tuplos de A \ensuremath{\times} Int em uma lista de A, como se demonstra.
 
