@@ -1454,17 +1454,16 @@ geneCompress (x, t@(Block a b c d))
 
 O gene do anamorfismo faz uma de três coisas:
 
-Se recebe uma \emph{Cell}, simplesmente coloca-a do lado esquerdo usando \emph{|i1|},
-uma vez que chegamos a uma folha da árvore que não deve ser cortada.
-
-Se recebe um \emph{Block}, e a sua profundidade é menor ou igual ao nível de compressão
-desejado, converte esse bloco para uma célula, efetivamente cortando os filhos desse bloco.
-De seguida, executa \emph{|i1|} para colocar a nova célula do lado esquerdo.
-
-Se recebe um \emph{Block} e a sua profundidade é maior que o nível de compressão desejado,
-simplesmente coloca-o do lado direito usando \emph{|i2|}, sem alterar o seu conteúdo.
-
 \vskip 1em
+
+\begin{itemize}
+  \item Se recebe uma \emph{Cell}, simplesmente coloca-a do lado esquerdo usando \emph{|i1|}, uma vez que chegamos a uma folha da árvore que não deve ser cortada.
+  \item Se recebe um \emph{Block}, e a sua profundidade é menor ou igual ao nível de compressão
+  desejado, converte esse bloco para uma célula, efetivamente cortando os filhos desse bloco.
+  De seguida, executa \emph{|i1|} para colocar a nova célula do lado esquerdo.
+  \item Se recebe um \emph{Block} e a sua profundidade é maior que o nível de compressão desejado,
+  simplesmente coloca-o do lado direito usando \emph{|i2|}, sem alterar o seu conteúdo.
+\end{itemize}
 
 A função \emph{anyValue} é usada para obter um valor qualquer de uma QTree.
 Esta funcionalidade é útil para quando queremos atribuir um valor a uma nova \emph{Cell}
