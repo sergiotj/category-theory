@@ -1026,7 +1026,7 @@ hyloBlockchain f g = cataBlockchain f . anaBlockchain g
 
 \subsubsection*{allTransactions}
 
-Para definir o allTransactions, que calcula uma lista de todas as transações de uma Blockchain, foi usado um catamorfismo de Blockchains:
+Para definir allTransactions, que calcula uma lista de todas as transações de uma Blockchain, foi usado um catamorfismo de Blockchains:
 
 \begin{eqnarray*}
 \xymatrix@@C=2cm{
@@ -1056,13 +1056,13 @@ getTransactions = conc . ((p2 . p2) >< id)
 
 \subsubsection*{ledger}
 
-Para calcular o ledger de uma blockchain vamos fazer 3 passos:
+Para calcular o ledger de uma blockchain vamos fazer 4 passos:
 
 \vskip 2em
 
 \begin{enumerate}
   \item Obter a lista das transações de uma blockchain (usando \emph{allTransactions});
-  \item Obter uma lista de entidades a partir da lista de transações (usando catamorfismo \emph{getEntities});
+  \item Obter uma lista de entidades a partir da lista de transações (usando o catamorfismo \emph{getEntities});
   \item Eliminar repetições da lista de entidades;
   \item Calcular o saldo de cada entidade fazendo map das entidades sobre uma função \emph{getBalance}.
 \end{enumerate}
@@ -1189,7 +1189,7 @@ Esta função foi uma descoberta interessante, e tem um desempenho melhor que a 
 
 \vskip 2em
 
-A função \emph{pairToList} cria um par a partir de uma lista com dois elementos:
+Por fim, a função \emph{pairToList} cria um par a partir de uma lista com dois elementos:
 
 \begin{code}
 pairToList :: (a, a) -> [a]
