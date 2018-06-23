@@ -1331,7 +1331,7 @@ instance Functor QTree where
     fmap f = cataQTree (inQTree . (baseQTree f id))
 \end{code}
 
-\subsubsection*{RotateQTree}
+\subsubsection*{rotateQTree}
 
 Para uma rotação de 90 graus da QTree, temos de reposicionar as células e os blocos. Usámos um catamorfismo de QTree.
 
@@ -1358,7 +1358,7 @@ rotateCell (a,(b,c)) = Cell a c b
 rotateBlock (a, (b, (c,d))) = Block c a d b
 \end{code}
 
-\subsubsection*{ScaleQTree}
+\subsubsection*{scaleQTree}
 
 Para redimensionar, temos de multiplicar cada célula pelo fator de multiplicação. Usámos um catamorfismo de QTree.
 
@@ -1384,7 +1384,7 @@ scaleQTree a = cataQTree (either (scaleCell a) (toBlock))
 scaleCell mult (a,(b,c)) = Cell a (mult * b) (mult * c)
 \end{code}
 
-\subsubsection*{InvertQTree}
+\subsubsection*{invertQTree}
 
 Para inverter as cores de uma QTree, temos de inverter a cor de cada pixel. Usámos um catamorfismo de QTree.
 
@@ -1410,21 +1410,25 @@ invertQTree = cataQTree (either (invertCell) (toBlock))
 invertCell ((PixelRGBA8 r g b a),(x,y)) = Cell (PixelRGBA8 (255-r) (255-g) (255-b) a) x y
 \end{code}
 
-\subsubsection*{CompressQTree}
+\subsubsection*{compressQTree}
+
+Para a realização da \emph{compressQTree}, foi criado um anamorfismo que recebe
+um par \emph{(Int, QTree)}.
+Neste par, o inteiro representa o nível de compressão desejado.
 
 \begin{eqnarray*}
 \xymatrix@@C=2cm{
     |QTree A|
-           \ar[d]_-{|cataQTree i|}
 &
     |(A, (Int, Int)) + ((QTree A) ^ 4)|
-           \ar[d]^{|id x id|}
-           \ar[l]_-{|inQTree|}
+           \ar[l]_-{|in|}
 \\
-    |QTree A|
+    |Int >< QTree A|
+           \ar[u]^-{|f|}
+           \ar[r]_-{|g|}
 &
-    |(A, (Int, Int)) + ((QTree A) ^ 4)|
-           \ar[l]^-{|i|}
+    |(A, (Int, Int)) + ((Int >< QTree A) ^ 4)|
+           \ar[u]_-{|id + f >< f >< f >< f|}
 }
 \end{eqnarray*}
 
@@ -1440,16 +1444,33 @@ geneCompress (x, t@(Block a b c d))
   | otherwise = i2 (((x, a), ((x, b), ((x, c), (x, d)))))
 \end{code}
 
+O gene do anamorfismo faz uma de três coisas:
 
-\par Retorna um valor qualquer de uma QTree.
-Precisamos disto para a compress, para escolher um valor qualquer para o Block pai ao tirar os filhos.
+Se recebe uma \emph{Cell}, simplesmente coloca-a do lado esquerdo usando \emph{|i1|},
+uma vez que chegamos a uma folha da árvore que não deve ser cortada.
+
+Se recebe um \emph{Block}, e a sua profundidade é menor ou igual ao nível de compressão
+desejado, converte esse bloco para uma célula, efetivamente cortando os filhos desse bloco.
+De seguida, executa \emph{|i1|} para colocar a nova célula do lado esquerdo.
+
+Se recebe um \emph{Block} e a sua profundidade é maior que o nível de compressão desejado,
+simplesmente coloca-o do lado direito usando \emph{|i2|}, sem alterar o seu conteúdo.
+
+\vskip 1em
+
+A função \emph{anyValue} é usada para obter um valor qualquer de uma QTree.
+Esta funcionalidade é útil para quando queremos atribuir um valor a uma nova \emph{Cell}
+criada a partir de um \emph{Block}.
 \begin{code}
 anyValue :: QTree a -> a
 anyValue (Cell a b c) = a
 anyValue (Block a b c d) = anyValue a
 \end{code}
 
-\subsubsection*{OutlineQTree}
+No futuro, poderia-se usar uma função que calcula a média do valor dos filhos de maneira
+a realizar uma compressão mais elegante.
+
+\subsubsection*{outlineQTree}
 
 \begin{eqnarray*}
 \xymatrix@@C=2cm{
